@@ -20,7 +20,7 @@ RecommendationEngine (A Java Framework for Recommender Systems)
 This project is based on [Gradle](https://gradle.org/). So it could be easily imported to Eclipse. For importing it the Eclipse should contain [Buildship Plugin](https://projects.eclipse.org/projects/tools.buildship).  After installing [Buildship Plugin](https://projects.eclipse.org/projects/tools.buildship), then you can easily import the project into the Eclipse as a Gradle project.
 
 **Running in Terminal**
-For running the project, you only need to modify `config.properties` in `build/install/XXXXX/bin` and then run `build\install\XXXXXX\bin\XXX.bat` or `build\install\XXXXXX\bin\XXX.sh`.
+For running the project, you only need to modify `config.properties` in `build/install/RecommendationEngine/bin` and then run `build\install\RecommendationEngine\bin\RecommendationEngine.bat` or `build\install\RecommendationEngine\bin\RecommendationEngine.sh`.
 
 **Code structure** 
 Public interfaces:
