@@ -101,10 +101,10 @@ public final class ParallelEvaluator {
         try {
             final List<Configuration> configurations = readConfigurations();
             for (Configuration configuration: configurations) {
-                TimeUtil.clean();
-                LOG.info(configuration);
+                TimeUtil.clean();                
                 LOG.info(
                         "This process may take long time. Still running please wait....");
+                LOG.info(configuration+"...");
                 execute(configuration);
             }
         } catch (final Exception exception) {
@@ -155,7 +155,6 @@ public final class ParallelEvaluator {
 
                     algorithm.setSimilarityRepository(
                             new SimilarityRepository(trainData, configuration));
-
                     TimeUtil.setTrainTimeStart(foldNumber);
                     LOG.debug("Fold " + foldNumber + " Train started...");
                     algorithm.train(trainData);

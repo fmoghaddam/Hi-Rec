@@ -1,8 +1,5 @@
 package algorithms.fatorizationmachine;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 
 import controller.DataSplitter;
