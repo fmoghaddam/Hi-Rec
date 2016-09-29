@@ -1,7 +1,7 @@
 RecommendationEngine (A Java Framework for Recommender Systems)
 -------------
 
-**RecommendationEngine** is a Java framework for recommender systems (Java version 1.8 or higher required). The key features of this framework are Cross-Platform, Open Source , Extensible and Easy to Use. This framework not only implements state-of-art algorithms but only makes it possible for others to extend it and implement more user-specific algorithms.  This framework developed to be used across [Mise-en-scène Project](http://recsys.deib.polimi.it/?page_id=246).
+**RecommendationEngine** is a Java framework for recommender systems (Java version 1.8 or higher required). This framework is Cross-Platform, Open Source , Extensible and Easy to Use. It not only implements state-of-art algorithms but only makes it possible for others to extend it and implement more user-specific algorithms. This framework developed to be used across with [Mise-en-scène Project](http://recsys.deib.polimi.it/?page_id=246).
 
 **Implemented Algorithms:**
 
@@ -16,10 +16,11 @@ RecommendationEngine (A Java Framework for Recommender Systems)
    Project](http://recsys.deib.polimi.it/?page_id=246)) 
  - Genre 
  - Tag
+ - Rating (Collaborative Filtering)
 
 **Running inside Eclipse**
 
-This project is based on [Gradle](https://gradle.org/). So it could be easily imported to Eclipse. For importing it the Eclipse should contain [Buildship Plugin](https://projects.eclipse.org/projects/tools.buildship).  After installing [Buildship Plugin](https://projects.eclipse.org/projects/tools.buildship), then you can easily import the project into the Eclipse as a Gradle project.
+This project is based on [Gradle](https://gradle.org/). So it could be easily imported to Eclipse. For importing it the Eclipse should contain [Buildship Plugin](https://projects.eclipse.org/projects/tools.buildship).  After installing [Buildship Plugin](https://projects.eclipse.org/projects/tools.buildship), you can easily import the project into the Eclipse as a Gradle project.
 
 **Running in Terminal**
 
