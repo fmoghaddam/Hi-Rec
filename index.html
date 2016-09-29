@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Recommendationengine : ">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Recommendationengine</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/fmoghaddam/RecommendationEngine">View on GitHub</a>
+
+          <h1 id="project_title">Recommendationengine</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/fmoghaddam/RecommendationEngine/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/fmoghaddam/RecommendationEngine/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a id="recommendationengine-a-java-framework-for-recommender-systems" class="anchor" href="#recommendationengine-a-java-framework-for-recommender-systems" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>RecommendationEngine (A Java Framework for Recommender Systems)</h2>
+
+<p><a href="https://travis-ci.org/fmoghaddam/RecommendationEngine"><img src="https://travis-ci.org/fmoghaddam/RecommendationEngine.svg?branch=master" alt="Build Status"></a></p>
+
+<p><strong>RecommendationEngine</strong> is a Java framework for recommender systems (Java version 1.8 or higher required). This framework is Cross-Platform, Open Source , Extensible and Easy to Use. It not only implements state-of-art algorithms but only makes it possible for others to extend it and implement more user-specific algorithms. This framework developed to be used across with <a href="http://recsys.deib.polimi.it/?page_id=246">Mise-en-scène Project</a>.</p>
+
+<p><strong>Implemented Algorithms:</strong></p>
+
+<ul>
+<li>ItemBased KNN </li>
+<li>Average Popularity </li>
+<li>Factorization Machine </li>
+<li>FunkSVD</li>
+</ul>
+
+<p><strong>Implemented Metrics:</strong></p>
+
+<ul>
+<li>MAE</li>
+<li>RMSE</li>
+<li>Coverage </li>
+<li>Precision</li>
+<li>Recall</li>
+<li>NDCG</li>
+</ul>
+
+<p><strong>Implemeted Features:</strong></p>
+
+<ul>
+<li>Low Level Features (Related to <a href="http://recsys.deib.polimi.it/?page_id=246">Mise-en-scène
+Project</a>) </li>
+<li>Genre </li>
+<li>Tag</li>
+<li>Rating (Collaborative Filtering)</li>
+</ul>
+
+<p><strong>Running inside Eclipse</strong></p>
+
+<p>This project is based on <a href="https://gradle.org/">Gradle</a>. So it could be easily imported to Eclipse. For importing it the Eclipse should contain <a href="https://projects.eclipse.org/projects/tools.buildship">Buildship Plugin</a>.  After installing <a href="https://projects.eclipse.org/projects/tools.buildship">Buildship Plugin</a>, you can easily import the project into the Eclipse as a Gradle project.</p>
+
+<p><strong>Running in Terminal</strong></p>
+
+<p>For running the project, you only need to modify <code>config.properties</code> in <code>build/install/RecommendationEngine/bin</code> and then run <code>build\install\RecommendationEngine\bin\RecommendationEngine.bat</code> or <code>build\install\RecommendationEngine\bin\RecommendationEngine.sh</code>.</p>
+
+<p><strong>Code structure</strong> </p>
+
+<p>Public interfaces:</p>
+
+<ul>
+<li>
+<code>Recommender.java</code> : All the algorithms should implement this
+interface</li>
+<li>
+<code>AccuracyEvaluation.java</code> : All the rating prediction metrics (RMSE, MAE, ...) should implement this interface</li>
+<li>
+<code>ListEvaluation.java</code> : All the list generators metrics (Precision, Recall, ...) should implement this interface</li>
+</ul>
+
+<p><strong>Configuration</strong></p>
+
+<p>All user needs to do is changing <code>config.properties</code> and then executing the code.</p>
+
+<pre><code>#######DATA#############
+#If your data has some meta data, please add '#' at the beginning.
+#All the lines with "#" will be ignored
+
+#Path to rating file
+RATING_FILE_PATH=data/Ratings.csv
+
+#Separator for rating file. 
+#Tab=\t
+#Semicolon=;
+#Comma=,
+
+#RATING_FILE_SEPARATOR=\t
+RATING_FILE_SEPARATOR=,
+
+#Path to low level file
+#Leave it empty if there is no low level feature file
+#LOW_LEVEL_FILE_PATH=
+LOW_LEVEL_FILE_PATH=data/LLVisualFeatures13K_QuantileLog.csv
+#Separator for low level file
+LOW_LEVEL_FILE_SEPARATOR=,
+
+#Path to genre file
+#Set empty if there is no genre file
+GENRE_FILE_PATH=data/Genre.csv
+#Separator for genre file
+GENRE_FILE_SEPARATOR=,
+
+#Path to tag file
+#Set empty if there is no tag file
+TAG_FILE_PATH=data/Tag.csv
+#Separator for tag file
+TAG_FILE_SEPARATOR=,
+
+#######GENRERAL CONFIGURATION#########
+
+#SIMILARITY_FUNCTION
+#possible values: cosine,pearson
+SIMILARITY_FUNCTION=cosine
+
+#Number of folds used in cross validation
+NUMBER_OF_FOLDS=5
+
+#Number of neighbors used in KNN
+NUMBER_OF_NEAREST_NEIGHBOUR=10
+
+#Number of items will be returned in list recommendation
+TOP_N=10
+
+#######ALGORITHMS#############
+
+#Number of features used in FactorizationMachine
+NUMBER_OF_FEATURES_FOR_FM=10
+#Number of iterations used in FactorizationMachine learning
+NUMBER_OF_ITERATION_FOR_FM=200
+#Learning rate used in FactorizationMachine learning
+LEARNING_RATE_FOR_FM=0.001
+
+#Number of features used in FunkSVD
+NUMBER_OF_FEATURES_FOR_FUNKSVD=50
+#Number of iterations used in FunkSVD
+NUMBER_OF_ITERATION_FOR_FUNKSVD=50
+#Learning rate used in FunkSVD
+LEARNING_RATE_FOR_FUNKSVD=0.005
+
+#######Evaluation metrics#######
+#Possible values: MAE,RMSE,PredictionCoverage,NDCG,Precision,Recall
+#Can have multiple value (comma separated)
+METRICS=MAE,RMSE,PredictionCoverage,NDCG,Precision,Recall
+
+#############RUN CONFIGURATION##################
+#Algorithm
+#Possible values: ItemBasedNN,FactorizationMachine,AveragePopularity,FunkSVD,HybridTagLowLevel
+
+NUMBER_OF_CONFIGURATION=2
+
+ALGORITHM_1_NAME=FactorizationMachine
+ALGORITHM_1_USE_LOW_LEVEL=false
+ALGORITHM_1_USE_GENRE=false
+ALGORITHM_1_USE_TAG=false
+ALGORITHM_1_USE_RATING=true
+
+ALGORITHM_2_NAME=ItemBasedNN
+ALGORITHM_2_USE_LOW_LEVEL=true
+ALGORITHM_2_USE_GENRE=false
+ALGORITHM_2_USE_TAG=false
+ALGORITHM_2_USE_RATING=false
+
+ALGORITHM_X_NAME=ItemBasedNN
+ALGORITHM_X_USE_LOW_LEVEL=true
+ALGORITHM_X_USE_GENRE=false
+ALGORITHM_X_USE_TAG=false
+ALGORITHM_X_USE_RATING=false
+</code></pre>
+
+<p><strong>Sample result:</strong></p>
+
+<p>All the experiments have been done over data in <code>data</code> folder.</p>
+
+<p>Rating:</p>
+
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>RMSE</th>
+<th>MAE</th>
+<th>Coverage</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>NDCG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ItemBasedKNN</td>
+<td>0.75198567</td>
+<td>0.5812379</td>
+<td>0.9809702</td>
+<td>0.88165295</td>
+<td>0.46150175</td>
+<td>0.85933286</td>
+</tr>
+<tr>
+<td>Average Popularity</td>
+<td>0.87274086</td>
+<td>0.7008808</td>
+<td>0.9817214</td>
+<td>0.9297659</td>
+<td>0.16849223</td>
+<td>0.8572529</td>
+</tr>
+<tr>
+<td>Factorization Machine</td>
+<td>1.0924361</td>
+<td>0.847448</td>
+<td>0.9811511</td>
+<td>0.7052688</td>
+<td>0.40766105</td>
+<td>0.7255255</td>
+</tr>
+</tbody>
+</table>
+
+<p>Low Level features:</p>
+
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>RMSE</th>
+<th>MAE</th>
+<th>Coverage</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>NDCG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ItemBasedKNN</td>
+<td>0.75276524</td>
+<td>0.5802754</td>
+<td>0.98175746</td>
+<td>0.90045756</td>
+<td>0.50048786</td>
+<td>0.861112</td>
+</tr>
+<tr>
+<td>Factorization Machine</td>
+<td>1.2744157</td>
+<td>1.0030644</td>
+<td>0.98076487</td>
+<td>0.71231234</td>
+<td>0.48030663</td>
+<td>0.7239859</td>
+</tr>
+</tbody>
+</table>
+
+<p>Genre:</p>
+
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>RMSE</th>
+<th>MAE</th>
+<th>Coverage</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>NDCG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ItemBasedKNN</td>
+<td>0.7796999</td>
+<td>0.6023326</td>
+<td>0.8747948</td>
+<td>0.9150926</td>
+<td>0.46745244</td>
+<td>0.845462</td>
+</tr>
+<tr>
+<td>Factorization Machine</td>
+<td>1.1264656</td>
+<td>0.8723874</td>
+<td>0.98105305</td>
+<td>0.7536468</td>
+<td>0.5395745</td>
+<td>0.75031984</td>
+</tr>
+</tbody>
+</table>
+
+<p>Low Level + Genre:</p>
+
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>RMSE</th>
+<th>MAE</th>
+<th>Coverage</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>NDCG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ItemBasedKNN</td>
+<td>0.7572874</td>
+<td>0.5857588</td>
+<td>0.982289</td>
+<td>0.89470136</td>
+<td>0.47212344</td>
+<td>0.85523474</td>
+</tr>
+<tr>
+<td>Factorization Machine</td>
+<td>1.2027843</td>
+<td>0.9487314</td>
+<td>0.9805652</td>
+<td>0.74588954</td>
+<td>0.4479124</td>
+<td>0.7380162</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="faq" class="anchor" href="#faq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>FAQ</h2>
+
+<h3>
+<a id="1-how-to-run-the-project-without-importing-it-to-eclipse" class="anchor" href="#1-how-to-run-the-project-without-importing-it-to-eclipse" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. How to run the project without importing it to Eclipse?</h3>
+
+<p>As this project is based on Gradle, it can be simply run. If you want to run it without changing any java code, then just do the following steps:</p>
+
+<ul>
+<li>Download the repository</li>
+<li>In <code>cmd</code> or <code>terminal</code> go to <code>build\install\RecommendationEngine\bin</code>
+</li>
+<li>Change <code>config.properties</code> and modify it based on your use case</li>
+<li>Run <code>RecommendationEngine.bat</code> or <code>RecommendationEngine.sh</code>
+</li>
+</ul>
+
+<h3>
+<a id="2-i-want-to-change-the-java-code-and-run-the-project-without-importing-it-into-eclipse-how-can-i-do-that" class="anchor" href="#2-i-want-to-change-the-java-code-and-run-the-project-without-importing-it-into-eclipse-how-can-i-do-that" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. I want to change the java code and run the project without importing it into Eclipse, How can I do that?</h3>
+
+<p>You can open any of the java classes in your favorite editor such as <code>notepad</code> and change the code. Then you can build and run the code with the following steps:</p>
+
+<ul>
+<li>In <code>cmd</code> or <code>terminal</code> go to the root folder of the project</li>
+<li>Run <code>gradlew.bat build</code> or <code>gradlew.sh build</code>
+</li>
+</ul>
+
+<p>In case of any compilation error, you will see the proper error message. If you see <code>BUILD SUCCESSFUL</code> you can continue.</p>
+
+<ul>
+<li>Run <code>gradlew.bat installApp</code> or <code>gradlew.sh installApp</code>
+</li>
+</ul>
+
+<p>If you see <code>BUILD SUCCESSFUL</code> then you can follow the steps which have been explained in Question 1.</p>
+
+<h3>
+<a id="3-how-to-import-project-into-eclipse" class="anchor" href="#3-how-to-import-project-into-eclipse" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. How to import project into Eclipse?</h3>
+
+<p>For importing project into Eclipse, you can use <a href="https://projects.eclipse.org/projects/tools.buildship">Buildship Plugin</a>. For installing this plugin do the following steps:</p>
+
+<ul>
+<li>Open the Eclipse</li>
+<li>From <code>Help</code> menu select <code>Eclipse MarketPlace</code>
+</li>
+<li>Insert <code>buildship</code> into search bar and install <code>Buildship Gradle Integration</code>
+</li>
+</ul>
+
+<p>After installing and restarting the Eclipse, you should be able to import the project as a Gradle project.</p>
+
+<h3>
+<a id="4-how-to-run-the-project-inside-the-eclipse" class="anchor" href="#4-how-to-run-the-project-inside-the-eclipse" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. How to run the project inside the Eclipse?</h3>
+
+<p>For running the project inside the Eclipse you should import it first (Question 3). After importing, from <code>Gradle Tasks</code> tab you will be able to select different Gradle tasks. In the simplest scenario, just <code>build</code> and <code>run</code> task is needed.</p>
+
+<h3>
+<a id="5-how-to-implement-my-own-algorithm" class="anchor" href="#5-how-to-implement-my-own-algorithm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. How to implement my own algorithm?</h3>
+
+<p>If you need to implement your specific algorithm you only need to create a class in <code>algorithms</code> package and extend <code>Recommender</code> interface. By doing this, your algorithm will be accessible from <code>config.properties</code> file. </p>
+
+<h3>
+<a id="5-how-to-implement-my-own-metric" class="anchor" href="#5-how-to-implement-my-own-metric" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. How to implement my own metric?</h3>
+
+<p>If you need to implement another metric, you only need to create a class in <code>metrics</code> package and extend one of the <code>AccuracyEvaluation</code> or <code>ListEvaluation</code> interfaces. By doing this, your metric will be accessible from <code>config.properties</code> file.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Recommendationengine maintained by <a href="https://github.com/fmoghaddam">fmoghaddam</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
