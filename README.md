@@ -176,5 +176,5 @@ Low Level + Genre:
 | ItemBasedKNN | 0.7572874 |  0.5857588 |  0.982289 |0.89470136 | 0.47212344 | 0.85523474 | 
 | Factorization Machine | 1.2027843 | 0.9487314 | 0.9805652 | 0.74588954 | 0.4479124 | 0.7380162 |
 
-[FAQ](https://github.com/fmoghaddam/RecommendationEngine/wiki)
+[FAQ](https://github.com/fmoghaddam/RecommendationEngine/wiki/FAQ)
 -------------
