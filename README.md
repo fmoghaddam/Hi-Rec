@@ -10,6 +10,15 @@ RecommendationEngine (A Java Framework for Recommender Systems)
  - Factorization Machine 
  - FunkSVD
   
+**Implemented Metrics:**
+
+ - MAE
+ - RMSE
+ - Coverage 
+ - Precision
+ - Recall
+ - NDCG
+  
 **Implemeted Features:**
 
  - Low Level Features (Related to [Mise-en-scène
@@ -145,3 +154,24 @@ Rating:
 | ItemBasedKNN | 0.75198567 |  0.5812379 |  0.9809702 | 0.88165295 | 0.46150175 | 0.85933286 | 
 | Average Popularity    | 0.87274086 | 0.7008808 | 0.9817214 | 0.9297659  | 0.16849223 | 0.8572529 |
 | Factorization Machine | 0.9804152 | 0.7418393 | 0.98041594 | 0.7107271 | 0.50685465 | 0.71443766 |
+
+Low Level features:
+
+| Algorithm | RMSE | MAE | Coverage | Precision | Recall | NDCG |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| ItemBasedKNN | 0.75276524 |  0.5802754 |  0.98175746 | 0.90045756 | 0.50048786 | 0.861112 | 
+| Factorization Machine | 1.2423508 | 0.9736551 | 0.9800857 | 0.7243564 | 0.4574712 | 0.7320565 |
+
+Genre:
+
+| Algorithm | RMSE | MAE | Coverage | Precision | Recall | NDCG |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| ItemBasedKNN | 0.7796999 |  0.6023326 |  0.8747948 | 0.9150926 | 0.46745244 | 0.845462 | 
+| Factorization Machine | 1.1264656 | 0.8723874 | 0.98105305 | 0.7536468 | 0.5395745 | 0.75031984 |
+
+Low Level + Genre:
+
+| Algorithm | RMSE | MAE | Coverage | Precision | Recall | NDCG |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| ItemBasedKNN | 0.7572874 |  0.5857588 |  0.982289 |0.89470136 | 0.47212344 | 0.85523474 | 
+| Factorization Machine | 1.2027843 | 0.9487314 | 0.9805652 | 0.74588954 | 0.4479124 | 0.7380162 |

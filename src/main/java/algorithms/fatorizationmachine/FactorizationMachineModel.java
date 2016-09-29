@@ -5,6 +5,7 @@ import model.Globals;
 import model.Item;
 import model.Rating;
 import run.Configuration;
+import util.ArrayUtil;
 
 /**
  * This is Factorization Machine model which is responsible
@@ -142,7 +143,7 @@ public final class FactorizationMachineModel {
 	    firstSum += v[userValue][f];
 	    firstSum += v[userValue+itemValue+1][f];
 
-	    final double[] featureAsArray = item.getLowLevelFeatureAsArray();
+	    final double[] featureAsArray = getFatureArray(item);
 	    for (int i = (this.numberOfUsers + this.numberOfItems); i < v.length; i++) {
 		final int j = (int) (i - (this.numberOfUsers + this.numberOfItems));
 		firstSum += v[i][f] * featureAsArray[j];
@@ -181,7 +182,8 @@ public final class FactorizationMachineModel {
 	final float itemValue = w[this.numberOfUsers + rating.getItemId() - 1];
 
 	float sum = userValue + itemValue;
-	final double[] featureAsArray = item.getLowLevelFeatureAsArray();
+	
+	final double[] featureAsArray = getFatureArray(item);
 	for (int i = (this.numberOfUsers + this.numberOfItems); i < w.length; i++) {
 	    final int j = (int) (i - (this.numberOfUsers + this.numberOfItems));
 	    sum += w[i] * featureAsArray[j];
@@ -221,6 +223,20 @@ public final class FactorizationMachineModel {
         return "FactorizationMachineModel [numberOfFeatures=" + numberOfFeatures
                 + ", Learning rate=" + Globals.LEARNING_RATE_FOR_FM
                 + "]";
+    }
+    
+    public double[] getFatureArray(final Item item){
+        final double[] featureAsArray;
+        if (configuration.isUseLowLevel() && configuration.isUseGenre()) {
+            featureAsArray = ArrayUtil.concatAll(item.getLowLevelFeatureAsArray(), item.getGenresAsArray());
+        } else if (configuration.isUseLowLevel()) {
+            featureAsArray = item.getLowLevelFeatureAsArray();
+        } else if (configuration.isUseGenre()) {
+            featureAsArray = item.getGenresAsArray();
+        }else{
+            featureAsArray = new double[0];
+        }
+        return featureAsArray; 
     }
     
 }

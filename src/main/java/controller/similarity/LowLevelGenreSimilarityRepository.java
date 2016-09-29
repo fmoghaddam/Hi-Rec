@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import interfaces.SimilarityInterface;
 import model.DataModel;
 import model.Globals;
+import util.ArrayUtil;
 
 /**
  * Calculate LowLevel feature + Genre similarity between items on demand This is
@@ -77,27 +78,13 @@ public final class LowLevelGenreSimilarityRepository
                 && this.dataModel.getItem(itemId2) != null)
         {
 
-            final double[] lowLevelFeatureAsArray1 = dataModel.getItem(itemId1)
-                    .getLowLevelFeatureAsArray();
-            final double[] genresAsArray1 = dataModel.getItem(itemId1)
-                    .getGenresAsArray();
-            final double item1Array[] = new double[lowLevelFeatureAsArray1.length
-                    + genresAsArray1.length];
-            System.arraycopy(lowLevelFeatureAsArray1, 0, item1Array, 0,
-                    lowLevelFeatureAsArray1.length);
-            System.arraycopy(genresAsArray1, 0, item1Array,
-                    lowLevelFeatureAsArray1.length, genresAsArray1.length);
+            final double item1Array[] = ArrayUtil.concatAll(dataModel.getItem(itemId1)
+                    .getLowLevelFeatureAsArray(), dataModel.getItem(itemId1)
+                    .getGenresAsArray());
 
-            final double[] lowLevelFeatureAsArray2 = dataModel.getItem(itemId2)
-                    .getLowLevelFeatureAsArray();
-            final double[] genresAsArray2 = dataModel.getItem(itemId2)
-                    .getGenresAsArray();
-            final double item2Array[] = new double[lowLevelFeatureAsArray2.length
-                    + genresAsArray2.length];
-            System.arraycopy(lowLevelFeatureAsArray2, 0, item2Array, 0,
-                    lowLevelFeatureAsArray2.length);
-            System.arraycopy(genresAsArray2, 0, item2Array,
-                    lowLevelFeatureAsArray2.length, genresAsArray2.length);
+            final double item2Array[] = ArrayUtil.concatAll(dataModel.getItem(itemId2)
+                    .getLowLevelFeatureAsArray(), dataModel.getItem(itemId2)
+                    .getGenresAsArray());
 
             return (float)new PearsonsCorrelation().correlation(item1Array,
                     item2Array);
@@ -122,27 +109,13 @@ public final class LowLevelGenreSimilarityRepository
                 && this.dataModel.getItem(itemId2) != null)
         {
 
-            final double[] lowLevelFeatureAsArray1 = dataModel.getItem(itemId1)
-                    .getLowLevelFeatureAsArray();
-            final double[] genresAsArray1 = dataModel.getItem(itemId1)
-                    .getGenresAsArray();
-            final double item1Array[] = new double[lowLevelFeatureAsArray1.length
-                    + genresAsArray1.length];
-            System.arraycopy(lowLevelFeatureAsArray1, 0, item1Array, 0,
-                    lowLevelFeatureAsArray1.length);
-            System.arraycopy(genresAsArray1, 0, item1Array,
-                    lowLevelFeatureAsArray1.length, genresAsArray1.length);
+            final double item1Array[] = ArrayUtil.concatAll(dataModel.getItem(itemId1)
+                    .getLowLevelFeatureAsArray(), dataModel.getItem(itemId1)
+                    .getGenresAsArray());
 
-            final double[] lowLevelFeatureAsArray2 = dataModel.getItem(itemId2)
-                    .getLowLevelFeatureAsArray();
-            final double[] genresAsArray2 = dataModel.getItem(itemId2)
-                    .getGenresAsArray();
-            final double item2Array[] = new double[lowLevelFeatureAsArray2.length
-                    + genresAsArray2.length];
-            System.arraycopy(lowLevelFeatureAsArray2, 0, item2Array, 0,
-                    lowLevelFeatureAsArray2.length);
-            System.arraycopy(genresAsArray2, 0, item2Array,
-                    lowLevelFeatureAsArray2.length, genresAsArray2.length);
+            final double item2Array[] = ArrayUtil.concatAll(dataModel.getItem(itemId2)
+                    .getLowLevelFeatureAsArray(), dataModel.getItem(itemId2)
+                    .getGenresAsArray());
 
             float dotProduct = 0;
             float normA = 0;
