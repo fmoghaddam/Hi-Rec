@@ -140,9 +140,8 @@ All the experiments have been done over data in `data` folder.
 
 Rating:
 
-| Algorithm     | RMSE | MAE | Coverage | Precision | Recall | NDCG |
-|
-| :------- | ----: | :---: |
+| Algorithm | RMSE | MAE | Coverage | Precision | Recall | NDCG |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | ItemBasedKNN | 0.75198567 |  0.5812379 |  0.9809702 | 0.88165295 | 0.46150175 | 0.85933286 | 
 | Average Popularity    | 0.87274086 | 0.7008808 | 0.9817214 | 0.9297659  | 0.16849223 | 0.8572529 |
 | Factorization Machine (LR=0.05,#Iteration=10,#LatentFactor=10)    | 0.9804152 | 0.7418393 | 0.98041594 | 0.7107271 | 0.50685465 | 0.71443766 |
