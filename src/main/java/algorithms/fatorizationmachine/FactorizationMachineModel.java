@@ -54,7 +54,7 @@ public final class FactorizationMachineModel {
 	} else if (configuration.isUseRating()) {
 	    numberOfFeatures = 0;
 	} else if (configuration.isUseTag()) {
-	    throw new IllegalArgumentException("Factorization machine for tag still not implemented");
+	    throw new UnsupportedOperationException("Factorization machine for tag still not implemented");
 	}
 	this.w0 = 0;
 	this.w = generateWVector();
@@ -140,7 +140,7 @@ public final class FactorizationMachineModel {
 	    int itemValue = rating.getItemId() - 1;
 
 	    firstSum += v[userValue][f];
-	    firstSum += v[itemValue][f];
+	    firstSum += v[userValue+itemValue+1][f];
 
 	    final double[] featureAsArray = item.getLowLevelFeatureAsArray();
 	    for (int i = (this.numberOfUsers + this.numberOfItems); i < v.length; i++) {
@@ -152,7 +152,7 @@ public final class FactorizationMachineModel {
 
 	    float secondSum = 0;
 	    secondSum += v[userValue][f] * v[userValue][f];
-	    secondSum += v[itemValue][f] * v[userValue][f];
+	    secondSum += v[userValue+itemValue+1][f] * v[userValue+itemValue+1][f];
 
 	    for (int i = (this.numberOfUsers + this.numberOfItems); i < v.length; i++) {
 		final int j = (int) (i - (this.numberOfUsers + this.numberOfItems));
@@ -205,10 +205,22 @@ public final class FactorizationMachineModel {
     }
 
     /**
-     * Returns traing data model
+     * Returns training data model
      * @return
      */
     public DataModel getDataModel() {
 	return this.trainDataModel;
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public
+            String toString() {
+        return "FactorizationMachineModel [numberOfFeatures=" + numberOfFeatures
+                + ", Learning rate=" + Globals.LEARNING_RATE_FOR_FM
+                + "]";
+    }
+    
 }

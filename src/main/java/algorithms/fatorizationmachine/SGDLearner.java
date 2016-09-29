@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import controller.DataSplitter;
 import model.DataModel;
 import model.Globals;
 import model.Rating;
@@ -41,11 +42,14 @@ public final class SGDLearner {
      * run the SGD learning
      * @param FMModel model which is used for learning
      */
-    public void learn(FactorizationMachineModel FMModel) {
+    public void learn(final FactorizationMachineModel FMModel) {
 	if(FMModel == null){
 	    throw new IllegalArgumentException("FactorizationMachineModel is null");
 	}
-	trainDataModel = FMModel.getDataModel();
+	final DataSplitter dataSplitter = new DataSplitter(FMModel.getDataModel());
+	trainDataModel = dataSplitter.getTrainData(1);
+	final DataModel evalutaionData = dataSplitter.getTestData(1);
+	//trainDataModel = FMModel.getDataModel();
 	// final List<Float> errors = new ArrayList<>();
 	for (int iterate = 0; iterate < numberOfIteration; iterate++) {
 	    final int dataSize = this.trainDataModel.getRatings().size();
@@ -59,7 +63,7 @@ public final class SGDLearner {
 		final int userValue = rating.getUserId() - 1;
 		final int itemValue = rating.getItemId() - 1;
 		FMModel.w[userValue] = FMModel.w[userValue] + firstPart;
-		FMModel.w[itemValue] = FMModel.w[itemValue] + firstPart;
+		FMModel.w[itemValue] = FMModel.w[userValue + itemValue+1] + firstPart;
 		for (int i = (FMModel.numberOfUsers + FMModel.numberOfItems); i < FMModel.w.length; i++) {
 		    FMModel.w[i] += (float) (firstPart * this.trainDataModel.getItem(rating.getItemId())
 			    .getLowLevelFeatureAsArray()[(int) (i - (FMModel.numberOfUsers + FMModel.numberOfItems))]);
@@ -70,7 +74,7 @@ public final class SGDLearner {
 		for (int f = 0; f < FMModel.k; f++) {
 		    fixedPart = fixPart(FMModel, f, rating);
 		    FMModel.v[userValue][f] += firstPart * (fixedPart - FMModel.v[userValue][f]);
-		    FMModel.v[itemValue][f] += firstPart * (fixedPart - FMModel.v[itemValue][f]);
+		    FMModel.v[userValue+itemValue+1][f] += firstPart * (fixedPart - FMModel.v[userValue+itemValue+1][f]);
 		    for (int i = (FMModel.numberOfUsers + FMModel.numberOfItems); i < FMModel.v.length; i++) {
 			final float xValue = (float) this.trainDataModel.getItem(rating.getItemId())
 				.getLowLevelFeatureAsArray()[(int) (i
@@ -80,17 +84,15 @@ public final class SGDLearner {
 		}
 	    }
 	    // Calculate Error
-	    // float errorSum=0;
-	    // //for (int dataIndex = 0; dataIndex < dataSize; dataIndex++) {
-	    // for (int dataIndex = 0; dataIndex < 10000; dataIndex++) {
-	    // final Rating rating =
-	    // this.trainDataModel.getRatings().get(dataIndex);
-	    // final float prediction = FMModel.calculate(rating);
-	    // final float error = rating.getRating() - prediction;
-	    // errorSum+=Math.abs(error);
-	    // }
+	    float errorSum=0;
+	    for (int dataIndex = 0; dataIndex < evalutaionData.getRatings().size(); dataIndex++) {
+	        final Rating rating = evalutaionData.getRatings().get(dataIndex);
+	        final float prediction = FMModel.calculate(rating);
+	        final float error = rating.getRating() - prediction;
+	        errorSum+=Math.abs(error);
+	    }
 
-	    // LOG.info(errorSum);
+	     LOG.debug("Epoch : "+iterate +" --> "+"Error: "+errorSum/evalutaionData.getRatings().size());
 	    // errors.add(errorSum/dataSize);
 	}
 
@@ -138,7 +140,7 @@ public final class SGDLearner {
 	int userValue = rating.getUserId() - 1;
 	int itemValue = rating.getItemId() - 1;
 	sum += FMModel.v[userValue][f];
-	sum += FMModel.v[itemValue][f];
+	sum += FMModel.v[userValue + itemValue + 1][f];
 
 	for (int j = (FMModel.numberOfUsers + FMModel.numberOfItems); j < FMModel.v.length; j++) {
 	    sum += FMModel.v[j][f] * this.trainDataModel.getItem(rating.getItemId())

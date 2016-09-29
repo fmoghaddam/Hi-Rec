@@ -115,7 +115,7 @@ public final class DataModel {
 
     public
             void printStatistic() {
-        final DecimalFormat decimalFormat = new DecimalFormat("#.###");
+        final DecimalFormat decimalFormat = new DecimalFormat("#.####");
         LOG.info("-----------------------------");
         LOG.info("#Users: \t\t" + this.numberOfUsers);
         LOG.info("#Items: \t\t" + this.numberOfItems);
