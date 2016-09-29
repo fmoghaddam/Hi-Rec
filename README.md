@@ -35,7 +35,7 @@ This project is based on [Gradle](https://gradle.org/). So it could be easily im
 
 **Running in Terminal**
 
-For running the project, you only need to modify `config.properties` in `build/install/RecommendationEngine/bin` and then run `build\install\RecommendationEngine\bin\RecommendationEngine.bat` or `build\install\RecommendationEngine\bin\RecommendationEngine.sh`.
+For running the project, you only need to modify `config.properties` in `build/install/RecommendationEngine/bin` and then run `build/install/RecommendationEngine/bin/RecommendationEngine.bat` or `build/install/RecommendationEngine/bin/RecommendationEngine.sh`.
 
 **Code structure** 
 
@@ -184,7 +184,7 @@ FAQ
 ### 1. How to run the project without importing it to Eclipse?
 As this project is based on Gradle, it can be simply run. If you want to run it without changing any java code, then just do the following steps:
 * Download the repository
-* In `cmd` or `terminal` go to `build\install\RecommendationEngine\bin`
+* In `cmd` or `terminal` go to `build/install/RecommendationEngine/bin`
 * Change `config.properties` and modify it based on your use case
 * Run `RecommendationEngine.bat` or `RecommendationEngine.sh`
 
