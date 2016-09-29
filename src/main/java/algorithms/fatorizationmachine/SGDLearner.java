@@ -2,7 +2,6 @@ package algorithms.fatorizationmachine;
 
 import org.apache.log4j.Logger;
 
-import controller.DataSplitter;
 import model.DataModel;
 import model.Globals;
 import model.Rating;
@@ -18,6 +17,7 @@ public final class SGDLearner {
     /**
      * Logger for this class
      */
+    @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(SGDLearner.class.getCanonicalName());
     /**
      * Number of iteration for stopping learning
@@ -43,9 +43,10 @@ public final class SGDLearner {
         if(FMModel == null){
             throw new IllegalArgumentException("FactorizationMachineModel is null");
         }
-        final DataSplitter dataSplitter = new DataSplitter(FMModel.getDataModel());
-        trainDataModel = dataSplitter.getTrainData(1);
-        final DataModel evalutaionData = dataSplitter.getTestData(1);
+        this.trainDataModel = FMModel.getDataModel();
+//        final DataSplitter dataSplitter = new DataSplitter(FMModel.getDataModel());
+//        trainDataModel = dataSplitter.getTrainData(1);
+//        final DataModel evalutaionData = dataSplitter.getTestData(1);
         for (int iterate = 0; iterate < numberOfIteration; iterate++) {
             final int dataSize = this.trainDataModel.getRatings().size();
             for (int dataIndex = 0; dataIndex < dataSize; dataIndex++) {
@@ -78,15 +79,15 @@ public final class SGDLearner {
                 }
             }
             // Calculate Error
-            float errorSum=0;
-            for (int dataIndex = 0; dataIndex < evalutaionData.getRatings().size(); dataIndex++) {
-                final Rating rating = evalutaionData.getRatings().get(dataIndex);
-                final float prediction = FMModel.calculate(rating);
-                final float error = rating.getRating() - prediction;
-                errorSum+=Math.abs(error);
-            }
-
-            LOG.debug("Epoch : "+iterate +" --> "+"Error: "+errorSum/evalutaionData.getRatings().size());
+//            float errorSum=0;
+//            for (int dataIndex = 0; dataIndex < evalutaionData.getRatings().size(); dataIndex++) {
+//                final Rating rating = evalutaionData.getRatings().get(dataIndex);
+//                final float prediction = FMModel.calculate(rating);
+//                final float error = rating.getRating() - prediction;
+//                errorSum+=Math.abs(error);
+//            }
+//
+//            LOG.debug("Epoch : "+iterate +" --> "+"Error: "+errorSum/evalutaionData.getRatings().size());
         }
     }
 
