@@ -399,7 +399,7 @@ ALGORITHM_X_USE_RATING=false
 <h3>
 <a id="5-how-to-implement-my-own-metric" class="anchor" href="#5-how-to-implement-my-own-metric" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. How to implement my own metric?</h3>
 
-<p>If you need to implement another metric, you only need to create a class in <code>metrics</code> package and extend one of the <code>AccuracyEvaluation</code> or <code>ListEvaluation</code> interfaces. By doing this, your metric will be accessible from <code>config.properties</code> file.</p>
+<p>If you need to implement another metric, you only need to create a class in <code>metrics</code> package and extend one of the <code>AccuracyEvaluation</code> or <code>ListEvaluation</code> interfaces. By doing this, your metric will be accessible from <code>config.properties</code> file. Keep in mind that all the metrics should have <code>hashCode()</code> function and this function should return a static fixed number. Currently numbers in [1,6] range occupied. So you can use 7,8,.... You can have a look at the <code>hashCode()</code> function in MAE.  </p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/fmoghaddam/RecommendationEngine">Recommendation Engine</a> is maintained by <a href="https://github.com/fmoghaddam">fmoghaddam</a>.</span>
