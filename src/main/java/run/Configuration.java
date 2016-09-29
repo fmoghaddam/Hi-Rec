@@ -44,6 +44,19 @@ public final class Configuration {
         this.useRating = useRating;
         if (algorithm.isSimilairtyNeeded()) {
             this.evaluate();
+        }else{
+            this.basicEvaluate();
+        }
+    }
+
+    /**
+     * Do the basic evaluation which is needed for all the algorithms
+     */
+    private
+            void basicEvaluate() {
+        if(!this.useLowLevel && !this.useGenre && !this.useTag && !this.useRating){
+            throw new IllegalArgumentException(
+                    "At least one of the lowlevel, genre, tag or rating should be true in config file");
         }
     }
 

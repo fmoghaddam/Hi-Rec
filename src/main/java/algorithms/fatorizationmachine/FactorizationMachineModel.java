@@ -29,6 +29,11 @@ public final class FactorizationMachineModel {
     private DataModel trainDataModel;
     private Configuration configuration;
 
+    /**
+     * Constructor
+     * @param dataModel
+     * @param configuration
+     */
     public FactorizationMachineModel(final DataModel dataModel, final Configuration configuration) {
 	if (dataModel == null) {
 	    throw new IllegalArgumentException("DataModel is null");
