@@ -11,18 +11,22 @@ RecommendationEngine (A Java Framework for Recommender Systems)
  - FunkSVD
   
 **Implemeted Features:**
+
  - Low Level Features (Related to [Mise-en-scène
    Project](http://recsys.deib.polimi.it/?page_id=246)) 
  - Genre 
  - Tag
 
 **Running inside Eclipse**
+
 This project is based on [Gradle](https://gradle.org/). So it could be easily imported to Eclipse. For importing it the Eclipse should contain [Buildship Plugin](https://projects.eclipse.org/projects/tools.buildship).  After installing [Buildship Plugin](https://projects.eclipse.org/projects/tools.buildship), then you can easily import the project into the Eclipse as a Gradle project.
 
 **Running in Terminal**
+
 For running the project, you only need to modify `config.properties` in `build/install/RecommendationEngine/bin` and then run `build\install\RecommendationEngine\bin\RecommendationEngine.bat` or `build\install\RecommendationEngine\bin\RecommendationEngine.sh`.
 
 **Code structure** 
+
 Public interfaces:
 
  - `Recommender.java` : All the algorithms should implement this
@@ -30,7 +34,8 @@ Public interfaces:
  - `AccuracyEvaluation.java` : All the rating prediction metrics (RMSE, MAE, ...) should implement this interface
  - `ListEvaluation.java` : All the list generators metrics (Precision, Recall, ...) should implement this interface
 
-Configuration:
+**Configuration**
+
 All user needs to do is changing `config.properties` and then executing the code.
 ```
 #######DATA#############
