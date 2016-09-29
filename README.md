@@ -215,4 +215,4 @@ For running the project inside the Eclipse you should import it first (Question 
 If you need to implement your specific algorithm you only need to create a class in `algorithms` package and extend `Recommender` interface. By doing this, your algorithm will be accessible from `config.properties` file. 
 
 ### 5. How to implement my own metric?
-If you need to implement another metric, you only need to create a class in `metrics` package and extend one of the `AccuracyEvaluation` or `ListEvaluation` interfaces. By doing this, your metric will be accessible from `config.properties` file.
+If you need to implement another metric, you only need to create a class in `metrics` package and extend one of the `AccuracyEvaluation` or `ListEvaluation` interfaces. By doing this, your metric will be accessible from `config.properties` file. Keep in mind that all the metrics should have `hashCode()` function and this function should return a static fixed number. Currently numbers in [1,6] range occupied. So you can use 7,8,.... You can have a look at the `hashCode()` function in MAE.  
