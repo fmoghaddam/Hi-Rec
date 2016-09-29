@@ -178,5 +178,41 @@ Low Level + Genre:
 | ItemBasedKNN | 0.7572874 |  0.5857588 |  0.982289 |0.89470136 | 0.47212344 | 0.85523474 | 
 | Factorization Machine | 1.2027843 | 0.9487314 | 0.9805652 | 0.74588954 | 0.4479124 | 0.7380162 |
 
-[FAQ](https://github.com/fmoghaddam/RecommendationEngine/wiki/FAQ)
+FAQ
 -------------
+
+### 1. How to run the project without importing it to Eclipse?
+As this project is based on Gradle, it can be simply run. If you want to run it without changing any java code, then just do the following steps:
+* Download the repository
+* In `cmd` or `terminal` go to `build\install\RecommendationEngine\bin`
+* Change `config.properties` and modify it based on your use case
+* Run `RecommendationEngine.bat` or `RecommendationEngine.sh`
+
+### 2. I want to change the java code and run the project without importing it into Eclipse, How can I do that?
+You can open any of the java classes in your favorite editor such as `notepad` and change the code. Then you can build and run the code with the following steps:
+* In `cmd` or `terminal` go to the root folder of the project
+* Run `gradlew.bat build` or `gradlew.sh build`
+
+In case of any compilation error, you will see the proper error message. If you see `BUILD SUCCESSFUL` you can continue.
+
+* Run `gradlew.bat installApp` or `gradlew.sh installApp`
+
+If you see `BUILD SUCCESSFUL` then you can follow the steps which have been explained in Question 1.
+
+### 3. How to import project into Eclipse?
+For importing project into Eclipse, you can use [Buildship Plugin](https://projects.eclipse.org/projects/tools.buildship). For installing this plugin do the following steps:
+
+* Open the Eclipse
+* From `Help` menu select `Eclipse MarketPlace`
+* Insert `buildship` into search bar and install `Buildship Gradle Integration`
+
+After installing and restarting the Eclipse, you should be able to import the project as a Gradle project.
+
+### 4. How to run the project inside the Eclipse?
+For running the project inside the Eclipse you should import it first (Question 3). After importing, from `Gradle Tasks` tab you will be able to select different Gradle tasks. In the simplest scenario, just `build` and `run` task is needed.
+
+### 5. How to implement my own algorithm?
+If you need to implement your specific algorithm you only need to create a class in `algorithms` package and extend `Recommender` interface. By doing this, your algorithm will be accessible from `config.properties` file. 
+
+### 5. How to implement my own metric?
+If you need to implement another metric, you only need to create a class in `metrics` package and extend one of the `AccuracyEvaluation` or `ListEvaluation` interfaces. By doing this, your metric will be accessible from `config.properties` file.
