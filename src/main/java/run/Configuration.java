@@ -22,7 +22,7 @@ public final class Configuration {
     private final boolean useRating;
 
     /**
-     * @param algorithm
+     * @param algorithm 
      * @param useLowLevel
      * @param useGenre
      * @param useTag
