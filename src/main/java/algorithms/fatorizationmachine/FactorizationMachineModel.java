@@ -94,7 +94,6 @@ public final class FactorizationMachineModel {
 	final float secondPrat = calculateSecondPart(rating);
 	final float thirdPrat = calculateThirdPart(rating);
 	final float result = firstPart + secondPrat + thirdPrat;
-	// + regularization(rating);
 	if (result > Globals.MAX_RATING) {
 	    return Globals.MAX_RATING;
 	} else if (result < Globals.MIN_RATING) {
@@ -102,29 +101,6 @@ public final class FactorizationMachineModel {
 	} else {
 	    return result;
 	}
-    }
-
-    /**
-     * @param rating
-     * @return
-     */
-    @SuppressWarnings("unused")
-    // TODO: Should be implemented
-    private float regularization(Rating rating) {
-	if(rating == null){
-	    throw new IllegalArgumentException("Rating is null");
-	}
-	final int userId = rating.getUserId() - 1;
-	final int itemId = rating.getItemId() - 1;
-	double sum1 = 0;
-	double sum2 = 0;
-	double sum3 = w[userId] * w[userId] + w[itemId] * w[itemId];
-	for (int i = 0; i < k; i++) {
-	    sum1 += v[userId][i] * v[userId][i];
-	    sum2 += v[itemId][i] * v[itemId][i];
-	}
-	final double lambda = 2;
-	return (float) (lambda * (sum1 + sum2 + sum3));
     }
 
     private float calculateThirdPart(final Rating rating) {

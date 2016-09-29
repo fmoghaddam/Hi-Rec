@@ -49,8 +49,6 @@ public final class SGDLearner {
         final DataSplitter dataSplitter = new DataSplitter(FMModel.getDataModel());
         trainDataModel = dataSplitter.getTrainData(1);
         final DataModel evalutaionData = dataSplitter.getTestData(1);
-        //trainDataModel = FMModel.getDataModel();
-        // final List<Float> errors = new ArrayList<>();
         for (int iterate = 0; iterate < numberOfIteration; iterate++) {
             final int dataSize = this.trainDataModel.getRatings().size();
             for (int dataIndex = 0; dataIndex < dataSize; dataIndex++) {
@@ -92,29 +90,6 @@ public final class SGDLearner {
             }
 
             LOG.debug("Epoch : "+iterate +" --> "+"Error: "+errorSum/evalutaionData.getRatings().size());
-            // errors.add(errorSum/dataSize);
-        }
-
-        // analyseError(errors);
-        // (new ErrorChart("test", errors)).draw();
-    }
-
-    /**
-     * @param errors
-     */
-    @SuppressWarnings("unused")
-    private void analyseError(List<Float> errors) {
-        if(errors == null){
-            throw new IllegalArgumentException("Error list is null");
-        }
-        final Float min = Collections.min(errors);
-        LOG.info("\n" + min);
-        int counter = 0;
-        for (float f : errors) {
-            if (f == min) {
-                LOG.info("INDEX: " + counter);
-            }
-            counter++;
         }
     }
 
