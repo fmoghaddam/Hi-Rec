@@ -11,6 +11,10 @@ applicationDistribution.from("src/main/resources/log4j.properties") {
     into "bin"
 }
 
+applicationDistribution.from("data") {
+    into "bin/data"
+}
+
 jar {	
     exclude('config.properties', 'log4j.properties')
 }
