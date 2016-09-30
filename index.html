@@ -397,9 +397,28 @@ ALGORITHM_X_USE_RATING=false
 <p>If you need to implement your specific algorithm you only need to create a class in <code>algorithms</code> package and extend <code>Recommender</code> interface. By doing this, your algorithm will be accessible from <code>config.properties</code> file. </p>
 
 <h3>
-<a id="5-how-to-implement-my-own-metric" class="anchor" href="#5-how-to-implement-my-own-metric" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. How to implement my own metric?</h3>
+<a id="6-how-to-implement-my-own-metric" class="anchor" href="#6-how-to-implement-my-own-metric" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>6. How to implement my own metric?</h3>
 
-<p>If you need to implement another metric, you only need to create a class in <code>metrics</code> package and extend one of the <code>AccuracyEvaluation</code> or <code>ListEvaluation</code> interfaces. By doing this, your metric will be accessible from <code>config.properties</code> file. Keep in mind that all the metrics should have <code>hashCode()</code> function and this function should return a static fixed number. Currently numbers in [1,6] range occupied. So you can use 7,8,.... You can have a look at the <code>hashCode()</code> function in MAE.  </p>
+<p>If you need to implement another metric, you only need to create a class in <code>metrics</code> package and extend one of the <code>AccuracyEvaluation</code> or <code>ListEvaluation</code> interfaces. By doing this, your metric will be accessible from <code>config.properties</code> file. Keep in mind that all the metrics should have <code>hashCode()</code> function and this function should return a static fixed number. Currently numbers in [1,6] range occupied. So you can use 7,8,.... You can have a look at the <code>hashCode()</code> function in MAE.</p>
+
+<h3>
+<a id="7-i-use-this-code-for-my-research-do-i-have-to-cite-it" class="anchor" href="#7-i-use-this-code-for-my-research-do-i-have-to-cite-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>7. I use this code for my research. Do I have to cite it?</h3>
+
+<p>As it is explained this project is binded to <a href="http://recsys.deib.polimi.it/?page_id=246">Mise-en-scène Project</a>. So if you use it in your research, you need to cite it as following:</p>
+
+<pre><code>@inproceedings{deldjoo2016combine,
+  title={How to Combine Visual Features with Tags to Improve the Movie Recommendation Accuracy},
+  author={Deldjoo, Yashar and Elahi, Mehdi and Cremonesi, Paolo},
+  booktitle={International Conference on Electronic Commerce and Web Technologies},
+  year={2016},
+  organization={Springer International Publishing}
+}
+</code></pre>
+
+<h3>
+<a id="8-how-i-can-obtain-your-dataset" class="anchor" href="#8-how-i-can-obtain-your-dataset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>8. How I can obtain your dataset?</h3>
+
+<p>Low level features which have been collected in <a href="http://recsys.deib.polimi.it/?page_id=246">Mise-en-scène Project</a> can be downloaded from <a href="https://www.researchgate.net/publication/305367841_Using_Visual_Features_and_Latent_Factors_for_Movie_Recommendation">this</a> link. If you need to have Tags, Genre and Ratings, you can use <a href="http://grouplens.org/datasets/movielens/latest/">MovieLens latest dataset</a>. For simplicity we have preproccesed corresponding Tags, Genre and Ratings data and put them in <code>data</code> folder.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/fmoghaddam/RecommendationEngine">Recommendation Engine</a> is maintained by <a href="https://github.com/fmoghaddam">fmoghaddam</a>.</span>
