@@ -1,0 +1,29 @@
+.team_memebr_image {	 
+    display:inline-block;
+    white-space:nowrap;
+	
+	border-radius: 50%;
+                overflow: hidden;
+                width: 150px;
+                height: 150px;
+}
+
+.team_memebr_image img {
+                display: block;
+            /* Stretch 
+                  height: 100%;
+                  width: 100%; */
+            min-width: 100%;
+            min-height: 100%;
+            }
+			
+table {
+ table-layout: fixed;  
+ border-collapse:collapse;
+ }
+ 
+
+td { 
+width: 25%; 
+padding: 0;
+}
