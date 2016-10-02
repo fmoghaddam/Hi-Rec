@@ -10,9 +10,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
-
-import java.util.Random;
-
 import algorithms.funksvd.GradientDescentSVD;
 import interfaces.Recommender;
 import interfaces.SimilarityInterface;
@@ -22,6 +19,7 @@ import model.Item;
 import model.Rating;
 import model.User;
 import util.MapUtil;
+import util.StaticFunctions;
 /**
  * This is FunkSVD algorithm. http://sifter.org/~simon/journal/20061211.html
  * The code based is from Recommneder101: http://ls13-www.cs.tu-dortmund.de/homepage/recommender101/index.shtml
@@ -43,10 +41,9 @@ public final class FunkSVD implements Recommender {
 
     private Map<Integer, Integer> userMap = new LinkedHashMap<>();
     private Map<Integer, Integer> itemMap = new LinkedHashMap<>();
-    private GradientDescentSVD emSvd = null;
+    private GradientDescentSVD gdSvd = null;
     private List<Rating> cachedPreferences = null;
 
-    private final Random random = new Random();
     private DataModel dataModel;
     
     /**
@@ -76,7 +73,7 @@ public final class FunkSVD implements Recommender {
 	final Integer userid = userMap.get(user.getId());
 	final Integer itemid = itemMap.get(item.getId());
 	if (userid != null && itemid != null) {
-	    return (float) emSvd.getDotProduct(userid, itemid);
+	    return (float) gdSvd.getDotProduct(userid, itemid);
 	} else {
 	    return Float.NaN;
 	}
@@ -111,7 +108,7 @@ public final class FunkSVD implements Recommender {
     }
 
     private void nextTrainStep() {
-	Collections.shuffle(cachedPreferences, random);
+	Collections.shuffle(cachedPreferences, StaticFunctions.random);
 	int userid;
 	int itemid;
 	for (int i = 0; i < numFeatures; i++) {
@@ -122,7 +119,7 @@ public final class FunkSVD implements Recommender {
 		final Integer integer2 = this.itemMap.get(itemid);
 		int useridx = integer;
 		int itemidx = integer2;
-		emSvd.train(useridx, itemidx, i, rating.getRating());
+		gdSvd.train(useridx, itemidx, i, rating.getRating());
 	    }
 	}
     }
@@ -134,7 +131,7 @@ public final class FunkSVD implements Recommender {
 		LOG.error("User: " + user.getId());
 		System.exit(1);
 	    }
-	    for (Entry<Integer, Float> rating : user.getItemRating().entrySet()) {
+	    for (final Entry<Integer, Float> rating : user.getItemRating().entrySet()) {
 		if (itemMap.get(rating.getKey()) == null) {
 		    LOG.error("Item: " + rating.getKey());
 		    System.exit(1);
@@ -156,29 +153,28 @@ public final class FunkSVD implements Recommender {
 	final long now = new Date().getTime();
 	this.dataModel = trainData;
 	int numUsers = this.dataModel.getUsers().size();
-	int idx = 0;
-	for (Integer user : dataModel.getUsers().keySet()) {
-	    userMap.put(user, idx++);
+	int index = 0;
+	for (final Integer user : dataModel.getUsers().keySet()) {
+	    userMap.put(user, index++);
 	}
 
 	final int numItems = dataModel.getItems().size();
-	idx = 0;
-	for (Integer item : dataModel.getItems().keySet()) {
-	    itemMap.put(item, idx++);
+	index = 0;
+	for (final Integer item : dataModel.getItems().keySet()) {
+	    itemMap.put(item, index++);
 	}
 
-	double average = 2.5;
-	double defaultValue = Math.sqrt((average - 1.0) / numFeatures);
+	final double average = 2.5;
+	final double defaultValue = Math.sqrt((average - 1.0) / numFeatures);
 
-	emSvd = new GradientDescentSVD(numUsers, numItems, numFeatures, defaultValue);
+	gdSvd = new GradientDescentSVD(numUsers, numItems, numFeatures, defaultValue);
 	cachedPreferences = new ArrayList<Rating>();
 	cachePreferences();
 
 	train(initialSteps);
 
-	// Load the user averages for the recommendation task
 	this.perUserAverage.clear();
-	for (Entry<Integer, User> user : dataModel.getUsers().entrySet()) {
+	for (final Entry<Integer, User> user : dataModel.getUsers().entrySet()) {
 	    this.perUserAverage.put(user.getValue().getId(), user.getValue().getMeanOfRatings());
 	}
 	LOG.debug("Train time: " + TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - now));

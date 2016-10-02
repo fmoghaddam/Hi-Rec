@@ -8,7 +8,8 @@ import java.util.Random;
  * http://ls13-www.cs.tu-dortmund.de/homepage/recommender101/index.shtml
  */
 public class StaticFunctions {
-    private static Randomness rand = new Randomness();
+    public static final Random random = new Random();
+    private static final Randomness randomness = new Randomness();
 
     public static double ran_gaussian(double mean, double stdev) {
 	if ((stdev == 0.0) || (Double.isNaN(stdev))) {
@@ -19,7 +20,7 @@ public class StaticFunctions {
     }
 
     private static double ran_gaussian() {
-	return rand.nextGaussian();
+	return randomness.nextGaussian();
     }
     
     public static class Randomness {
