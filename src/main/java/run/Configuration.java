@@ -44,9 +44,8 @@ public final class Configuration {
         this.useRating = useRating;
         if (algorithm.isSimilairtyNeeded()) {
             this.evaluate();
-        }else{
-            this.basicEvaluate();
         }
+        this.basicEvaluate();
     }
 
     /**
