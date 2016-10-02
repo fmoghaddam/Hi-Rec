@@ -218,18 +218,16 @@ If you need to implement your specific algorithm you only need to create a class
 If you need to implement another metric, you only need to create a class in `metrics` package and extend one of the `AccuracyEvaluation` or `ListEvaluation` interfaces. By doing this, your metric will be accessible from `config.properties` file. Keep in mind that all the metrics should have `hashCode()` function and this function should return a static fixed number. Currently numbers in [1,6] range occupied. So you can use 7,8,.... You can have a look at the `hashCode()` function in MAE.
 
 ### 7. I use this code for my research. Do I have to cite it?
-As it is explained this project is binded to [Mise-en-scène Project](http://recsys.deib.polimi.it/?page_id=246). So if you use it in your research, you need to cite it as following:
+To acknowledge the use of this recommendation engine in your work, please cite the following paper:
 
 ```
-@inproceedings{deldjoo2016combine,
-  title={How to Combine Visual Features with Tags to Improve the Movie Recommendation Accuracy},
-  author={Deldjoo, Yashar and Elahi, Mehdi and Cremonesi, Paolo},
-  booktitle={International Conference on Electronic Commerce and Web Technologies},
-  year={2016},
-  organization={Springer International Publishing}
-}
+Yashar  Deldjoo,  Mehdi  Elahi,  Paolo  Cremonesi, Farshad Bakhshandegan Moghaddam, and Andrea Luigi Edoardo Caielli,  “How to Combine Visual Features with Tags to Improve the Movie  Recommendation  Accuracy”,  Springer  –  Proceedings  of  the  17h  International  conference  on Electronic Commerce and Web Technologies (Ec-Web 2016), Porto, Portugal, September 5-8, 2016
 ```
 
-### 8. How I can obtain your dataset?
-Low level features which have been collected in [Mise-en-scène Project](http://recsys.deib.polimi.it/?page_id=246) can be downloaded from [this](https://www.researchgate.net/publication/305367841_Using_Visual_Features_and_Latent_Factors_for_Movie_Recommendation) link. If you need to have Tags, Genre and Ratings, you can use [MovieLens latest dataset](http://grouplens.org/datasets/movielens/latest/). For simplicity we have preproccesed corresponding Tags, Genre and Ratings data and put them in `data` folder.
+### 8. How can I obtain your dataset?
+Low level features which have been collected in [Mise-en-scène Project](http://recsys.deib.polimi.it/?page_id=246) can be downloaded from [this]( https://www.researchgate.net/publication/305682388_Mise-en-Scene_Dataset_Stylistic_Visual_Features_of_Movie_Trailers_description) link. If you need to have Tags, Genre and Ratings, you can use [MovieLens latest dataset](http://grouplens.org/datasets/movielens/latest/). For simplicity we have preproccesed corresponding Tags, Genre and Ratings data and put them in `data` folder.
+
+### 9. How can I give my feedback about the project?
+In case of any question or feedback about the project you can use pull requests or you can contact us directly by this email: `f.bakhshandegan@gmail.com`
+
   
