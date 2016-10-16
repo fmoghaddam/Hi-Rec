@@ -1,11 +1,12 @@
 package controller.similarity;
 
-import java.util.Map;
 import java.util.Map.Entry;
+
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.apache.log4j.Logger;
 
 import interfaces.SimilarityInterface;
+import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
 import model.DataModel;
 import model.Globals;
 
@@ -101,9 +102,9 @@ public final class RatingSimilarityRepository
                 && this.dataModel.getItem(itemId2) != null)
         {
 
-            final Map<Integer, Float> item1List = this.dataModel
+            final Int2FloatOpenHashMap item1List = this.dataModel
                     .getItem(itemId1).getUserRated();
-            final Map<Integer, Float> item2List = this.dataModel
+            final Int2FloatOpenHashMap item2List = this.dataModel
                     .getItem(itemId2).getUserRated();
 
             float dotProduct = 0;
@@ -115,9 +116,9 @@ public final class RatingSimilarityRepository
                     final Integer key = entry.getKey();
                     final Float value = entry.getValue();
                     if (item2List.containsKey(key)) {
-                        dotProduct += value * item2List.get(key);
+                        dotProduct += value * item2List.get((int)key);
                         normA += value * value;
-                        normB += item2List.get(key) * item2List.get(key);
+                        normB += item2List.get((int)key) * item2List.get((int)key);
                     }
                 }
             } else {
@@ -125,9 +126,9 @@ public final class RatingSimilarityRepository
                     final Integer key = entry.getKey();
                     final Float value = entry.getValue();
                     if (item1List.containsKey(key)) {
-                        dotProduct += value * item1List.get(key);
+                        dotProduct += value * item1List.get((int)key);
                         normA += value * value;
-                        normB += item1List.get(key) * item1List.get(key);
+                        normB += item1List.get((int)key) * item1List.get((int)key);
                     }
                 }
             }

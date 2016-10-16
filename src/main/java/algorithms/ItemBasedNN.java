@@ -1,14 +1,14 @@
 package algorithms;
 
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
 import interfaces.Recommender;
 import interfaces.SimilarityInterface;
+import it.unimi.dsi.fastutil.ints.Int2FloatLinkedOpenHashMap;
 import model.DataModel;
 import model.Globals;
 import model.Item;
@@ -80,7 +80,7 @@ public final class ItemBasedNN implements Recommender {
 	    throw new IllegalArgumentException("User is null");
 	}
 
-	Map<Integer, Float> similarities = new LinkedHashMap<Integer, Float>();
+	Int2FloatLinkedOpenHashMap similarities = new Int2FloatLinkedOpenHashMap();
 
 	final User user = trainDataModel.getUser(testUser.getId());
 	if (user == null) {
@@ -89,26 +89,29 @@ public final class ItemBasedNN implements Recommender {
 	for (final Integer itemId : user.getItemRating().keySet()) {
 	    final Float itemSimilairty = this.similarityRepository.getItemSimilairty(itemId, testItem.getId());
 	    if (itemSimilairty != null && !Float.isNaN(itemSimilairty)) {
-		similarities.put(itemId, itemSimilairty);
+		similarities.put((int)itemId, (float)itemSimilairty);
 	    }
 	}
 
-	if (similarities.size() < numberOfNeighors) {
-	    return Float.NaN;
-	}
+	//TODO
+//	if (similarities.size() < numberOfNeighors) {
+//	    return Float.NaN;
+//	}
 
-	similarities = MapUtil.sortByValueAscending(similarities);
+	similarities = MapUtil.sortByValueDescendingNew(similarities);
 
 	double totalBias = 0;
 	double totalSimilarity = 0;
 
-	for (final Map.Entry<Integer, Float> mapData : similarities.entrySet()) {
+	for (final Entry<Integer, Float> mapData : similarities.entrySet()) {
 	    final Float similarity = mapData.getValue();
-	    final Float rating = user.getItemRating().get(mapData.getKey());
+	    final Float rating = user.getItemRating().get((int)mapData.getKey());
 	    final Item item = trainDataModel.getItem(mapData.getKey());
+	    //TODO
 	    if (item == null) {
 		// test item does not exist in training data
-		return Float.NaN;
+		//return Float.NaN;
+	        continue;
 	    }
 	    final float mean = item.getMean();
 
@@ -135,11 +138,11 @@ public final class ItemBasedNN implements Recommender {
      * @see interfaces.Recommender#recommendItems(model.User)
      */
     @Override
-    public Map<Integer, Float> recommendItems(final User user) {
+    public Int2FloatLinkedOpenHashMap recommendItems(final User user) {
 	if (user == null) {
 	    throw new IllegalArgumentException("User is null");
 	}
-	final Map<Integer, Float> predictions = new LinkedHashMap<Integer, Float>();
+	final Int2FloatLinkedOpenHashMap predictions = new Int2FloatLinkedOpenHashMap();
 	for (final Item item : trainDataModel.getItems().values()) {
 	    final int itemId = item.getId();
 	    final float predictRating = predictRating(user, item);
@@ -147,7 +150,7 @@ public final class ItemBasedNN implements Recommender {
 		predictions.put(itemId, predictRating);
 	    }
 	}
-	final LinkedHashMap<Integer, Float> sortByComparator = MapUtil.sortByValueDescending(predictions);
+	final Int2FloatLinkedOpenHashMap sortByComparator = MapUtil.sortByValueDescendingNew(predictions);
 	return sortByComparator;
     }
 

@@ -5,14 +5,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.math3.stat.Frequency;
 import org.apache.log4j.Logger;
+
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 /**
  * Main data model which contains all the information about items,users,ratings,
@@ -32,15 +31,15 @@ public final class DataModel {
     /**
      * Map between itemId and Item
      */
-    private Map<Integer, Item> items;
+    private Int2ObjectOpenHashMap<Item> items;
     /**
      * Map between userId and User
      */
-    private Map<Integer, User> users;
+    private Int2ObjectOpenHashMap<User> users;
     /**
      * List of ratings
      */
-    private List<Rating> ratings;
+    private ObjectArrayList<Rating> ratings;
 
     private int numberOfRatings = 0;
     private int numberOfUsers = 0;
@@ -49,23 +48,23 @@ public final class DataModel {
     private Frequency freq = new Frequency();
 
     public DataModel() {
-        items = new HashMap<>();
-        users = new HashMap<>();
-        ratings = new ArrayList<>();
+        items = new Int2ObjectOpenHashMap<Item>();
+        users = new Int2ObjectOpenHashMap<User>();
+        ratings = new ObjectArrayList<>();
     }
 
     public
-            Map<Integer, Item> getItems() {
+        Int2ObjectOpenHashMap<Item> getItems() {
         return items;
     }
 
     public
-            Map<Integer, User> getUsers() {
+        Int2ObjectOpenHashMap<User> getUsers() {
         return users;
     }
 
     public
-            List<Rating> getRatings() {
+        ObjectArrayList<Rating> getRatings() {
         return ratings;
     }
 
@@ -153,9 +152,9 @@ public final class DataModel {
     public
             DataModel getCopy() {
         final DataModel newDataModel = new DataModel();
-        newDataModel.items = new HashMap<>(this.items);
-        newDataModel.users = new HashMap<>(this.users);
-        newDataModel.ratings = new ArrayList<>(this.ratings);
+        newDataModel.items = new Int2ObjectOpenHashMap<Item>(this.items);
+        newDataModel.users = new Int2ObjectOpenHashMap<User>(this.users);
+        newDataModel.ratings = new ObjectArrayList<>(this.ratings);
         newDataModel.numberOfItems = items.size();
         newDataModel.numberOfUsers = users.size();
         newDataModel.numberOfRatings = ratings.size();

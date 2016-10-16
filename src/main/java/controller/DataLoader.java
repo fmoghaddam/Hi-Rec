@@ -2,13 +2,12 @@ package controller;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import it.unimi.dsi.fastutil.floats.FloatArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import model.DataModel;
 import model.Globals;
 import model.Item;
@@ -123,7 +122,7 @@ public final class DataLoader {
                     continue;
                 }
                 tokens = line.split(Globals.LOW_LEVEL_FILE_SEPERATOR);
-                final List<Float> features = new ArrayList<>();
+                final FloatArrayList features = new FloatArrayList();
                 final int itemId = Integer.parseInt(tokens[0]);
                 for (int i = 1; i < tokens.length; i++) {
                     try {
@@ -173,7 +172,7 @@ public final class DataLoader {
                     continue;
                 }
                 tokens = line.split(Globals.GENRE_FILE_SEPERATOR);
-                final List<Float> features = new ArrayList<>();
+                final FloatArrayList features = new FloatArrayList();
                 final int itemId = Integer.parseInt(tokens[0]);
                 for (int i = 1; i < tokens.length; i++) {
                     try {
@@ -226,7 +225,7 @@ public final class DataLoader {
                     continue;
                 }
                 tokens = line.split(Globals.TAG_FILE_SEPERATOR);
-                final Set<String> features = new HashSet<>();
+                final ObjectSet<String> features = new ObjectOpenHashSet<>();
                 final int itemId = Integer.parseInt(tokens[0]);
                 for (int i = 1; i < tokens.length; i++) {
                     features.add(tokens[i]);

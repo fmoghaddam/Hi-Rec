@@ -47,6 +47,7 @@ repositories {
 mainClassName = "run.RecommenderEngine"
 
 dependencies {
+	compile group: 'it.unimi.dsi', name: 'fastutil', version: '7.0.13'
     compile 'log4j:log4j:1.2.17'
 	compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
     testCompile group: 'junit', name: 'junit', version: '4.+'

@@ -47,7 +47,7 @@ public final class Precision
             }
             if (user.getItemRating().containsKey(entry.getKey())) {
                 recCounter++;
-                if (user.getItemRating().get(entry.getKey()) >= 4) {
+                if (user.getItemRating().get((int)entry.getKey()) >= 4) {
                     truePositive++;
                 } else {
                     falsePositive++;

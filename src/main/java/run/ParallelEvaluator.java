@@ -168,12 +168,15 @@ public final class ParallelEvaluator {
                         for (final Rating rating: testData.getRatings()) {
                             final User testUser = testData
                                     .getUser(rating.getUserId());
-                            final long count1 = testUser.getItemRating()
-                                    .values().stream().filter(p2 -> p2 >= 4)
-                                    .count();
-                            if (count1 < Globals.TOP_N) {
-                                continue;
+                            if(Globals.USE_ONLY_POSITIVE_RATING_IN_TEST){
+                                final long count1 = testUser.getItemRating()
+                                        .values().stream().filter(p2 -> p2 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
+                                        .count();
+                                if (count1 < Globals.TOP_N) {
+                                    continue;
+                                }
                             }
+                            
                             final Item testItem = testData
                                     .getItem(rating.getItemId());
                             final Float predictRating = algorithm
@@ -195,10 +198,12 @@ public final class ParallelEvaluator {
                                 .keySet())
                         {
                             final User user = testData.getUser(userId);
-                            final long count2 = user.getItemRating().values()
-                                    .stream().filter(p4 -> p4 >= 4).count();// >Globals.TOP_N;
-                            if (count2 < Globals.TOP_N) {
-                                continue;
+                            if(Globals.USE_ONLY_POSITIVE_RATING_IN_TEST){
+                                final long count2 = user.getItemRating().values()
+                                        .stream().filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
+                                if (count2 < Globals.TOP_N) {
+                                    continue;
+                                }
                             }
                             final Map<Integer, Float> recommendItems = algorithm
                                     .recommendItems(user);
@@ -242,7 +247,7 @@ public final class ParallelEvaluator {
         LOG.info("Train Time: " + TimeUtil.getTrainTime() + " seconds");
         LOG.info("Test Time: " + TimeUtil.getTestTime() + " seconds");
         pretyPrintResult(printResult);
-        // googleDocPrintResult(printResult);
+        googleDocPrintResult(printResult);
     }
 
     /**
@@ -252,7 +257,6 @@ public final class ParallelEvaluator {
      * @param printResult
      * 
      */
-    @SuppressWarnings("unused")
     private
             void googleDocPrintResult(
                     Map<Metric, List<Float>> printResult)

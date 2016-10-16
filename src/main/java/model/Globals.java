@@ -36,6 +36,8 @@ public final class Globals {
     public static final int NUMBER_OF_ITERATION_FOR_FM;
     public static final int NUMBER_OF_NEAREST_NEIGHBOUR;
     public static final double LEARNING_RATE_FOR_FUNKSVD;
+    public static final boolean USE_ONLY_POSITIVE_RATING_IN_TEST;
+    public static final int MINIMUM_THRESHOLD_FOR_POSITIVE_RATING;
 
     static {
 	RATING_FILE_PATH = Config.getString("RATING_FILE_PATH", "");
@@ -60,6 +62,9 @@ public final class Globals {
 	NUMBER_OF_ITERATION_FOR_FM = Config.getInt("NUMBER_OF_ITERATION_FOR_FM", 1);
 	NUMBER_OF_ITERATION_FOR_FUNKSVD = Config.getInt("NUMBER_OF_ITERATION_FOR_FUNKSVD", 1);
 	NUMBER_OF_NEAREST_NEIGHBOUR = Config.getInt("NUMBER_OF_NEAREST_NEIGHBOUR", 1);
+	
+	USE_ONLY_POSITIVE_RATING_IN_TEST = Config.getBoolean("USE_ONLY_POSITIVE_RATING_IN_TEST", true);
+	MINIMUM_THRESHOLD_FOR_POSITIVE_RATING = Config.getInt("MINIMUM_THRESHOLD_FOR_POSITIVE_RATING", 4);
     }
 
     public static void setMaxRating(float maxRating) {

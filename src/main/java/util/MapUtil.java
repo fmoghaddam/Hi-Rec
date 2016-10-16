@@ -2,6 +2,8 @@ package util;
 
 import java.util.*;
 
+import it.unimi.dsi.fastutil.ints.Int2FloatLinkedOpenHashMap;
+
 public class MapUtil {
 
     /**
@@ -10,7 +12,7 @@ public class MapUtil {
      * @param map
      * @return a sorted map
      */
-    public static <K, V extends Comparable<? super V>> LinkedHashMap<K, V> sortByValueDescending(Map<K, V> map) {
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValueDescending(Map<K, V> map) {
 	List<Map.Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>(map.entrySet());
 	Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
 	    public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2) {
@@ -26,7 +28,7 @@ public class MapUtil {
     }
 
     /**
-     * Sort a Map by value in descending order
+     * Sort a Map by value in ascending order
      ** 
      * @param map
      * @return a sorted map
@@ -56,4 +58,26 @@ public class MapUtil {
 	return sortedMap;
     }
 
+    /**
+     * Sort a Map by value in descending order
+     ** 
+     * @param similarities
+     * @return a sorted map
+     */
+    public static  Int2FloatLinkedOpenHashMap sortByValueDescendingNew(Int2FloatLinkedOpenHashMap similarities) {
+        
+        
+        List<Map.Entry<Integer, Float>> list = new LinkedList<Map.Entry<Integer,Float>>(similarities.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Float>>() {
+            public int compare(Map.Entry<Integer, Float> o1, Map.Entry<Integer, Float> o2) {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        });
+
+        final Int2FloatLinkedOpenHashMap result = new Int2FloatLinkedOpenHashMap();
+        for (Map.Entry<Integer, Float> entry : list) {
+            result.put((int)entry.getKey(), (float)entry.getValue());
+        }
+        return result;
+    }
 }

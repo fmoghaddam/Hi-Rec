@@ -1,7 +1,6 @@
 package algorithms;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -14,6 +13,7 @@ import controller.similarity.LowLevelSimilarityRepository;
 import controller.similarity.TagSimilarityRepository;
 import interfaces.Recommender;
 import interfaces.SimilarityInterface;
+import it.unimi.dsi.fastutil.ints.Int2FloatLinkedOpenHashMap;
 import model.DataModel;
 import model.Item;
 import model.User;
@@ -86,9 +86,9 @@ public final class HybridTagLowLevel implements Recommender {
 	if (user == null) {
 	    throw new IllegalArgumentException("User is null");
 	}
-	final Map<Integer, Float> tagRecommend = tagAlgo.recommendItems(user);
-	final Map<Integer, Float> lowLevelRecommend = lowLevelAlgo.recommendItems(user);
-	final Map<Integer, Float> result = new HashMap<>();
+	final Int2FloatLinkedOpenHashMap tagRecommend = tagAlgo.recommendItems(user);
+	final Int2FloatLinkedOpenHashMap lowLevelRecommend = lowLevelAlgo.recommendItems(user);
+	final Int2FloatLinkedOpenHashMap result = new Int2FloatLinkedOpenHashMap();
 	final Iterator<Entry<Integer, Float>> lowLevelIterator = lowLevelRecommend.entrySet().iterator();
 	final Iterator<Entry<Integer, Float>> tagIterator = tagRecommend.entrySet().iterator();
 	if (tagRecommend.size() >= lowLevelRecommend.size()) {
@@ -96,17 +96,16 @@ public final class HybridTagLowLevel implements Recommender {
 		final Entry<Integer, Float> tagEntry = tagIterator.next();
 		final Entry<Integer, Float> lowLevelEntry = lowLevelIterator.next();
 		if (!result.containsKey(tagEntry.getKey())) {
-		    result.put(tagEntry.getKey(), tagEntry.getValue());
+		    result.put((int)tagEntry.getKey(), (float)tagEntry.getValue());
 		}
 		if (!result.containsKey(lowLevelEntry.getKey())) {
-		    result.put(lowLevelEntry.getKey(), lowLevelEntry.getValue());
+		    result.put((int)lowLevelEntry.getKey(), (float)lowLevelEntry.getValue());
 		}
-
 	    }
 	    while (tagIterator.hasNext()) {
 		final Entry<Integer, Float> tagEntry = tagIterator.next();
 		if (!result.containsKey(tagEntry.getKey())) {
-		    result.put(tagEntry.getKey(), tagEntry.getValue());
+		    result.put((int)tagEntry.getKey(), (float)tagEntry.getValue());
 		}
 	    }
 	} else {
@@ -114,21 +113,21 @@ public final class HybridTagLowLevel implements Recommender {
 		final Entry<Integer, Float> tagEntry = tagIterator.next();
 		final Entry<Integer, Float> lowLevelEntry = lowLevelIterator.next();
 		if (!result.containsKey(tagEntry.getKey())) {
-		    result.put(tagEntry.getKey(), tagEntry.getValue());
+		    result.put((int)tagEntry.getKey(), (float)tagEntry.getValue());
 		}
 		if (!result.containsKey(lowLevelEntry.getKey())) {
-		    result.put(lowLevelEntry.getKey(), lowLevelEntry.getValue());
+		    result.put((int)lowLevelEntry.getKey(), (float)lowLevelEntry.getValue());
 		}
 	    }
 	    while (lowLevelIterator.hasNext()) {
 		final Entry<Integer, Float> lowLevelEntry = lowLevelIterator.next();
 		if (!result.containsKey(lowLevelEntry.getKey())) {
-		    result.put(lowLevelEntry.getKey(), lowLevelEntry.getValue());
+		    result.put((int)lowLevelEntry.getKey(),(float)lowLevelEntry.getValue());
 		}
 	    }
 	}
 
-	final LinkedHashMap<Integer, Float> sortByComparator = MapUtil.sortByValueDescending(result);
+	final LinkedHashMap<Integer, Float> sortByComparator = (LinkedHashMap<Integer, Float>)MapUtil.sortByValueDescending(result);
 	return sortByComparator;
     }
 
@@ -150,6 +149,9 @@ public final class HybridTagLowLevel implements Recommender {
 
 	tagSimilarity = new TagSimilarityRepository(trainData);
 	lowLevelSimilarity = new LowLevelSimilarityRepository(trainData);
+	
+	tagAlgo.setSimilarityRepository(tagSimilarity);
+        lowLevelAlgo.setSimilarityRepository(lowLevelSimilarity);
 	LOG.debug("Train time: " + TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - now));
     }
 
@@ -160,11 +162,7 @@ public final class HybridTagLowLevel implements Recommender {
      */
     @Override
     public void setSimilarityRepository(final SimilarityInterface similarityRepository) {
-	if (similarityRepository == null) {
-	    throw new IllegalArgumentException("SimilarityRepository is null");
-	}
-	tagAlgo.setSimilarityRepository(tagSimilarity);
-	lowLevelAlgo.setSimilarityRepository(lowLevelSimilarity);
+        //Empty function
     }
 
     /*
@@ -182,7 +180,7 @@ public final class HybridTagLowLevel implements Recommender {
      */
     @Override
     public boolean isSimilairtyNeeded() {
-	return true;
+	return false;
     }
 
 }

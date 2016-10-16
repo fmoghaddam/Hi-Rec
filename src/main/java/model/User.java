@@ -1,8 +1,8 @@
 package model;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+
+import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
 
 /**
  * User class
@@ -19,9 +19,9 @@ public final class User {
     /**
      * all the items which this user rated and the related rating value
      */
-    private LinkedHashMap<Integer, Float> itemRating;
+    private Int2FloatOpenHashMap itemRating;
     /**
-     * Mean of reating for this user
+     * Mean of rating for this user
      */
     private float meanOfRatings;
 
@@ -29,7 +29,7 @@ public final class User {
             final int id)
     {
         this.id = id;
-        itemRating = new LinkedHashMap<>();
+        itemRating = new Int2FloatOpenHashMap();
     }
 
     public User(
@@ -39,7 +39,7 @@ public final class User {
             throw new IllegalArgumentException("User is null");
         }
         this.id = user.id;
-        this.itemRating = new LinkedHashMap<>(user.itemRating);
+        this.itemRating = new Int2FloatOpenHashMap(user.itemRating);
         this.meanOfRatings = user.meanOfRatings;
     }
 
@@ -64,7 +64,7 @@ public final class User {
     }
 
     public
-            LinkedHashMap<Integer, Float> getItemRating() {
+        Int2FloatOpenHashMap getItemRating() {
         return itemRating;
     }
 
@@ -85,7 +85,7 @@ public final class User {
     public
             double[] getRatingsInFullSizeArray() {
         final double[] ratings = new double[(int)Globals.MAX_ID_OF_ITEMS];
-        for (Integer i: itemRating.keySet()) {
+        for (int i: itemRating.keySet()) {
             ratings[(int)(i - 1)] = itemRating.get(i);
         }
         return ratings;
