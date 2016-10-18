@@ -2,8 +2,10 @@ package metrics;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import interfaces.ListEvaluation;
@@ -31,7 +33,12 @@ public final class NDCG
     @Override
     public
             float getEvaluationResult() {
-        return ((float)accumulatedNDCGValue) / ((float)count);
+        final float result = ((float)accumulatedNDCGValue) / ((float)count);
+        if(Float.isNaN(result))
+        {
+            return 0;
+        }
+        return result;
     }
 
     /*
@@ -41,24 +48,37 @@ public final class NDCG
     @Override
     public
             void addRecommendations(
-                    User user, Map<Integer, Float> list)
+                    User user, Map<Integer, Float> list2)
     {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
         }
-        if (list == null) {
+        if (list2 == null) {
             throw new IllegalArgumentException("Recommended list is null");
         }
+        
+        final Map<Integer, Float> list = new HashMap<>();
+        int listLengthThreshold=0;
+        for (final Entry<Integer, Float> entry: list2.entrySet()) {
+            if (listLengthThreshold>=Globals.AT_N) {
+                break;
+            }
+            list.put(entry.getKey(),entry.getValue());
+            listLengthThreshold++;
+        }
+        
         int depth = Math.min(Globals.TOP_N, list.size());
 
         double dcg = 0.0;
         int loopCount = 0;
         for (int item: list.keySet()) {
             if (user.getItemRating().keySet().contains(item)) {
-                double a = Math.pow(2, user.getItemRating().get(item));
-                double b = Math.log(2 + loopCount) / Math.log(2);
-                loopCount++;
-                dcg += a / b;
+                if(user.getItemRating().get(item)>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
+                    double a = Math.pow(2, user.getItemRating().get(item));
+                    double b = Math.log(2 + loopCount) / Math.log(2);
+                    loopCount++;
+                    dcg += a / b;
+                }
             }
 
             if (loopCount >= depth)

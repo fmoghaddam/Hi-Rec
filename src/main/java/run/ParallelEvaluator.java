@@ -20,6 +20,8 @@ import interfaces.AccuracyEvaluation;
 import interfaces.ListEvaluation;
 import interfaces.Metric;
 import interfaces.Recommender;
+import metrics.Diversity;
+import metrics.Novelty;
 import model.DataModel;
 import model.Globals;
 import model.Item;
@@ -153,8 +155,9 @@ public final class ParallelEvaluator {
                         System.exit(1);
                     }
 
+                    final SimilarityRepository similarityRepository = new SimilarityRepository(trainData, configuration);
                     algorithm.setSimilarityRepository(
-                            new SimilarityRepository(trainData, configuration));
+                            similarityRepository);
                     TimeUtil.setTrainTimeStart(foldNumber);
                     LOG.debug("Fold " + foldNumber + " Train started...");
                     algorithm.train(trainData);
@@ -168,11 +171,16 @@ public final class ParallelEvaluator {
                         for (final Rating rating: testData.getRatings()) {
                             final User testUser = testData
                                     .getUser(rating.getUserId());
+                            final long numberOfPositiveItems = testUser.getItemRating()
+                                    .values().stream().filter(p2 -> p2 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
+                                    .count();
                             if(Globals.USE_ONLY_POSITIVE_RATING_IN_TEST){
-                                final long count1 = testUser.getItemRating()
-                                        .values().stream().filter(p2 -> p2 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
-                                        .count();
-                                if (count1 < Globals.TOP_N) {
+                                if (numberOfPositiveItems < Globals.TOP_N) {
+                                    continue;
+                                }
+                            }
+                            else{
+                                if(numberOfPositiveItems == 0){
                                     continue;
                                 }
                             }
@@ -198,10 +206,14 @@ public final class ParallelEvaluator {
                                 .keySet())
                         {
                             final User user = testData.getUser(userId);
+                            final long numberOfPositiveItems = user.getItemRating().values()
+                                    .stream().filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
                             if(Globals.USE_ONLY_POSITIVE_RATING_IN_TEST){
-                                final long count2 = user.getItemRating().values()
-                                        .stream().filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
-                                if (count2 < Globals.TOP_N) {
+                                if (numberOfPositiveItems < Globals.TOP_N) {
+                                    continue;
+                                }
+                            }else{
+                                if(numberOfPositiveItems == 0){
                                     continue;
                                 }
                             }
@@ -209,6 +221,11 @@ public final class ParallelEvaluator {
                                     .recommendItems(user);
 
                             for (Metric metric2: evalTypes) {
+                                if(metric2 instanceof Novelty){
+                                    ((Novelty)metric2).setTrainData(trainData);
+                                }else if(metric2 instanceof Diversity){
+                                    ((Diversity)metric2).setSimilarityRepository(similarityRepository);
+                                }
                                 if (metric2 instanceof ListEvaluation) {
                                     ((ListEvaluation)metric2)
                                             .addRecommendations(user,

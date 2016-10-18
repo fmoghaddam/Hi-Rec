@@ -37,30 +37,25 @@ public final class Recall
         if (list == null) {
             throw new IllegalArgumentException("Recommended list is null");
         }
-        float truePositive = 0;
-        float falseNegative = 0;
-        int recCounter = 0;
         final List<Integer> userOriginalList = user.getItemRating().entrySet()
                 .stream().filter(p -> p.getValue() >= 4)
                 .map(p -> p.getKey()).collect(Collectors.toList());
+        
+        float truePositive = 0;
+        int listLengthThreshold = 0;
         for (final Entry<Integer, Float> entry: list.entrySet()) {
-            if (userOriginalList.contains(entry.getKey())) {
-                recCounter++;
-                if (entry.getValue() >= 4) {
-                    truePositive++;
-                } else {
-                    falseNegative++;
-                }
-            }
-            if (recCounter == Globals.TOP_N) {
+            if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
+            if (user.getItemRating().containsKey(entry.getKey())) {
+                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
+                    truePositive++;
+                }
+            }
+            listLengthThreshold++;
         }
-
-        if (truePositive == 0 && falseNegative == 0) {
-            return;
-        }
-        recall = (recall + truePositive / (truePositive + falseNegative));
+        
+        recall = (recall + truePositive / userOriginalList.size());
         counter++;
 
     }
@@ -71,7 +66,11 @@ public final class Recall
     @Override
     public
             float getEvaluationResult() {
-        return recall / counter;
+        final float result = recall / counter;
+        if(Float.isNaN(result)){
+            return 0;
+        }
+        return result;
     }
 
     @Override

@@ -11,57 +11,70 @@ import model.Globals;
 import model.User;
 
 /**
- * Precision
- * 
- * @author FBM
+ * @author Admin
  *
  */
-public final class Precision
+public class MAP
         implements ListEvaluation
 {
 
-    float precision = 0;
-    long counter = 0;
-
-    /*
-     * @see interfaces.ListEvaluation#addRecommendations(model.User,
-     * java.util.List)
+    private float n = 0;
+    private float sumOfAPs = 0;
+    
+    /* (non-Javadoc)
+     * @see interfaces.ListEvaluation#addRecommendations(model.User, java.util.Map)
      */
     @Override
     public
             void addRecommendations(
-                    final User user, final Map<Integer, Float> list)
+                    User user, Map<Integer, Float> list)
     {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
         }
         if (list == null) {
             throw new IllegalArgumentException("Recommended list is null");
+        }        
+        if (list.size() == 0) {
+            return;
         }
+        
         float truePositive = 0;
         int listLengthThreshold = 0;
+        float sum = 0;
         for (final Entry<Integer, Float> entry: list.entrySet()) {
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
+            listLengthThreshold++;
             if (user.getItemRating().containsKey(entry.getKey())) {
-                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
+                if(user.getItemRating().get((int)entry.getKey())>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
                     truePositive++;
+                    sum+=(truePositive/listLengthThreshold)*1.0;
                 }
             }
-            listLengthThreshold++;
         }
-        precision = (precision + truePositive / Globals.AT_N);
-        counter++;
+        final float min = Math.min(truePositive, Globals.AT_N);
+        if(min!=0){
+            sum = sum/min;
+        }
+        sumOfAPs+=sum;
+        n++;
     }
 
-    /*
+    /* (non-Javadoc)
      * @see interfaces.ListEvaluation#getEvaluationResult()
      */
     @Override
     public
             float getEvaluationResult() {
-        return precision / counter;
+        return sumOfAPs/n;
+    }
+    
+    @Override
+    public
+            String toString() {
+        return "MAP";
     }
 
     /*
@@ -70,9 +83,9 @@ public final class Precision
     @Override
     public
             int hashCode() {
-        return 5;
+        return 84;
     }
-
+    
     /*
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -86,17 +99,6 @@ public final class Precision
         } else {
             return false;
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public
-            String toString() {
-        return "Precision";
     }
 
 }

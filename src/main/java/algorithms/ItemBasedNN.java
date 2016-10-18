@@ -28,9 +28,9 @@ public final class ItemBasedNN implements Recommender {
      */
     private static final Logger LOG = Logger.getLogger(ItemBasedNN.class.getCanonicalName());
     /**
-     * Number of neighbors
+     * Number of neighbours
      */
-    private final int numberOfNeighors;
+    private final int numberOfNeighbours;
     /**
      * Repository used for calculating similarities
      */
@@ -39,12 +39,12 @@ public final class ItemBasedNN implements Recommender {
      * Train data set
      */
     private DataModel trainDataModel;
-
+    
     /**
-     * Constructor
+     * 
      */
     public ItemBasedNN() {
-	this.numberOfNeighors = Globals.NUMBER_OF_NEAREST_NEIGHBOUR;
+        this.numberOfNeighbours = Globals.NUMBER_OF_NEAREST_NEIGHBOUR;
     }
 
     /**
@@ -93,25 +93,25 @@ public final class ItemBasedNN implements Recommender {
 	    }
 	}
 
-	//TODO
-//	if (similarities.size() < numberOfNeighors) {
-//	    return Float.NaN;
-//	}
+	if (similarities.isEmpty()) {
+	    return Float.NaN;
+	}
 
 	similarities = MapUtil.sortByValueDescendingNew(similarities);
 
 	double totalBias = 0;
 	double totalSimilarity = 0;
-
+	int numberOfSelectedItem = 0;
 	for (final Entry<Integer, Float> mapData : similarities.entrySet()) {
+	    if(numberOfSelectedItem>=this.numberOfNeighbours){
+	        break;
+	    }
+	    numberOfSelectedItem++;
 	    final Float similarity = mapData.getValue();
 	    final Float rating = user.getItemRating().get((int)mapData.getKey());
 	    final Item item = trainDataModel.getItem(mapData.getKey());
-	    //TODO
 	    if (item == null) {
-		// test item does not exist in training data
-		//return Float.NaN;
-	        continue;
+	        throw new IllegalStateException("Something is wrong");
 	    }
 	    final float mean = item.getMean();
 
@@ -150,8 +150,8 @@ public final class ItemBasedNN implements Recommender {
 		predictions.put(itemId, predictRating);
 	    }
 	}
-	final Int2FloatLinkedOpenHashMap sortByComparator = MapUtil.sortByValueDescendingNew(predictions);
-	return sortByComparator;
+	final Int2FloatLinkedOpenHashMap sortedMap = MapUtil.sortByValueDescendingNew(predictions);
+	return sortedMap;
     }
 
     /*

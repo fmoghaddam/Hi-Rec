@@ -3,34 +3,36 @@
  */
 package metrics;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import interfaces.ListEvaluation;
+import model.DataModel;
 import model.Globals;
+import model.Item;
 import model.User;
 
 /**
- * Precision
- * 
- * @author FBM
+ * @author Admin
  *
  */
-public final class Precision
+public class Novelty
         implements ListEvaluation
 {
 
-    float precision = 0;
-    long counter = 0;
-
-    /*
-     * @see interfaces.ListEvaluation#addRecommendations(model.User,
-     * java.util.List)
+    private float noveltyValue = 0;
+    private int n = 0;
+    private DataModel trainData;
+    
+    /* (non-Javadoc)
+     * @see interfaces.ListEvaluation#addRecommendations(model.User, java.util.Map)
      */
     @Override
     public
             void addRecommendations(
-                    final User user, final Map<Integer, Float> list)
+                    User user, Map<Integer, Float> list)
     {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
@@ -38,30 +40,68 @@ public final class Precision
         if (list == null) {
             throw new IllegalArgumentException("Recommended list is null");
         }
-        float truePositive = 0;
         int listLengthThreshold = 0;
+        final List<Integer> hitList = new ArrayList<>();
         for (final Entry<Integer, Float> entry: list.entrySet()) {
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
             if (user.getItemRating().containsKey(entry.getKey())) {
                 if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
-                    truePositive++;
+                    hitList.add(entry.getKey());
                 }
             }
             listLengthThreshold++;
         }
-        precision = (precision + truePositive / Globals.AT_N);
-        counter++;
+        if(hitList.isEmpty()){
+            return;
+        }
+        float sum = 0;
+        for(Integer itemId:hitList){
+            sum += Math.log(1/populairty(itemId));
+        }
+        noveltyValue += sum/hitList.size();
+        n++;
     }
 
-    /*
+    /**
+     * @param itemId
+     * @return
+     */
+    private
+            float populairty(
+                    Integer itemId)
+    {
+        final Item item = trainData.getItem(itemId);
+        if(item==null){
+            throw new IllegalStateException("ITEM COULD NOT BE NULL");
+        }
+        final float allUsers = trainData.getUsers().size();
+        final float users = item.getUserRated().size();
+        return (float)(users/allUsers);
+    }
+
+    /* (non-Javadoc)
      * @see interfaces.ListEvaluation#getEvaluationResult()
      */
     @Override
     public
             float getEvaluationResult() {
-        return precision / counter;
+        final float result = (float)(noveltyValue/(n*1.0));
+        if(Float.isNaN(result)){
+            return 0;
+        }
+        return result;
+    }
+
+    /**
+     * @param trainData
+     */
+    public
+            void setTrainData(
+                    DataModel trainData)
+    {
+        this.trainData = trainData;
     }
 
     /*
@@ -70,7 +110,7 @@ public final class Precision
     @Override
     public
             int hashCode() {
-        return 5;
+        return 564;
     }
 
     /*
@@ -96,7 +136,6 @@ public final class Precision
     @Override
     public
             String toString() {
-        return "Precision";
+        return "Novelty";
     }
-
 }
