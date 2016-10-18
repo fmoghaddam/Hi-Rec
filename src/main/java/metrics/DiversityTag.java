@@ -109,7 +109,7 @@ public class DiversityTag
     @Override
     public
             String toString() {
-        return "DiversityHybridLL";
+        return "DiversityTag";
     }
 
     /**
