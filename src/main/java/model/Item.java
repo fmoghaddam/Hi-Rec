@@ -3,7 +3,7 @@ package model;
 import java.util.Map.Entry;
 
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
-import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2FloatLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 
@@ -22,7 +22,7 @@ public class Item {
     /**
      * All the used who rated this item with the rating value
      */
-    private Int2FloatOpenHashMap userRated;
+    private Int2FloatLinkedOpenHashMap userRated;
     /**
      * List of low level features
      */
@@ -44,7 +44,7 @@ public class Item {
             final int id)
     {
         this.id = id;
-        this.userRated = new Int2FloatOpenHashMap();
+        this.userRated = new Int2FloatLinkedOpenHashMap();
         this.lowLevelFeature = new FloatArrayList();
         this.genres = new FloatArrayList();
         this.tags = new ObjectOpenHashSet<>();
@@ -54,7 +54,7 @@ public class Item {
             final Item item)
     {
         this.id = item.id;
-        this.userRated = new Int2FloatOpenHashMap(item.userRated);
+        this.userRated = new Int2FloatLinkedOpenHashMap(item.userRated);
         this.lowLevelFeature = new FloatArrayList(item.lowLevelFeature);
         this.genres = new FloatArrayList(item.genres);
         this.tags = new ObjectOpenHashSet<>(item.tags);
@@ -66,7 +66,7 @@ public class Item {
     }
 
     public
-        Int2FloatOpenHashMap getUserRated() {
+        Int2FloatLinkedOpenHashMap getUserRated() {
         return userRated;
     }
 
@@ -178,7 +178,7 @@ public class Item {
      */
     public final
             void setUserRated(
-                    final Int2FloatOpenHashMap userRated)
+                    final Int2FloatLinkedOpenHashMap userRated)
     {
         this.userRated = userRated;
     }

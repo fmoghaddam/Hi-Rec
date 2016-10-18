@@ -6,6 +6,7 @@ import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.apache.log4j.Logger;
 
 import interfaces.SimilarityInterface;
+import it.unimi.dsi.fastutil.ints.Int2FloatLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
 import model.DataModel;
 import model.Globals;
@@ -102,9 +103,9 @@ public final class RatingSimilarityRepository
                 && this.dataModel.getItem(itemId2) != null)
         {
 
-            final Int2FloatOpenHashMap item1List = this.dataModel
+            final Int2FloatLinkedOpenHashMap item1List = this.dataModel
                     .getItem(itemId1).getUserRated();
-            final Int2FloatOpenHashMap item2List = this.dataModel
+            final Int2FloatLinkedOpenHashMap item2List = this.dataModel
                     .getItem(itemId2).getUserRated();
 
             float dotProduct = 0;

@@ -2,7 +2,7 @@ package metrics;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -57,7 +57,7 @@ public final class NDCG
             throw new IllegalArgumentException("Recommended list is null");
         }
         
-        final Map<Integer, Float> list = new HashMap<>();
+        final Map<Integer, Float> list = new LinkedHashMap<>();
         int listLengthThreshold=0;
         for (final Entry<Integer, Float> entry: list2.entrySet()) {
             if (listLengthThreshold>=Globals.AT_N) {

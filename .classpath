@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main/java">
+	<classpathentry path="src/main/java" kind="src">
 		<attributes>
 			<attribute name="FROM_GRADLE_MODEL" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src/main/resources">
+	<classpathentry path="src/main/resources" kind="src">
 		<attributes>
 			<attribute name="FROM_GRADLE_MODEL" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry path="org.eclipse.buildship.core.gradleclasspathcontainer" kind="con"/>
+	<classpathentry path="bin" kind="output"/>
+	<classpathentry path="src/test/java" kind="src"/>
+	<classpathentry path="src/test/resources" kind="src"/>
+	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/" kind="con"/>
+	<classpathentry path="C:/Users/Admin/.gradle/caches/modules-2/files-2.1/it.unimi.dsi/fastutil/7.0.13/1fa6d6dcaedbf4e7d324e27977a71116692aac58/fastutil-7.0.13.jar" kind="lib" sourcepath="C:/Users/Admin/.gradle/caches/modules-2/files-2.1/it.unimi.dsi/fastutil/7.0.13/347e5c30fdd38d751a03198c8525824d7e78c2db/fastutil-7.0.13-sources.jar"/>
+	<classpathentry path="C:/Users/Admin/.gradle/caches/modules-2/files-2.1/log4j/log4j/1.2.17/5af35056b4d257e4b64b9e8069c0746e8b08629f/log4j-1.2.17.jar" kind="lib" sourcepath="C:/Users/Admin/.gradle/caches/modules-2/files-2.1/log4j/log4j/1.2.17/677abe279b68c5e7490d6d50c6951376238d7d3e/log4j-1.2.17-sources.jar"/>
+	<classpathentry path="C:/Users/Admin/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-math3/3.6.1/e4ba98f1d4b3c80ec46392f25e094a6a2e58fcbf/commons-math3-3.6.1.jar" kind="lib" sourcepath="C:/Users/Admin/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-math3/3.6.1/8fab23986ea8886af34818daf32a718e81dc98ba/commons-math3-3.6.1-sources.jar"/>
+	<classpathentry path="C:/Users/Admin/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar" kind="lib" sourcepath="C:/Users/Admin/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/a6c32b40bf3d76eca54e3c601e5d1470c86fcdfa/junit-4.12-sources.jar"/>
+	<classpathentry path="C:/Users/Admin/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar" kind="lib" sourcepath="C:/Users/Admin/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar"/>
 </classpath>

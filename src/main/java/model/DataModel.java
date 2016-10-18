@@ -10,7 +10,7 @@ import java.util.Collections;
 import org.apache.commons.math3.stat.Frequency;
 import org.apache.log4j.Logger;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 /**
@@ -31,11 +31,11 @@ public final class DataModel {
     /**
      * Map between itemId and Item
      */
-    private Int2ObjectOpenHashMap<Item> items;
+    private Int2ObjectLinkedOpenHashMap<Item> items;
     /**
      * Map between userId and User
      */
-    private Int2ObjectOpenHashMap<User> users;
+    private Int2ObjectLinkedOpenHashMap<User> users;
     /**
      * List of ratings
      */
@@ -48,18 +48,18 @@ public final class DataModel {
     private Frequency freq = new Frequency();
 
     public DataModel() {
-        items = new Int2ObjectOpenHashMap<Item>();
-        users = new Int2ObjectOpenHashMap<User>();
+        items = new Int2ObjectLinkedOpenHashMap<Item>();
+        users = new Int2ObjectLinkedOpenHashMap<User>();
         ratings = new ObjectArrayList<>();
     }
 
     public
-        Int2ObjectOpenHashMap<Item> getItems() {
+        Int2ObjectLinkedOpenHashMap<Item> getItems() {
         return items;
     }
 
     public
-        Int2ObjectOpenHashMap<User> getUsers() {
+        Int2ObjectLinkedOpenHashMap<User> getUsers() {
         return users;
     }
 
@@ -152,8 +152,8 @@ public final class DataModel {
     public
             DataModel getCopy() {
         final DataModel newDataModel = new DataModel();
-        newDataModel.items = new Int2ObjectOpenHashMap<Item>(this.items);
-        newDataModel.users = new Int2ObjectOpenHashMap<User>(this.users);
+        newDataModel.items = new Int2ObjectLinkedOpenHashMap<Item>(this.items);
+        newDataModel.users = new Int2ObjectLinkedOpenHashMap<User>(this.users);
         newDataModel.ratings = new ObjectArrayList<>(this.ratings);
         newDataModel.numberOfItems = items.size();
         newDataModel.numberOfUsers = users.size();

@@ -2,7 +2,7 @@ package model;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
-import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2FloatLinkedOpenHashMap;
 
 /**
  * User class
@@ -19,7 +19,7 @@ public final class User {
     /**
      * all the items which this user rated and the related rating value
      */
-    private Int2FloatOpenHashMap itemRating;
+    private Int2FloatLinkedOpenHashMap itemRating;
     /**
      * Mean of rating for this user
      */
@@ -29,7 +29,7 @@ public final class User {
             final int id)
     {
         this.id = id;
-        itemRating = new Int2FloatOpenHashMap();
+        itemRating = new Int2FloatLinkedOpenHashMap();
     }
 
     public User(
@@ -39,7 +39,7 @@ public final class User {
             throw new IllegalArgumentException("User is null");
         }
         this.id = user.id;
-        this.itemRating = new Int2FloatOpenHashMap(user.itemRating);
+        this.itemRating = new Int2FloatLinkedOpenHashMap(user.itemRating);
         this.meanOfRatings = user.meanOfRatings;
     }
 
@@ -64,7 +64,7 @@ public final class User {
     }
 
     public
-        Int2FloatOpenHashMap getItemRating() {
+        Int2FloatLinkedOpenHashMap getItemRating() {
         return itemRating;
     }
 
