@@ -39,6 +39,7 @@ public final class Globals {
     public static final boolean USE_ONLY_POSITIVE_RATING_IN_TEST;
     public static final double MINIMUM_THRESHOLD_FOR_POSITIVE_RATING;
     public static final float AT_N;
+    public static final boolean DROP_800_POPULAR_ITEM;
 
     static {
 	RATING_FILE_PATH = Config.getString("RATING_FILE_PATH", "");
@@ -68,6 +69,8 @@ public final class Globals {
 	MINIMUM_THRESHOLD_FOR_POSITIVE_RATING = Config.getDouble("MINIMUM_THRESHOLD_FOR_POSITIVE_RATING", 3.5);
 	
 	AT_N=Config.getInt("AT_N", 4);
+	
+	DROP_800_POPULAR_ITEM=Config.getBoolean("DROP_800_POPULAR_ITEM", false);
     }
 
     public static void setMaxRating(float maxRating) {
