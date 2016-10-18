@@ -347,7 +347,7 @@ public final class ParallelEvaluator {
         String[][] resultTable = new String[printResult.keySet().size()
                 + 1][(int)(Globals.NUMBER_OF_FOLDS + 2)];
         resultTable[0][0] = "Fold number";
-        resultTable[0][(int)(Globals.NUMBER_OF_FOLDS + 1)] = "Avearge";
+        resultTable[0][(int)(Globals.NUMBER_OF_FOLDS + 1)] = "Average";
         for (int nFold = 1; nFold <= Globals.NUMBER_OF_FOLDS; nFold++) {
             resultTable[0][nFold] = String.valueOf(nFold);
         }
