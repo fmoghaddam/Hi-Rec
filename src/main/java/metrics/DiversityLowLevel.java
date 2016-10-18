@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import controller.similarity.LowLevelSimilarityRepository;
 import interfaces.ListEvaluation;
 import interfaces.SimilarityInterface;
+import model.DataModel;
 import model.Globals;
 import model.User;
 
@@ -17,7 +19,7 @@ import model.User;
  * @author Admin
  *
  */
-public class Diversity
+public class DiversityLowLevel
         implements ListEvaluation
 {
 
@@ -79,12 +81,12 @@ public class Diversity
      * @param trainData
      */
     public
-            void setSimilarityRepository(
-                    SimilarityInterface simRepo)
+            void setTrainData(
+                    DataModel trainData)
     {
-        this.similarityRepository = simRepo;
+        this.similarityRepository = new LowLevelSimilarityRepository(trainData);        
     }
-
+    
     /*
      * @see java.lang.Object#hashCode()
      */
@@ -117,6 +119,6 @@ public class Diversity
     @Override
     public
             String toString() {
-        return "Diversity";
+        return "DiversityLowLevel";
     }
 }

@@ -20,7 +20,7 @@ import interfaces.AccuracyEvaluation;
 import interfaces.ListEvaluation;
 import interfaces.Metric;
 import interfaces.Recommender;
-import metrics.Diversity;
+import metrics.DiversityLowLevel;
 import metrics.DiversityTag;
 import metrics.DiversityGenre;
 import metrics.Novelty;
@@ -225,8 +225,8 @@ public final class ParallelEvaluator {
                             for (Metric metric2: evalTypes) {
                                 if(metric2 instanceof Novelty){
                                     ((Novelty)metric2).setTrainData(trainData);
-                                }else if(metric2 instanceof Diversity){
-                                    ((Diversity)metric2).setSimilarityRepository(similarityRepository);
+                                }else if(metric2 instanceof DiversityLowLevel){
+                                    ((DiversityLowLevel)metric2).setTrainData(trainData);
                                 }else if(metric2 instanceof DiversityGenre){
                                     ((DiversityGenre)metric2).setTrainData(trainData);
                                 }else if(metric2 instanceof DiversityTag){
