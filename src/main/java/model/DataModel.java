@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.commons.math3.stat.Frequency;
 import org.apache.log4j.Logger;
@@ -201,10 +204,10 @@ public final class DataModel {
      * Write all the ratings to a file
      */
     public
-            void writeRatingsToFile() {
+            void writeRatingsToFile(final String path) {
         BufferedWriter bw = null;
         try {
-            final File file = new File("ratings.csv");
+            final File file = new File(path);
 
             if (!file.exists()) {
                 file.createNewFile();
@@ -314,7 +317,7 @@ public final class DataModel {
      * @param percentage
      */
     public
-            DataModel sampleRating(
+            DataModel sampleRatings(
                     int percentage)
     {
         Collections.shuffle(ratings);
@@ -340,5 +343,39 @@ public final class DataModel {
             sampleData.addRating(rating);
         }
         return sampleData;
+    }
+    
+    public 
+        DataModel sampleUsers(
+            int percentage){
+        final DataModel sampledDataModel = new DataModel();
+        final List<User> allUsers = new ArrayList<>(users.values());
+        Collections.shuffle(allUsers);
+        for (int i = 0; i < numberOfUsers * (percentage / 100.0); i++) {
+            final User user = allUsers.get(i);
+            final int userId = user.getId();
+            for(Entry<Integer, Float> entry: user.getItemRating().entrySet()){
+                int itemId = entry.getKey();
+                float rating = entry.getValue();
+                if (sampledDataModel.getUser(userId) != null) {
+                    sampledDataModel.getUser(userId).addItemRating(itemId,
+                            rating);
+                } else {
+                    final User newUser = new User(userId);
+                    newUser.addItemRating(itemId, rating);
+                    sampledDataModel.addUser(newUser);
+                }
+                if (sampledDataModel.getItem(itemId) != null) {
+                    sampledDataModel.getItem(itemId).addUserRating(userId,
+                            rating);
+                } else {
+                    final Item item = new Item(itemId);
+                    item.addUserRating(userId, rating);
+                    sampledDataModel.addItem(item);
+                }
+                sampledDataModel.addRating(new Rating(user.getId(), itemId, rating));
+            }
+        }
+        return sampledDataModel;
     }
 }

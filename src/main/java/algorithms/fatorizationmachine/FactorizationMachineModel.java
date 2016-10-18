@@ -71,7 +71,7 @@ public final class FactorizationMachineModel {
 	float[][] v = new float[(int) (this.numberOfUsers + this.numberOfItems + this.numberOfFeatures)][k];
 	for (int i = 0; i < v.length; i++) {
 	    for (int j = 0; j < k; j++) {
-		v[i][j] = (float) util.StaticFunctions.ran_gaussian(0, 0.1);
+		v[i][j] = (float) util.StatisticFunctions.ran_gaussian(0, 0.1);
 	    }
 	}
 	return v;
@@ -80,7 +80,7 @@ public final class FactorizationMachineModel {
     private float[] generateWVector() {
 	float[] w = new float[(int) (this.numberOfUsers + this.numberOfItems + this.numberOfFeatures)];
 	for (int i = 0; i < w.length; i++) {
-	    w[i] = (float) util.StaticFunctions.ran_gaussian(0, 0.1);
+	    w[i] = (float) util.StatisticFunctions.ran_gaussian(0, 0.1);
 	}
 
 	return w;

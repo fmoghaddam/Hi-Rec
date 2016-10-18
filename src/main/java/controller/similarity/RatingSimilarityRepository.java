@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 
 import interfaces.SimilarityInterface;
 import it.unimi.dsi.fastutil.ints.Int2FloatLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
 import model.DataModel;
 import model.Globals;
 

@@ -3,7 +3,7 @@ package algorithms.funksvd;
 import java.util.Random;
 
 import model.Globals;
-import util.StaticFunctions;
+import util.StatisticFunctions;
 
 /**
  * Calculates the p and q matrices based on gradient descent.
@@ -11,7 +11,7 @@ import util.StaticFunctions;
  */
 public final class GradientDescentSVD {
 
-    private final Random random = StaticFunctions.random;
+    private final Random random = StatisticFunctions.random;
     private final double learningRate = Globals.LEARNING_RATE_FOR_FUNKSVD;
     /** Parameter used to prevent over-fitting. 0.02 is a good value. */
     private static final double K = 0.02;
