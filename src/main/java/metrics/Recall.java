@@ -38,7 +38,7 @@ public final class Recall
             throw new IllegalArgumentException("Recommended list is null");
         }
         final List<Integer> userOriginalList = user.getItemRating().entrySet()
-                .stream().filter(p -> p.getValue() >= 4)
+                .stream().filter(p -> p.getValue() >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
                 .map(p -> p.getKey()).collect(Collectors.toList());
         
         float truePositive = 0;
