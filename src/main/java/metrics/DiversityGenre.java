@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import controller.similarity.LowLevelSimilarityRepository;
+import controller.similarity.GenreSimilarityRepository;
 import interfaces.ListEvaluation;
 import interfaces.SimilarityInterface;
 import model.DataModel;
@@ -19,7 +19,7 @@ import model.User;
  * @author Admin
  *
  */
-public class DiversityHybridLL
+public class DiversityGenre
         implements ListEvaluation
 {
 
@@ -83,7 +83,7 @@ public class DiversityHybridLL
     @Override
     public
             int hashCode() {
-        return 53401;
+        return 56401;
     }
 
     /*
@@ -109,7 +109,7 @@ public class DiversityHybridLL
     @Override
     public
             String toString() {
-        return "DiversityHybridLL";
+        return "DiversityHybridTag";
     }
 
     /**
@@ -119,6 +119,6 @@ public class DiversityHybridLL
             void setTrainData(
                     DataModel trainData)
     {
-        this.similarityRepository = new LowLevelSimilarityRepository(trainData);        
+        this.similarityRepository = new GenreSimilarityRepository(trainData);        
     }
 }

@@ -19,7 +19,7 @@ import model.User;
  * @author Admin
  *
  */
-public class DiversityHybridTag
+public class DiversityTag
         implements ListEvaluation
 {
 
@@ -83,7 +83,7 @@ public class DiversityHybridTag
     @Override
     public
             int hashCode() {
-        return 56401;
+        return 53401;
     }
 
     /*
@@ -109,7 +109,7 @@ public class DiversityHybridTag
     @Override
     public
             String toString() {
-        return "DiversityHybridTag";
+        return "DiversityHybridLL";
     }
 
     /**

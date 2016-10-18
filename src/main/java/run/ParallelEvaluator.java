@@ -21,8 +21,8 @@ import interfaces.ListEvaluation;
 import interfaces.Metric;
 import interfaces.Recommender;
 import metrics.Diversity;
-import metrics.DiversityHybridLL;
-import metrics.DiversityHybridTag;
+import metrics.DiversityTag;
+import metrics.DiversityGenre;
 import metrics.Novelty;
 import model.DataModel;
 import model.Globals;
@@ -227,10 +227,10 @@ public final class ParallelEvaluator {
                                     ((Novelty)metric2).setTrainData(trainData);
                                 }else if(metric2 instanceof Diversity){
                                     ((Diversity)metric2).setSimilarityRepository(similarityRepository);
-                                }else if(metric2 instanceof DiversityHybridTag){
-                                    ((DiversityHybridTag)metric2).setTrainData(trainData);
-                                }else if(metric2 instanceof DiversityHybridLL){
-                                    ((DiversityHybridLL)metric2).setTrainData(trainData);
+                                }else if(metric2 instanceof DiversityGenre){
+                                    ((DiversityGenre)metric2).setTrainData(trainData);
+                                }else if(metric2 instanceof DiversityTag){
+                                    ((DiversityTag)metric2).setTrainData(trainData);
                                 }
                                 if (metric2 instanceof ListEvaluation) {
                                     ((ListEvaluation)metric2)
