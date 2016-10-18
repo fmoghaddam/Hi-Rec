@@ -56,7 +56,7 @@ public class DiversityTag
                 int itemId2 = hitList.get(j);
                 final Float itemSimilairty = similarityRepository.getItemSimilairty(itemId1, itemId2);
                 if(!Float.isNaN(itemSimilairty)){
-                    sum +=2*itemSimilairty;
+                    sum +=2*(1-itemSimilairty);
                 }
             }
         }
