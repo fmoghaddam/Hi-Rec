@@ -314,7 +314,7 @@ public final class DataModel {
      * @param percentage
      */
     public
-            DataModel sample(
+            DataModel sampleRating(
                     int percentage)
     {
         Collections.shuffle(ratings);
