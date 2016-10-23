@@ -32,7 +32,6 @@ import model.User;
 import util.ClassInstantiator;
 import util.Config;
 import util.PrettyPrinter;
-import util.TimeUtil;
 
 /**
  * This is the main executor of all the algorithms. This class read the config
@@ -102,14 +101,34 @@ public final class ParallelEvaluator {
      */
     public
             void evaluate() {
+        final List<Configuration> configurations = readConfigurations();
+        final ExecutorService executor = Executors
+                .newFixedThreadPool(Runtime.getRuntime()
+                        .availableProcessors() > configurations.size()
+                                ? configurations.size()
+                                : Runtime.getRuntime().availableProcessors());
+        final Runnable[] tasks = new Runnable[configurations.size()];
         try {
-            final List<Configuration> configurations = readConfigurations();
             for (Configuration configuration: configurations) {
-                TimeUtil.clean();                
-                LOG.info(
-                        "This process may take long time. Still running please wait....");
-                LOG.info(configuration+"...");
-                execute(configuration);
+                final Runnable task = () -> {
+                    LOG.info("This process may take long time. Still running please wait....");
+                    LOG.info(configuration+"...");
+                    execute(configuration);
+                };
+                tasks[configuration.getId()-1] = task;
+            }
+            for (int i = 0; i < tasks.length; i++) {
+                try {
+                    executor.execute(tasks[i]);
+                } catch (final Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+            executor.shutdown();
+            try {
+                executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            } catch (final InterruptedException exception) {
+                exception.printStackTrace();
             }
         } catch (final Exception exception) {
             LOG.error(exception.getMessage());
@@ -160,12 +179,30 @@ public final class ParallelEvaluator {
                     final SimilarityRepository similarityRepository = new SimilarityRepository(trainData, configuration);
                     algorithm.setSimilarityRepository(
                             similarityRepository);
-                    TimeUtil.setTrainTimeStart(foldNumber);
+                    
+//                    List<Long> COUNTER = new ArrayList<>();
+//                    System.err.println("TOTAL "+testData.getUsers().size());
+//                    for(User user:testData.getUsers().values()){
+//                        final FloatCollection values = user.getItemRating().values();
+//                        long count1 = 0;
+//                        for(float value:values){
+//                            if (value>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
+//                                count1++;
+//                            }
+//                        }
+//                        if (count1 >= 1) {
+//                            COUNTER.add(count1);
+//                        }
+//                    }
+//                    System.err.println("HEAVY: "+COUNTER.size());
+                    
+                    
+                    configuration.getTimeUtil().setTrainTimeStart(foldNumber);
                     LOG.debug("Fold " + foldNumber + " Train started...");
                     algorithm.train(trainData);
                     LOG.debug("Fold " + foldNumber + " Train is done");
-                    TimeUtil.setTrainTimeEnd(foldNumber);
-                    TimeUtil.setTestTimeStart(foldNumber);
+                    configuration.getTimeUtil().setTrainTimeEnd(foldNumber);
+                    configuration.getTimeUtil().setTestTimeStart(foldNumber);
                     final Metric hasRatingEvaluator = evalTypes.stream()
                             .filter(p1 -> p1 instanceof AccuracyEvaluation)
                             .findAny().orElse(null);
@@ -240,7 +277,7 @@ public final class ParallelEvaluator {
                             }
                         }
                     }
-                    TimeUtil.setTestTimeEnd(foldNumber);
+                    configuration.getTimeUtil().setTestTimeEnd(foldNumber);
                     handleMetric(evalTypes, printResult);
                     LOG.debug("Fold " + foldNumber + " is done.");
                 } catch (final Exception exception) {
@@ -267,8 +304,10 @@ public final class ParallelEvaluator {
             exception.printStackTrace();
         }
         LOG.info(configuration.getAlgorithm().toString() + " result is:");
-        LOG.info("Train Time: " + TimeUtil.getTrainTime() + " seconds");
-        LOG.info("Test Time: " + TimeUtil.getTestTime() + " seconds");
+        LOG.info("Average Train Time: " + configuration.getTimeUtil().getAverageTrainTime() + " seconds");
+        LOG.info("Total Train Time: " + configuration.getTimeUtil().getTotalTrainTime() + " seconds");
+        LOG.info("Average Test Time: " + configuration.getTimeUtil().getAverageTestTime() + " seconds");
+        LOG.info("Total Test Time: " + configuration.getTimeUtil().getTotalTestTime() + " seconds");
         pretyPrintResult(printResult);
         googleDocPrintResult(printResult);
     }

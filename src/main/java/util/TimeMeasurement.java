@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
  * This class try to store algorithm train and test time
  * @author FBM
  */
-public class TimeMeasurement {
+public final class TimeMeasurement {
     private int foldId;
     private long trainStart = 0;
     private long trainEnd = 0;
