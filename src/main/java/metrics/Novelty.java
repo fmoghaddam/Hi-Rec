@@ -1,6 +1,3 @@
-/**
- * 
- */
 package metrics;
 
 import java.util.ArrayList;
@@ -15,7 +12,7 @@ import model.Item;
 import model.User;
 
 /**
- * @author Admin
+ * @author FBM
  *
  */
 public class Novelty
@@ -58,7 +55,7 @@ public class Novelty
         }
         float sum = 0;
         for(Integer itemId:hitList){
-            sum += Math.log(1/populairty(itemId));
+            sum += (Math.log(1/populairty(itemId)))/(Math.log(2));
         }
         noveltyValue += sum/hitList.size();
         n++;
@@ -68,7 +65,7 @@ public class Novelty
      * @param itemId
      * @return
      */
-    private
+    
             float populairty(
                     Integer itemId)
     {
