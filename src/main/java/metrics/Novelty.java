@@ -54,8 +54,9 @@ public class Novelty
             return;
         }
         float sum = 0;
+        final double log2 = Math.log(2);
         for(Integer itemId:hitList){
-            sum += (Math.log(1/populairty(itemId)))/(Math.log(2));
+            sum += (Math.log(1/populairty(itemId)))/log2;
         }
         noveltyValue += sum/hitList.size();
         n++;
