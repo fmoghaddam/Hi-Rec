@@ -3,6 +3,7 @@ package metrics;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import it.unimi.dsi.fastutil.floats.FloatArrayList;
 import model.DataModel;
 import model.Globals;
 import model.Item;
@@ -82,6 +83,18 @@ public class TestDataGenerator {
         final Item item3 = new Item(3);
         final Item item11 = new Item(11);
 
+        final float[] llArray1 = new float[]{1,1,1,1,1,1,1};
+        final float[] llArray2 = new float[]{0.1f,0.2f,0.3f,0.4f,0.5f,0.6f,0.7f};
+        item1.setLowLevelFeature(new FloatArrayList(llArray1));
+        item2.setLowLevelFeature(new FloatArrayList(llArray1));
+        item3.setLowLevelFeature(new FloatArrayList(llArray2));
+        item11.setLowLevelFeature(new FloatArrayList(llArray2));
+        
+        train.addItem(item1);
+        train.addItem(item2);
+        train.addItem(item3);
+        train.addItem(item11);
+        
         user1.addItemRating(1, 5);
         user2.addItemRating(2, 5);
         user3.addItemRating(3, 5);
@@ -91,11 +104,6 @@ public class TestDataGenerator {
         item2.addUserRating(2, 5);
         item3.addUserRating(3, 5);
         item11.addUserRating(3, 5);
-
-        train.addItem(item1);
-        train.addItem(item2);
-        train.addItem(item3);
-        train.addItem(item11);
 
         train.addUser(user1);
         train.addUser(user2);
