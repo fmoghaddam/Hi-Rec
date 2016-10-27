@@ -1,9 +1,9 @@
-RecommendationEngine (A Java Framework for Recommender Systems)
+Hi-Rec (A Java Framework for Recommender Systems)
 -------------
 
 [![Build Status](https://travis-ci.org/fmoghaddam/RecommendationEngine.svg?branch=master)](https://travis-ci.org/fmoghaddam/RecommendationEngine)
 
-**RecommendationEngine** is a Java framework for recommender systems (Java version 1.8 or higher required). This framework is Cross-Platform, Open Source , Extensible and Easy to Use. It not only implements state-of-art algorithms but only makes it possible for others to extend it and implement more user-specific algorithms. This framework developed to be used across with [Mise-en-scène Project](http://recsys.deib.polimi.it/?page_id=246).
+**Hi-Rec** is a Java framework for recommender systems (Java version 1.8 or higher required). This framework is Cross-Platform, Open Source , Extensible and Easy to Use. It not only implements state-of-art algorithms but only makes it possible for others to extend it and implement more user-specific algorithms. This framework developed to be used across with [Mise-en-scène Project](http://recsys.deib.polimi.it/?page_id=246).
 
 **Implemented Algorithms:**
 
