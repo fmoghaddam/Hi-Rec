@@ -17,23 +17,15 @@ import model.User;
  *
  */
 public class TestDataGenerator {
-    public static
-            User createUser() {
+    
+    static {
         Globals.setMaxRating(5);
         Globals.setMinRating(0);
-        final User user = new User(1);
-        user.addItemRating(1, 5);
-        user.addItemRating(2, 5);
-        user.addItemRating(3, 5);
-        user.addItemRating(4, 1);
-        user.addItemRating(5, 1);
-        user.addItemRating(6, 1);
-        user.addItemRating(7, 1);
-        user.addItemRating(8, 1);
-        user.addItemRating(9, 1);
-        user.addItemRating(10, 1);
-        user.addItemRating(11, 4);
-        return user;
+    }
+    
+    public static
+            User createUser() {
+        return getTrainData().getUser(1);
     }
 
     public static
@@ -73,11 +65,26 @@ public class TestDataGenerator {
      */
     public static
             DataModel getTrainData() {
-        DataModel train = new DataModel();
+        final DataModel train = new DataModel();
         final User user1 = new User(1);
+        user1.addItemRating(1, 5);
+        user1.addItemRating(2, 5);
+        user1.addItemRating(3, 5);
+        user1.addItemRating(4, 1);
+        user1.addItemRating(5, 1);
+        user1.addItemRating(6, 1);
+        user1.addItemRating(7, 1);
+        user1.addItemRating(8, 1);
+        user1.addItemRating(9, 1);
+        user1.addItemRating(10, 1);
+        user1.addItemRating(11, 4);
+        
         final User user2 = new User(2);
+        user2.addItemRating(1, 5);
+        
         final User user3 = new User(3);
-
+        user3.addItemRating(1, 5);
+        
         final Item item1 = new Item(1);
         final Item item2 = new Item(2);
         final Item item3 = new Item(3);

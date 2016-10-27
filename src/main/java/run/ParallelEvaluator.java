@@ -5,13 +5,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.math3.stat.inference.TTest;
 import org.apache.log4j.Logger;
 
 import controller.DataSplitter;
@@ -45,6 +48,7 @@ public final class ParallelEvaluator {
     private static final Logger LOG = Logger
             .getLogger(ParallelEvaluator.class.getCanonicalName());
     private final DataModel dataModel;
+    private final Map<Configuration,Map<Metric, List<Float>>> tTestValues = new LinkedHashMap<>();
 
     public ParallelEvaluator(
             final DataModel data)
@@ -133,6 +137,66 @@ public final class ParallelEvaluator {
         } catch (final Exception exception) {
             LOG.error(exception.getMessage());
         }
+        
+        runTTestAndPrettyPrint();
+    }
+
+    /**
+     * 
+     */
+    private
+        synchronized void runTTestAndPrettyPrint() {
+        for(Entry<Configuration, Map<Metric, List<Float>>> entry1:tTestValues.entrySet()){
+            final Configuration configuration1 = entry1.getKey();
+            final Map<Metric, List<Float>> configuration1Value = entry1.getValue();
+            final int idWhichConsidered = configuration1.getId();
+            for(Entry<Configuration, Map<Metric, List<Float>>> entry2:tTestValues.entrySet()){
+                final Configuration configuration2 = entry2.getKey();
+                if(configuration2.getId()<=idWhichConsidered){
+                    continue;
+                }
+                final Map<Metric, List<Float>> configuration2Value = entry2.getValue();
+                if(configuration2.equals(configuration1)){
+                    continue;
+                }
+//                if(!configuration1.getAlgorithm().toString().equals(configuration2.getAlgorithm().toString())){
+//                    continue;
+//                }
+
+                final String[][] resultTable = new String[2][configuration1Value.keySet().size()+1];
+                int c = 1;
+                for(final Metric m:configuration1Value.keySet()){
+                    resultTable[0][c] = m.toString();
+                    c++;
+                }
+                resultTable[0][0] = "Metric";
+                resultTable[1][0] = "P-Value";
+
+                int iIndex=1;
+                int jIndex=1;
+                for(final Metric metric:configuration1Value.keySet()){
+                    final List<Float> list1 = configuration1Value.get(metric);
+                    final List<Float> list2 = configuration2Value.get(metric);
+                    
+                    double[] list1Double = new double[list1.size()];
+                    double[] list2Double = new double[list2.size()];
+                    for(int i=0;i<list1.size();i++){
+                        list1Double[i] = (double)list1.get(i);
+                    }
+                    for(int i=0;i<list2.size();i++){
+                        list2Double[i] = (double)list2.get(i);
+                    }
+                    
+                    final TTest tTest= new TTest();
+                    final double p_value = tTest.tTest(list1Double,list2Double);
+                    resultTable[iIndex][jIndex++] = String.valueOf(p_value);
+                }
+                LOG.info(configuration1.toString());
+                LOG.info(configuration2.toString());
+                new PrettyPrinter().print(resultTable);
+            }
+        }
+        
     }
 
     /**
@@ -308,8 +372,9 @@ public final class ParallelEvaluator {
         LOG.info("Total Train Time: " + configuration.getTimeUtil().getTotalTrainTime() + " seconds");
         LOG.info("Average Test Time: " + configuration.getTimeUtil().getAverageTestTime() + " seconds");
         LOG.info("Total Test Time: " + configuration.getTimeUtil().getTotalTestTime() + " seconds");
-        pretyPrintResult(printResult);
-        googleDocPrintResult(printResult);
+        this.addAverageAndPretyPrintResult(printResult);
+        this.googleDocPrintResult(printResult);
+        this.tTestValues.put(configuration, printResult);
     }
 
     /**
@@ -324,7 +389,7 @@ public final class ParallelEvaluator {
                     Map<Metric, List<Float>> printResult)
     {
         final StringBuilder result = new StringBuilder();
-        for (Metric evalType: printResult.keySet()) {
+        for (final Metric evalType: printResult.keySet()) {
             result.append(evalType).append(",").append("=SPLIT(\"");
             for (float accuracy: printResult.get(evalType)) {
                 result.append(accuracy).append(",");
@@ -379,7 +444,7 @@ public final class ParallelEvaluator {
      * @param printResult
      */
     private
-            void pretyPrintResult(
+            void addAverageAndPretyPrintResult(
                     Map<Metric, List<Float>> printResult)
     {
 
@@ -393,7 +458,7 @@ public final class ParallelEvaluator {
 
         int i = 1;
         int nFold = 1;
-        for (Metric evalType: printResult.keySet()) {
+        for (final Metric evalType: printResult.keySet()) {
             resultTable[i][0] = evalType.getClass().getName();
             resultTable[i][(int)(Globals.NUMBER_OF_FOLDS + 1)] = String
                     .valueOf(mean(printResult.get(evalType)));

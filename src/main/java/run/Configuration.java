@@ -199,9 +199,9 @@ public final class Configuration {
         } else if (!algorithm.equals(other.algorithm)) {
             return false;
         }
-        if (id != other.id) {
-            return false;
-        }
+//        if (id != other.id) {
+//            return false;
+//        }
         if (useGenre != other.useGenre) {
             return false;
         }
