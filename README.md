@@ -1,9 +1,9 @@
-RecommendationEngine (A Java Framework for Recommender Systems)
+Hi-Rec (A Java Framework for Recommender Systems)
 -------------
 
-[![Build Status](https://travis-ci.org/fmoghaddam/RecommendationEngine.svg?branch=master)](https://travis-ci.org/fmoghaddam/RecommendationEngine)
+[![Build Status](https://travis-ci.org/fmoghaddam/Hi-Rec.svg?branch=master)](https://travis-ci.org/fmoghaddam/Hi-Rec)
 
-**RecommendationEngine** is a Java framework for recommender systems (Java version 1.8 or higher required). This framework is Cross-Platform, Open Source , Extensible and Easy to Use. It not only implements state-of-art algorithms but only makes it possible for others to extend it and implement more user-specific algorithms. This framework developed to be used across with [Mise-en-scène Project](http://recsys.deib.polimi.it/?page_id=246).
+**Hi-Rec** is a Java framework for recommender systems (Java version 1.8 or higher required). This framework is Cross-Platform, Open Source , Extensible and Easy to Use. It not only implements state-of-art algorithms but only makes it possible for others to extend it and implement more user-specific algorithms. This framework developed to be used across with [Mise-en-scène Project](http://recsys.deib.polimi.it/?page_id=246).
 
 **Implemented Algorithms:**
 
@@ -21,7 +21,7 @@ RecommendationEngine (A Java Framework for Recommender Systems)
  - Recall
  - NDCG
   
-**Implemeted Features:**
+**Implemented Features:**
 
  - Low Level Features (Related to [Mise-en-scène
    Project](http://recsys.deib.polimi.it/?page_id=246)) 
@@ -35,7 +35,7 @@ This project is based on [Gradle](https://gradle.org/). So it could be easily im
 
 **Running in Terminal**
 
-For running the project, you only need to modify `config.properties` in `build/install/RecommendationEngine/bin` and then run `build/install/RecommendationEngine/bin/RecommendationEngine.bat` or `build/install/RecommendationEngine/bin/RecommendationEngine.sh`.
+For running the project, you only need to modify `config.properties` in `build/install/Hi-Rec/bin` and then run `build/install/Hi-Rec/bin/Hi-Rec.bat` or `build/install/Hi-Rec/bin/Hi-Rec.sh`.
 
 **Code structure** 
 
@@ -184,9 +184,9 @@ FAQ
 ### 1. How to run the project without importing it to Eclipse?
 As this project is based on Gradle, it can be simply run. If you want to run it without changing any java code, then just do the following steps:
 * Download the repository
-* In `cmd` or `terminal` go to `build/install/RecommendationEngine/bin`
+* In `cmd` or `terminal` go to `build/install/Hi-Rec/bin`
 * Change `config.properties` and modify it based on your use case
-* Run `RecommendationEngine.bat` or `RecommendationEngine.sh`
+* Run `Hi-Rec.bat` or `Hi-Rec.sh`
 
 ### 2. I want to change the java code and run the project without importing it into Eclipse, How can I do that?
 You can open any of the java classes in your favorite editor such as `notepad` and change the code. Then you can build and run the code with the following steps:
