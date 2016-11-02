@@ -24,9 +24,11 @@ public class Sampler {
         final DataModel dataModel = loader.readData();
         dataModel.printStatistic();
 
-        final DataModel sampledDataModel = dataModel.sampleUsers(5);
+        final DataModel sampledDataModel = dataModel.sampleRatings(20);
+        //final DataModel sampledDataModel = dataModel.sampleUsers(20);
         sampledDataModel.printStatistic();
-        sampledDataModel.writeRatingsToFile("5%RatingsSampledByUser.csv");
+        sampledDataModel.writeRatingsToFile("20%RatingsSampledByRating.csv");
+        //sampledDataModel.writeRatingsToFile("20%RatingsSampledByUser.csv");
     }
 
 }

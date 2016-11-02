@@ -15,7 +15,7 @@ applicationDistribution.from("data") {
     into "bin/data"
 }
 
-applicationDefaultJvmArgs = ["-Xms30g"]
+applicationDefaultJvmArgs = ["-Xms52g"]
 
 jar {	
     exclude('config.properties', 'log4j.properties')
