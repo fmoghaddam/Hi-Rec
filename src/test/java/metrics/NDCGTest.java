@@ -18,7 +18,7 @@ public final class NDCGTest {
     public
             void ndcgShoudlReturnCorrectValue() {
         final User user = TestDataGenerator.createUser();
-        final NDCGNew ndcg = new NDCGNew();
+        final NDCG ndcg = new NDCG();
         ndcg.addRecommendations(user, TestDataGenerator.generateList1());
         assertEquals(0.715, ndcg.getEvaluationResult(), 0.001);
 
