@@ -250,14 +250,16 @@ public final class ParallelEvaluator {
                         for (final Integer userId: testData.getUsers()
                                 .keySet())
                         {
-                            final User user = testData.getUser(userId);
-                            final long numberOfPositiveItems = user.getItemRating().values()
-                                    .stream().filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
+                            final User user = testData.getUser(userId);                            
                             if(Globals.USE_ONLY_POSITIVE_RATING_IN_TEST){
+                                final long numberOfPositiveItems = user.getItemRating().values()
+                                        .stream().filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
                                 if (numberOfPositiveItems < Globals.TOP_N) {
                                     continue;
                                 }
                             }else{
+                                final long numberOfPositiveItems = user.getItemRating().values()
+                                        .stream().filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
                                 if(numberOfPositiveItems == 0){
                                     continue;
                                 }
