@@ -25,6 +25,7 @@ import metrics.DiversityLowLevel;
 import metrics.DiversityTag;
 import metrics.DiversityGenre;
 import metrics.Novelty;
+import metrics.Popularity;
 import model.DataModel;
 import model.Globals;
 import model.Item;
@@ -83,7 +84,7 @@ public final class ParallelEvaluator {
             final String algorithmName = Config
                     .getString("ALGORITHM_" + i + "_NAME", "");
             try {
-                Object algo = ClassInstantiator
+                final Object algo = ClassInstantiator
                         .instantiateClass("algorithms." + algorithmName);
                 algorithm = (Recommender)algo;
             } catch (final Exception e) {
@@ -141,7 +142,7 @@ public final class ParallelEvaluator {
             LOG.error(exception.getMessage());
         }
         
-        StatisticFunctions.runTTestAndPrettyPrint(tTestValues);
+        //StatisticFunctions.runTTestAndPrettyPrint(tTestValues);
     }
 
     /**
@@ -276,6 +277,8 @@ public final class ParallelEvaluator {
                                     ((DiversityGenre)metric2).setTrainData(trainData);
                                 }else if(metric2 instanceof DiversityTag){
                                     ((DiversityTag)metric2).setTrainData(trainData);
+                                }else if(metric2 instanceof Popularity){
+                                    ((Popularity)metric2).setTrainData(trainData);
                                 }
                                 if (metric2 instanceof ListEvaluation) {
                                     ((ListEvaluation)metric2)
@@ -319,7 +322,7 @@ public final class ParallelEvaluator {
         LOG.info("Total Test Time: " + configuration.getTimeUtil().getTotalTestTime() + " seconds");
         this.addAverageAndPretyPrintResult(printResult);
         this.googleDocPrintResult(printResult);
-        this.tTestValues.put(configuration, printResult);
+        //this.tTestValues.put(configuration, printResult);
         }
     }
 

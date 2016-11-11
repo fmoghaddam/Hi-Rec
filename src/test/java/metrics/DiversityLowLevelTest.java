@@ -23,6 +23,9 @@ public class DiversityLowLevelTest {
         diversityLowLevel.setTrainData(trainData);
         diversityLowLevel.addRecommendations(user,TestDataGenerator.generateList1());
         assertEquals(0.004, diversityLowLevel.getEvaluationResult(),0.001);
+        diversityLowLevel.addRecommendations(user,TestDataGenerator.generateList1());
+        assertEquals(0.004, diversityLowLevel.getEvaluationResult(),0.001);
+        
     }
 
 }
