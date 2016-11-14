@@ -7,12 +7,12 @@ import model.DataModel;
 import model.User;
 
 /**
- * Test class for {@link NoveltyOnAll}
+ * Test class for {@link NoveltyOnHit}
  * 
  * @author FBM
  *
  */
-public final class NoveltyTest {
+public final class NoveltyOnHitTest {
 
     @Test
     public

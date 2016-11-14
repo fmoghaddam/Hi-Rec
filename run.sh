@@ -6,7 +6,7 @@ sudo apt-get update
 
 sudo apt-get install oracle-java8-installer
 
-wget https://www.dropbox.com/s/xh7ezbx33h0r5kb/RecommendationEngine.rar?dl=0
+wget https://www.dropbox.com/s/n7mq984zf4sqmzm/RecommendationEngine.rar?dl=0
 
 mv RecommendationEngine.rar?dl=0 RecommendationEngine.rar
 
