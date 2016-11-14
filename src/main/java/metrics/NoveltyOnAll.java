@@ -46,9 +46,9 @@ public class NoveltyOnAll
             hitList.add(entry.getKey());
             listLengthThreshold++;
         }
-//        if(hitList.isEmpty()){
-//            return;
-//        }
+        if(hitList.isEmpty()){
+            return;
+        }
         float sum = 0;
         final double log2 = Math.log(2);
         for(Integer itemId:hitList){

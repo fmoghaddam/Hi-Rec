@@ -48,9 +48,9 @@ implements ListEvaluation
             hitList.add(entry.getKey());
             listLengthThreshold++;
         }
-//        if(hitList.isEmpty()){
-//            return;
-//        }
+        if(hitList.isEmpty()){
+            return;
+        }
         float sum = 0;
         for(int i=0;i<hitList.size();i++){
             sum+=populairty(hitList.get(i));
