@@ -20,7 +20,7 @@ public class PopularityTest {
     @Test
     public
             void test() {
-        final User user = TestDataGenerator.createUser();
+        final User user = TestDataGenerator.getUser1();
         final DataModel trainData = TestDataGenerator.getTrainData();
         final Popularity popularity = new Popularity();
         popularity.setTrainData(trainData);

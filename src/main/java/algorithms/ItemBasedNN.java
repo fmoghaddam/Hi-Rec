@@ -99,8 +99,9 @@ public final class ItemBasedNN implements Recommender {
 
 	similarities = MapUtil.sortByValueDescendingNew(similarities);
 
-	double totalBias = 0;
-	double totalSimilarity = 0;
+	
+	double nominator = 0;
+	double denominator= 0;
 	int numberOfSelectedItem = 0;
 	for (final Entry<Integer, Float> mapData : similarities.entrySet()) {
 	    if(numberOfSelectedItem>=this.numberOfNeighbours){
@@ -109,20 +110,13 @@ public final class ItemBasedNN implements Recommender {
 	    numberOfSelectedItem++;
 	    final Float similarity = mapData.getValue();
 	    final Float rating = user.getItemRating().get((int)mapData.getKey());
-	    final Item item = trainDataModel.getItem(mapData.getKey());
-	    if (item == null) {
-	        throw new IllegalStateException("Something is wrong");
-	    }
-	    final float mean = item.getMean();
 
 	    if (!Float.isNaN(rating)) {
-		double neighborBias = rating - mean;
-		neighborBias = neighborBias * similarity;
-		totalBias += neighborBias;
-		totalSimilarity += Math.abs(similarity);
+	        nominator+=similarity*rating;
+	        denominator+=similarity;
 	    }
 	}
-	final float rating = (float) (testItem.getMean() + (totalBias / totalSimilarity));
+	final float rating = (float) (nominator/denominator);
 	if (rating > Globals.MAX_RATING) {
 	    return Globals.MAX_RATING;
 	} else if (rating < Globals.MIN_RATING) {

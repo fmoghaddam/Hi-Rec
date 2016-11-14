@@ -20,7 +20,7 @@ public final class MAPTest {
     @Test
     public
             void mapShouldReturnACorrectValue() {
-        final User user = TestDataGenerator.createUser();
+        final User user = TestDataGenerator.getUser1();
         final MAP map = new MAP();
 
         map.addRecommendations(user, TestDataGenerator.generateList1());

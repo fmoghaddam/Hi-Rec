@@ -17,7 +17,7 @@ public class DiversityLowLevelTest {
     @Test
     public
             void test() {
-        final User user = TestDataGenerator.createUser();
+        final User user = TestDataGenerator.getUser1();
         final DataModel trainData = TestDataGenerator.getTrainData();
         final DiversityLowLevel diversityLowLevel = new DiversityLowLevel();
         diversityLowLevel.setTrainData(trainData);

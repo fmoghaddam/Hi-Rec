@@ -17,7 +17,7 @@ public final class NoveltyTest {
     @Test
     public
             void test() {
-        final User user = TestDataGenerator.createUser();
+        final User user = TestDataGenerator.getUser1();
         final DataModel trainData = TestDataGenerator.getTrainData();
         final Novelty novelty = new Novelty();
         novelty.setTrainData(trainData);

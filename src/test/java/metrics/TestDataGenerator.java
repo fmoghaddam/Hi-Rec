@@ -24,7 +24,7 @@ public class TestDataGenerator {
     }
     
     public static
-            User createUser() {
+            User getUser1() {
         return getTrainData().getUser(1);
     }
 
