@@ -378,4 +378,18 @@ public final class DataModel {
         }
         return sampledDataModel;
     }
+
+    /**
+     * Clear every collection in this data model
+     */
+    public
+            void clearAll() {
+        this.ratings.clear();
+        this.items.clear();
+        this.users.clear();
+        this.numberOfRatings = 0;
+        this.numberOfUsers = 0;
+        this.numberOfItems = 0;
+        this.freq = new Frequency();
+    }
 }

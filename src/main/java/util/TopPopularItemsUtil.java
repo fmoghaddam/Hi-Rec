@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import controller.DataLoader;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import model.DataModel;
 import model.Item;
 
@@ -28,8 +29,8 @@ public class TopPopularItemsUtil {
      * @param args
      */
     public static
-            void main(
-                    String[] args)
+    void main(
+            String[] args)
     {
         final DataLoader loader = new DataLoader();
         final DataModel dataModel = loader.readData();
@@ -53,4 +54,25 @@ public class TopPopularItemsUtil {
         }
     }
 
+    public static IntArrayList getTopPopularItems(final int numberOfItems,final DataModel dataModel){
+        final Map<Integer, Integer> itemPopularityMap = new LinkedHashMap<>();
+        for (Entry<Integer, Item> entry: dataModel.getItems().entrySet()) {
+            itemPopularityMap.put(entry.getKey(),
+                    entry.getValue().getUserRated().size());
+        }
+        final Map<Integer, Integer> sortByValueDescending = MapUtil
+                .sortByValueDescending(itemPopularityMap);
+
+        int counter = 0;
+        final IntArrayList result = new IntArrayList();
+        for (Entry<Integer, Integer> entry: sortByValueDescending.entrySet()) {
+            if (counter < numberOfItems) {
+                result.add(entry.getKey());
+                counter++;
+            } else {
+                break;
+            }
+        }
+        return result;
+    }
 }
