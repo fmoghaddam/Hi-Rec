@@ -12,10 +12,10 @@ import model.Item;
 import model.User;
 
 /**
+ * Calculate novelty on all the items on the list 
  * @author FBM
- *
  */
-public class Novelty
+public class NoveltyOnAll
         implements ListEvaluation
 {
 
@@ -43,16 +43,12 @@ public class Novelty
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
-            if (user.getItemRating().containsKey(entry.getKey())) {
-                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
-                    hitList.add(entry.getKey());
-                }
-            }
+            hitList.add(entry.getKey());
             listLengthThreshold++;
         }
-        if(hitList.isEmpty()){
-            return;
-        }
+//        if(hitList.isEmpty()){
+//            return;
+//        }
         float sum = 0;
         final double log2 = Math.log(2);
         for(Integer itemId:hitList){
@@ -134,6 +130,6 @@ public class Novelty
     @Override
     public
             String toString() {
-        return "Novelty";
+        return "NoveltyOnAll";
     }
 }

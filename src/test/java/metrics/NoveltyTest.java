@@ -7,7 +7,7 @@ import model.DataModel;
 import model.User;
 
 /**
- * Test class for {@link Novelty}
+ * Test class for {@link NoveltyOnAll}
  * 
  * @author FBM
  *
@@ -19,7 +19,7 @@ public final class NoveltyTest {
             void test() {
         final User user = TestDataGenerator.getUser1();
         final DataModel trainData = TestDataGenerator.getTrainData();
-        final Novelty novelty = new Novelty();
+        final NoveltyOnHit novelty = new NoveltyOnHit();
         novelty.setTrainData(trainData);
 
         novelty.addRecommendations(user, TestDataGenerator.generateList1());

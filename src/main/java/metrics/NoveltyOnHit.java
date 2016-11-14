@@ -1,6 +1,3 @@
-/**
- * 
- */
 package metrics;
 
 import java.util.ArrayList;
@@ -15,23 +12,24 @@ import model.Item;
 import model.User;
 
 /**
+ * Calculate novelty on hits of the list 
  * @author FBM
- *
  */
-public class PopularityOnAll
-implements ListEvaluation
+public class NoveltyOnHit
+        implements ListEvaluation
 {
 
-    private DataModel trainData;
-    private float meanPopulairtyValue = 0;
+    private float noveltyValue = 0;
     private int n = 0;
+    private DataModel trainData;
+    
     /* (non-Javadoc)
      * @see interfaces.ListEvaluation#addRecommendations(model.User, java.util.Map)
      */
     @Override
     public
-    void addRecommendations(
-            User user, Map<Integer, Float> list)
+            void addRecommendations(
+                    User user, Map<Integer, Float> list)
     {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
@@ -45,41 +43,32 @@ implements ListEvaluation
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
-            hitList.add(entry.getKey());
+            if (user.getItemRating().containsKey(entry.getKey())) {
+                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
+                    hitList.add(entry.getKey());
+                }
+            }
             listLengthThreshold++;
         }
 //        if(hitList.isEmpty()){
 //            return;
 //        }
         float sum = 0;
-        for(int i=0;i<hitList.size();i++){
-            sum+=populairty(hitList.get(i));
+        final double log2 = Math.log(2);
+        for(Integer itemId:hitList){
+            sum += (Math.log(1/populairty(itemId)))/log2;
         }
-        meanPopulairtyValue +=sum/(hitList.size()*1.0);
+        noveltyValue += sum/hitList.size();
         n++;
-    }
-
-    /* (non-Javadoc)
-     * @see interfaces.ListEvaluation#getEvaluationResult()
-     */
-    @Override
-    public
-    float getEvaluationResult() {
-        
-        final float result = (float)(meanPopulairtyValue/n*1.0);
-        if(Float.isNaN(result)){
-            return 0;
-        }
-        return result;
     }
 
     /**
      * @param itemId
      * @return
      */
-
-    float populairty(
-            Integer itemId)
+    
+            float populairty(
+                    Integer itemId)
     {
         final Item item = trainData.getItem(itemId);
         if(item==null){
@@ -90,12 +79,25 @@ implements ListEvaluation
         return (float)(users/allUsers);
     }
 
+    /* (non-Javadoc)
+     * @see interfaces.ListEvaluation#getEvaluationResult()
+     */
+    @Override
+    public
+            float getEvaluationResult() {
+        final float result = (float)(noveltyValue/(n*1.0));
+        if(Float.isNaN(result)){
+            return 0;
+        }
+        return result;
+    }
+
     /**
      * @param trainData
      */
     public
-    void setTrainData(
-            DataModel trainData)
+            void setTrainData(
+                    DataModel trainData)
     {
         this.trainData = trainData;
     }
@@ -106,7 +108,7 @@ implements ListEvaluation
     @Override
     public
             int hashCode() {
-        return 564134;
+        return 45564;
     }
 
     /*
@@ -132,7 +134,6 @@ implements ListEvaluation
     @Override
     public
             String toString() {
-        return "PopularityOnAll";
+        return "NoveltyOnHit";
     }
-    
 }

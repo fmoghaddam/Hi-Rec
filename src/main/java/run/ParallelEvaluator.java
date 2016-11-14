@@ -24,7 +24,8 @@ import interfaces.Recommender;
 import metrics.DiversityLowLevel;
 import metrics.DiversityTag;
 import metrics.DiversityGenre;
-import metrics.Novelty;
+import metrics.NoveltyOnAll;
+import metrics.NoveltyOnHit;
 import metrics.PopularityOnAll;
 import metrics.PopularityOnHit;
 import model.DataModel;
@@ -281,8 +282,10 @@ public final class ParallelEvaluator {
                                     .recommendItems(user);
 
                             for (Metric metric2: evalTypes) {
-                                if (metric2 instanceof Novelty) {
-                                    ((Novelty)metric2).setTrainData(trainData);
+                                if (metric2 instanceof NoveltyOnAll) {
+                                    ((NoveltyOnAll)metric2).setTrainData(trainData);
+                                } else if (metric2 instanceof NoveltyOnHit) {
+                                    ((NoveltyOnHit)metric2).setTrainData(trainData);
                                 } else if (metric2 instanceof DiversityLowLevel) {
                                     ((DiversityLowLevel)metric2)
                                             .setTrainData(trainData);
