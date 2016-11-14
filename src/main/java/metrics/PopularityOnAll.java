@@ -15,10 +15,10 @@ import model.Item;
 import model.User;
 
 /**
- * @author Admin
+ * @author FBM
  *
  */
-public class Popularity
+public class PopularityOnAll
 implements ListEvaluation
 {
 
@@ -45,15 +45,8 @@ implements ListEvaluation
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
-            if (user.getItemRating().containsKey(entry.getKey())) {
-                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
-                    hitList.add(entry.getKey());
-                }
-            }
+            hitList.add(entry.getKey());
             listLengthThreshold++;
-        }
-        if(hitList.isEmpty()){
-            return;
         }
         float sum = 0;
         for(int i=0;i<hitList.size();i++){
@@ -110,7 +103,7 @@ implements ListEvaluation
     @Override
     public
             int hashCode() {
-        return 56234;
+        return 564134;
     }
 
     /*
@@ -136,7 +129,7 @@ implements ListEvaluation
     @Override
     public
             String toString() {
-        return "Popularity";
+        return "PopularityOnAll";
     }
     
 }

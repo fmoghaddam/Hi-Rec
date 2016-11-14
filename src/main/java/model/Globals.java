@@ -40,6 +40,7 @@ public final class Globals {
     public static final double MINIMUM_THRESHOLD_FOR_POSITIVE_RATING;
     public static final float AT_N;
     public static final boolean DROP_800_POPULAR_ITEM;
+    public static final boolean CALCULATE_TTEST;
 
     static {
 	RATING_FILE_PATH = Config.getString("RATING_FILE_PATH", "");
@@ -71,6 +72,7 @@ public final class Globals {
 	AT_N=Config.getInt("AT_N", 4);
 	
 	DROP_800_POPULAR_ITEM=Config.getBoolean("DROP_800_POPULAR_ITEM", false);
+	CALCULATE_TTEST=Config.getBoolean("CALCULATE_TTEST", false);
     }
 
     public static void setMaxRating(float maxRating) {

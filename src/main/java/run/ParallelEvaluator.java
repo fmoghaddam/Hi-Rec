@@ -25,7 +25,8 @@ import metrics.DiversityLowLevel;
 import metrics.DiversityTag;
 import metrics.DiversityGenre;
 import metrics.Novelty;
-import metrics.Popularity;
+import metrics.PopularityOnAll;
+import metrics.PopularityOnHit;
 import model.DataModel;
 import model.Globals;
 import model.Item;
@@ -49,7 +50,7 @@ public final class ParallelEvaluator {
             .getLogger(ParallelEvaluator.class.getCanonicalName());
     private final DataModel dataModel;
     private final DataSplitter dataSpliter;
-    private final Map<Configuration,Map<Metric, List<Float>>> tTestValues = new LinkedHashMap<>();
+    private final Map<Configuration, Map<Metric, List<Float>>> tTestValues = new LinkedHashMap<>();
     private Object LOCK = new Object();
 
     public ParallelEvaluator(
@@ -119,11 +120,12 @@ public final class ParallelEvaluator {
         try {
             for (Configuration configuration: configurations) {
                 final Runnable task = () -> {
-                    LOG.info("This process may take long time. Still running please wait....");
-                    LOG.info(configuration+"...");
+                    LOG.info(
+                            "This process may take long time. Still running please wait....");
+                    LOG.info(configuration + "...");
                     execute(configuration);
                 };
-                tasks[configuration.getId()-1] = task;
+                tasks[configuration.getId() - 1] = task;
             }
             for (int i = 0; i < tasks.length; i++) {
                 try {
@@ -141,8 +143,9 @@ public final class ParallelEvaluator {
         } catch (final Exception exception) {
             LOG.error(exception.getMessage());
         }
-        
-        //StatisticFunctions.runTTestAndPrettyPrint(tTestValues);
+        if (Globals.CALCULATE_TTEST) {
+            StatisticFunctions.runTTestAndPrettyPrint(tTestValues);
+        }
     }
 
     /**
@@ -183,27 +186,29 @@ public final class ParallelEvaluator {
                         System.exit(1);
                     }
 
-                    final SimilarityRepository similarityRepository = new SimilarityRepository(trainData, configuration);
+                    final SimilarityRepository similarityRepository = new SimilarityRepository(
+                            trainData, configuration);
                     algorithm.setSimilarityRepository(
                             similarityRepository);
-                    
-//                    List<Long> COUNTER = new ArrayList<>();
-//                    System.err.println("TOTAL "+testData.getUsers().size());
-//                    for(User user:testData.getUsers().values()){
-//                        final FloatCollection values = user.getItemRating().values();
-//                        long count1 = 0;
-//                        for(float value:values){
-//                            if (value>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
-//                                count1++;
-//                            }
-//                        }
-//                        if (count1 >= 1) {
-//                            COUNTER.add(count1);
-//                        }
-//                    }
-//                    System.err.println("HEAVY: "+COUNTER.size());
-                    
-                    
+
+                    // List<Long> COUNTER = new ArrayList<>();
+                    // System.err.println("TOTAL "+testData.getUsers().size());
+                    // for(User user:testData.getUsers().values()){
+                    // final FloatCollection values =
+                    // user.getItemRating().values();
+                    // long count1 = 0;
+                    // for(float value:values){
+                    // if (value>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
+                    // {
+                    // count1++;
+                    // }
+                    // }
+                    // if (count1 >= 1) {
+                    // COUNTER.add(count1);
+                    // }
+                    // }
+                    // System.err.println("HEAVY: "+COUNTER.size());
+
                     configuration.getTimeUtil().setTrainTimeStart(foldNumber);
                     LOG.debug("Fold " + foldNumber + " Train started...");
                     algorithm.train(trainData);
@@ -217,20 +222,21 @@ public final class ParallelEvaluator {
                         for (final Rating rating: testData.getRatings()) {
                             final User testUser = testData
                                     .getUser(rating.getUserId());
-                            final long numberOfPositiveItems = testUser.getItemRating()
-                                    .values().stream().filter(p2 -> p2 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
+                            final long numberOfPositiveItems = testUser
+                                    .getItemRating()
+                                    .values().stream()
+                                    .filter(p2 -> p2 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
                                     .count();
-                            if(Globals.USE_ONLY_POSITIVE_RATING_IN_TEST){
+                            if (Globals.USE_ONLY_POSITIVE_RATING_IN_TEST) {
                                 if (numberOfPositiveItems < Globals.TOP_N) {
                                     continue;
                                 }
-                            }
-                            else{
-                                if(numberOfPositiveItems == 0){
+                            } else {
+                                if (numberOfPositiveItems == 0) {
                                     continue;
                                 }
                             }
-                            
+
                             final Item testItem = testData
                                     .getItem(rating.getItemId());
                             final Float predictRating = algorithm
@@ -251,17 +257,23 @@ public final class ParallelEvaluator {
                         for (final Integer userId: testData.getUsers()
                                 .keySet())
                         {
-                            final User user = testData.getUser(userId);                            
-                            if(Globals.USE_ONLY_POSITIVE_RATING_IN_TEST){
-                                final long numberOfPositiveItems = user.getItemRating().values()
-                                        .stream().filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
+                            final User user = testData.getUser(userId);
+                            if (Globals.USE_ONLY_POSITIVE_RATING_IN_TEST) {
+                                final long numberOfPositiveItems = user
+                                        .getItemRating().values()
+                                        .stream()
+                                        .filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
+                                        .count();
                                 if (numberOfPositiveItems < Globals.TOP_N) {
                                     continue;
                                 }
-                            }else{
-                                final long numberOfPositiveItems = user.getItemRating().values()
-                                        .stream().filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
-                                if(numberOfPositiveItems == 0){
+                            } else {
+                                final long numberOfPositiveItems = user
+                                        .getItemRating().values()
+                                        .stream()
+                                        .filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
+                                        .count();
+                                if (numberOfPositiveItems == 0) {
                                     continue;
                                 }
                             }
@@ -269,16 +281,23 @@ public final class ParallelEvaluator {
                                     .recommendItems(user);
 
                             for (Metric metric2: evalTypes) {
-                                if(metric2 instanceof Novelty){
+                                if (metric2 instanceof Novelty) {
                                     ((Novelty)metric2).setTrainData(trainData);
-                                }else if(metric2 instanceof DiversityLowLevel){
-                                    ((DiversityLowLevel)metric2).setTrainData(trainData);
-                                }else if(metric2 instanceof DiversityGenre){
-                                    ((DiversityGenre)metric2).setTrainData(trainData);
-                                }else if(metric2 instanceof DiversityTag){
-                                    ((DiversityTag)metric2).setTrainData(trainData);
-                                }else if(metric2 instanceof Popularity){
-                                    ((Popularity)metric2).setTrainData(trainData);
+                                } else if (metric2 instanceof DiversityLowLevel) {
+                                    ((DiversityLowLevel)metric2)
+                                            .setTrainData(trainData);
+                                } else if (metric2 instanceof DiversityGenre) {
+                                    ((DiversityGenre)metric2)
+                                            .setTrainData(trainData);
+                                } else if (metric2 instanceof DiversityTag) {
+                                    ((DiversityTag)metric2)
+                                            .setTrainData(trainData);
+                                } else if (metric2 instanceof PopularityOnHit) {
+                                    ((PopularityOnHit)metric2)
+                                            .setTrainData(trainData);
+                                } else if (metric2 instanceof PopularityOnAll) {
+                                    ((PopularityOnAll)metric2)
+                                            .setTrainData(trainData);
                                 }
                                 if (metric2 instanceof ListEvaluation) {
                                     ((ListEvaluation)metric2)
@@ -314,15 +333,23 @@ public final class ParallelEvaluator {
         } catch (final InterruptedException exception) {
             exception.printStackTrace();
         }
-        synchronized(LOCK){
-        LOG.info(configuration + " result is:");
-        LOG.info("Average Train Time: " + configuration.getTimeUtil().getAverageTrainTime() + " seconds");
-        LOG.info("Total Train Time: " + configuration.getTimeUtil().getTotalTrainTime() + " seconds");
-        LOG.info("Average Test Time: " + configuration.getTimeUtil().getAverageTestTime() + " seconds");
-        LOG.info("Total Test Time: " + configuration.getTimeUtil().getTotalTestTime() + " seconds");
-        this.addAverageAndPretyPrintResult(printResult);
-        this.googleDocPrintResult(printResult);
-        //this.tTestValues.put(configuration, printResult);
+        synchronized (LOCK) {
+            LOG.info(configuration + " result is:");
+            LOG.info("Average Train Time: "
+                    + configuration.getTimeUtil().getAverageTrainTime()
+                    + " seconds");
+            LOG.info("Total Train Time: "
+                    + configuration.getTimeUtil().getTotalTrainTime()
+                    + " seconds");
+            LOG.info("Average Test Time: "
+                    + configuration.getTimeUtil().getAverageTestTime()
+                    + " seconds");
+            LOG.info("Total Test Time: "
+                    + configuration.getTimeUtil().getTotalTestTime()
+                    + " seconds");
+            this.addAverageAndPretyPrintResult(printResult);
+            this.googleDocPrintResult(printResult);
+            this.tTestValues.put(configuration, printResult);
         }
     }
 
@@ -333,8 +360,8 @@ public final class ParallelEvaluator {
      * @param printResult
      * 
      */
-    private
-        synchronized void googleDocPrintResult(
+    private synchronized
+            void googleDocPrintResult(
                     Map<Metric, List<Float>> printResult)
     {
         final StringBuilder result = new StringBuilder();
@@ -392,8 +419,8 @@ public final class ParallelEvaluator {
      * 
      * @param printResult
      */
-    private
-        synchronized void addAverageAndPretyPrintResult(
+    private synchronized
+            void addAverageAndPretyPrintResult(
                     Map<Metric, List<Float>> printResult)
     {
 

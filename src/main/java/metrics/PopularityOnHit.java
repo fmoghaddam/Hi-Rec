@@ -8,31 +8,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import controller.similarity.LowLevelSimilarityRepository;
 import interfaces.ListEvaluation;
-import interfaces.SimilarityInterface;
 import model.DataModel;
 import model.Globals;
+import model.Item;
 import model.User;
 
 /**
  * @author FBM
  *
  */
-public class DiversityLowLevel
-        implements ListEvaluation
+public class PopularityOnHit
+implements ListEvaluation
 {
 
-    private SimilarityInterface similarityRepository;
-    private float diversityValue;
-    private int n;
+    private DataModel trainData;
+    private float meanPopulairtyValue = 0;
+    private int n = 0;
     /* (non-Javadoc)
      * @see interfaces.ListEvaluation#addRecommendations(model.User, java.util.Map)
      */
     @Override
     public
-            void addRecommendations(
-                    User user, Map<Integer, Float> list)
+    void addRecommendations(
+            User user, Map<Integer, Float> list)
     {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
@@ -46,21 +45,21 @@ public class DiversityLowLevel
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
-            hitList.add(entry.getKey());
+            if (user.getItemRating().containsKey(entry.getKey())) {
+                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
+                    hitList.add(entry.getKey());
+                }
+            }
             listLengthThreshold++;
+        }
+        if(hitList.isEmpty()){
+            return;
         }
         float sum = 0;
         for(int i=0;i<hitList.size();i++){
-            for(int j=i+1;j<hitList.size();j++){
-                int itemId1 = hitList.get(i);
-                int itemId2 = hitList.get(j);
-                final Float itemSimilairty = similarityRepository.getItemSimilairty(itemId1, itemId2);
-                if(!Float.isNaN(itemSimilairty)){
-                    sum +=2*(1-itemSimilairty);
-                }
-            }
+            sum+=populairty(hitList.get(i));
         }
-        diversityValue += (sum*1.0)/(Globals.AT_N*(Globals.AT_N-1));
+        meanPopulairtyValue +=sum/(hitList.size()*1.0);
         n++;
     }
 
@@ -69,31 +68,49 @@ public class DiversityLowLevel
      */
     @Override
     public
-            float getEvaluationResult() {
-        final float result = (float)(diversityValue/n*1.0);
+    float getEvaluationResult() {
+        
+        final float result = (float)(meanPopulairtyValue/n*1.0);
         if(Float.isNaN(result)){
             return 0;
         }
         return result;
     }
-    
+
+    /**
+     * @param itemId
+     * @return
+     */
+
+    float populairty(
+            Integer itemId)
+    {
+        final Item item = trainData.getItem(itemId);
+        if(item==null){
+            throw new IllegalStateException("ITEM COULD NOT BE NULL");
+        }
+        final float allUsers = trainData.getUsers().size();
+        final float users = item.getUserRated().size();
+        return (float)(users/allUsers);
+    }
+
     /**
      * @param trainData
      */
     public
-            void setTrainData(
-                    DataModel trainData)
+    void setTrainData(
+            DataModel trainData)
     {
-        this.similarityRepository = new LowLevelSimilarityRepository(trainData);        
+        this.trainData = trainData;
     }
-    
+
     /*
      * @see java.lang.Object#hashCode()
      */
     @Override
     public
             int hashCode() {
-        return 5640;
+        return 56234;
     }
 
     /*
@@ -119,6 +136,7 @@ public class DiversityLowLevel
     @Override
     public
             String toString() {
-        return "DiversityLowLevel";
+        return "PopularityOnHit";
     }
+    
 }
