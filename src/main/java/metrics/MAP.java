@@ -84,7 +84,7 @@ public class MAP
     @Override
     public
             int hashCode() {
-        return 84;
+        return 5;
     }
     
     /*

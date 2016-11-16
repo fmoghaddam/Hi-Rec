@@ -71,7 +71,7 @@ public final class Precision
     @Override
     public
             int hashCode() {
-        return 5;
+        return 11;
     }
 
     /*

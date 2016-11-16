@@ -86,7 +86,7 @@ public final class Recall
     @Override
     public
             int hashCode() {
-        return 8;
+        return 14;
     }
 
     /*

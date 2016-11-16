@@ -83,7 +83,7 @@ public class DiversityGenre
     @Override
     public
             int hashCode() {
-        return 56401;
+        return 1;
     }
 
     /*

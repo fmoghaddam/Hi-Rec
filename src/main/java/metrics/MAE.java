@@ -73,7 +73,7 @@ public final class MAE
     @Override
     public
             int hashCode() {
-        return 1;
+        return 4;
     }
 
     /*

@@ -108,7 +108,7 @@ implements ListEvaluation
     @Override
     public
             int hashCode() {
-        return 564134;
+        return 9;
     }
 
     /*

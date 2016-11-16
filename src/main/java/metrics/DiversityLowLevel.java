@@ -95,7 +95,7 @@ public class DiversityLowLevel
     @Override
     public
             int hashCode() {
-        return 5640;
+        return 2;
     }
 
     /*

@@ -110,7 +110,7 @@ public class NoveltyOnHit
     @Override
     public
             int hashCode() {
-        return 45564;
+        return 8;
     }
 
     /*

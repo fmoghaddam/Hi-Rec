@@ -83,7 +83,7 @@ public class DiversityTag
     @Override
     public
             int hashCode() {
-        return 53401;
+        return 3;
     }
 
     /*

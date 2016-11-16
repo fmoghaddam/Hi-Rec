@@ -106,7 +106,7 @@ public class NoveltyOnAll
     @Override
     public
             int hashCode() {
-        return 564;
+        return 7;
     }
 
     /*

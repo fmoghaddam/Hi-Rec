@@ -94,7 +94,7 @@ public class NDCG
     @Override
     public
             int hashCode() {
-        return 221;
+        return 6;
     }
 
     /*

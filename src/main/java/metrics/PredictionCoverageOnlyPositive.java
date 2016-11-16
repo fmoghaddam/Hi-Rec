@@ -64,7 +64,7 @@ public final class PredictionCoverageOnlyPositive
     @Override
     public
             int hashCode() {
-        return 60;
+        return 13;
     }
 
     /*
