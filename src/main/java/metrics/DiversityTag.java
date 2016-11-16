@@ -112,9 +112,11 @@ public class DiversityTag
         return "DiversityTag";
     }
 
-    /**
-     * @param trainData
+    /*
+     * (non-Javadoc)
+     * @see interfaces.ListEvaluation#setTrainData(model.DataModel)
      */
+    @Override
     public
             void setTrainData(
                     DataModel trainData)

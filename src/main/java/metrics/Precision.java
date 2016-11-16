@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import interfaces.ListEvaluation;
+import model.DataModel;
 import model.Globals;
 import model.User;
 
@@ -98,5 +99,11 @@ public final class Precision
             String toString() {
         return "Precision";
     }
+
+	@Override
+	public void setTrainData(DataModel trainData) {
+		//Empty function
+		
+	}
 
 }

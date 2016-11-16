@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import interfaces.ListEvaluation;
+import model.DataModel;
 import model.Globals;
 import model.User;
 
@@ -102,4 +103,10 @@ public final class Recall
             return false;
         }
     }
+
+	@Override
+	public void setTrainData(DataModel trainData) {
+		// Empty function
+		
+	}
 }

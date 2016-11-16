@@ -112,9 +112,11 @@ public class DiversityGenre
         return "DiversityGenre";
     }
 
-    /**
-     * @param trainData
+    /*
+     * (non-Javadoc)
+     * @see interfaces.ListEvaluation#setTrainData(model.DataModel)
      */
+    @Override
     public
             void setTrainData(
                     DataModel trainData)

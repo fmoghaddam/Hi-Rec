@@ -94,9 +94,11 @@ implements ListEvaluation
         return (float)(users/allUsers);
     }
 
-    /**
-     * @param trainData
+    /*
+     * (non-Javadoc)
+     * @see interfaces.ListEvaluation#setTrainData(model.DataModel)
      */
+    @Override
     public
     void setTrainData(
             DataModel trainData)

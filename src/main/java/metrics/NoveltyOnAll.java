@@ -88,9 +88,11 @@ public class NoveltyOnAll
         return result;
     }
 
-    /**
-     * @param trainData
+    /*
+     * (non-Javadoc)
+     * @see interfaces.ListEvaluation#setTrainData(model.DataModel)
      */
+    @Override
     public
             void setTrainData(
                     DataModel trainData)

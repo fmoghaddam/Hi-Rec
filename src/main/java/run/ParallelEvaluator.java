@@ -21,13 +21,6 @@ import interfaces.AccuracyEvaluation;
 import interfaces.ListEvaluation;
 import interfaces.Metric;
 import interfaces.Recommender;
-import metrics.DiversityLowLevel;
-import metrics.DiversityTag;
-import metrics.DiversityGenre;
-import metrics.NoveltyOnAll;
-import metrics.NoveltyOnHit;
-import metrics.PopularityOnAll;
-import metrics.PopularityOnHit;
 import model.DataModel;
 import model.Globals;
 import model.Item;
@@ -281,28 +274,9 @@ public final class ParallelEvaluator {
                             final Map<Integer, Float> recommendItems = algorithm
                                     .recommendItems(user);
 
-                            for (Metric metric2: evalTypes) {
-                                if (metric2 instanceof NoveltyOnAll) {
-                                    ((NoveltyOnAll)metric2).setTrainData(trainData);
-                                } else if (metric2 instanceof NoveltyOnHit) {
-                                    ((NoveltyOnHit)metric2).setTrainData(trainData);
-                                } else if (metric2 instanceof DiversityLowLevel) {
-                                    ((DiversityLowLevel)metric2)
-                                            .setTrainData(trainData);
-                                } else if (metric2 instanceof DiversityGenre) {
-                                    ((DiversityGenre)metric2)
-                                            .setTrainData(trainData);
-                                } else if (metric2 instanceof DiversityTag) {
-                                    ((DiversityTag)metric2)
-                                            .setTrainData(trainData);
-                                } else if (metric2 instanceof PopularityOnHit) {
-                                    ((PopularityOnHit)metric2)
-                                            .setTrainData(trainData);
-                                } else if (metric2 instanceof PopularityOnAll) {
-                                    ((PopularityOnAll)metric2)
-                                            .setTrainData(trainData);
-                                }
+                            for (Metric metric2: evalTypes) {                            	
                                 if (metric2 instanceof ListEvaluation) {
+                                	((ListEvaluation)metric2).setTrainData(trainData);
                                     ((ListEvaluation)metric2)
                                             .addRecommendations(user,
                                                     recommendItems);

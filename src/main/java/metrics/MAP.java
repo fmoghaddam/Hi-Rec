@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import interfaces.ListEvaluation;
+import model.DataModel;
 import model.Globals;
 import model.User;
 
@@ -100,5 +101,10 @@ public class MAP
             return false;
         }
     }
+
+	@Override
+	public void setTrainData(DataModel trainData) {
+		//Empty function
+	}
 
 }
