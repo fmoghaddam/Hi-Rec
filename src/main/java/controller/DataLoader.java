@@ -310,9 +310,9 @@ public final class DataLoader {
             this.readRatingFile();
         }
         
-        if(Globals.DROP_800_POPULAR_ITEM && !alreadyReduced){
+        if(Globals.DROP_POPULAR_ITEM && !alreadyReduced){
             alreadyReduced=true;
-            return removeTopPopular(800);
+            return removeTopPopular(Globals.DROP_POPULAR_ITEM_NUMBER);
         }
         
         return dataModel;
