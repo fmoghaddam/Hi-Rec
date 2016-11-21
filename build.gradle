@@ -44,7 +44,7 @@ repositories {
     mavenCentral()
 }
 
-mainClassName = "run.RecommenderEngine"
+mainClassName = "run.HiRec"
 
 dependencies {
 	compile group: 'it.unimi.dsi', name: 'fastutil', version: '7.0.13'

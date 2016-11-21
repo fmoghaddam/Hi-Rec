@@ -14,13 +14,13 @@ import model.DataModel;
  * @author FBM
  *
  */
-public final class RecommenderEngine {
+public final class HiRec {
 
     /**
      * Logger for this class
      */
     private static final Logger LOG = Logger
-            .getLogger(RecommenderEngine.class.getCanonicalName());
+            .getLogger(HiRec.class.getCanonicalName());
 
     /**
      * Main function
