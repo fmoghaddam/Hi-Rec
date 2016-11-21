@@ -42,6 +42,8 @@ public final class Globals {
     public static final boolean DROP_POPULAR_ITEM;
     public static final int DROP_POPULAR_ITEM_NUMBER;
     public static final boolean CALCULATE_TTEST;
+    
+    public static final Long RANDOMIZATION_SEED; 
 
     static {
 	RATING_FILE_PATH = Config.getString("RATING_FILE_PATH", "");
@@ -75,6 +77,7 @@ public final class Globals {
 	DROP_POPULAR_ITEM=Config.getBoolean("DROP_POPULAR_ITEM", false);
 	DROP_POPULAR_ITEM_NUMBER = Config.getInt("NUMBER_OF_NEAREST_NEIGHBOUR", 1);
 	CALCULATE_TTEST=Config.getBoolean("CALCULATE_TTEST", false);
+	RANDOMIZATION_SEED=Config.getLong("RANDOMIZATION_SEED", null);
     }
 
     public static void setMaxRating(float maxRating) {

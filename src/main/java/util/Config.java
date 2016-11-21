@@ -66,6 +66,22 @@ public final class Config {
 	    return defLong;
 	}
     }
+    
+    /**
+     * Returns a long integer from the config.properties file.
+     * 
+     * @param key
+     * @param defLong
+     *            default long integer being returned, if no value is found
+     * @return
+     */
+    public static Long getLong(final String key, final Long defLong) {
+        try {
+            return Long.parseLong(Config.RESOURCE_BUNDLE.getString(key));
+        } catch (final Exception e) {
+            return defLong;
+        }
+    }
 
     /**
      * Returns a string from the config.properties file.

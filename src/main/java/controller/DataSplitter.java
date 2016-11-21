@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.Collections;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 
@@ -86,7 +87,11 @@ public final class DataSplitter {
     public
             void shuffle() {
         LOG.debug("Shuffling rating data randomly.");
-        Collections.shuffle(this.dataModel.getRatings());
+        if(Globals.RANDOMIZATION_SEED==null){
+            Collections.shuffle(this.dataModel.getRatings());
+        }else{
+            Collections.shuffle(this.dataModel.getRatings(),new Random(Globals.RANDOMIZATION_SEED));
+        }
     }
 
 }
