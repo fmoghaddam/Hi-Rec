@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import interfaces.ListEvaluation;
+import model.DataModel;
 import model.Globals;
 import model.User;
 
@@ -39,28 +40,19 @@ public final class Precision
             throw new IllegalArgumentException("Recommended list is null");
         }
         float truePositive = 0;
-        float falsePositive = 0;
-        int recCounter = 0;
+        int listLengthThreshold = 0;
         for (final Entry<Integer, Float> entry: list.entrySet()) {
-            if (entry.getValue() < 4) {
+            if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
             if (user.getItemRating().containsKey(entry.getKey())) {
-                recCounter++;
-                if (user.getItemRating().get(entry.getKey()) >= 4) {
+                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
                     truePositive++;
-                } else {
-                    falsePositive++;
                 }
             }
-            if (recCounter == Globals.TOP_N) {
-                break;
-            }
+            listLengthThreshold++;
         }
-        if (truePositive == 0 && falsePositive == 0) {
-            return;
-        }
-        precision = (precision + truePositive / (truePositive + falsePositive));
+        precision = (precision + truePositive / Globals.AT_N);
         counter++;
     }
 
@@ -79,7 +71,7 @@ public final class Precision
     @Override
     public
             int hashCode() {
-        return 5;
+        return 11;
     }
 
     /*
@@ -107,5 +99,11 @@ public final class Precision
             String toString() {
         return "Precision";
     }
+
+	@Override
+	public void setTrainData(DataModel trainData) {
+		//Empty function
+		
+	}
 
 }

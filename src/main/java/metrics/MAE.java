@@ -22,11 +22,11 @@ public final class MAE
     /**
      * Accumulated the errors
      */
-    float errorAccumulator;
+    private float errorAccumulator;
     /**
      * The number of predictions
      */
-    int predictionCount;
+    private int predictionCount;
 
     /*
      * @see interfaces.AccuracyEvaluation#addTestPrediction(model.Rating, float)
@@ -43,7 +43,6 @@ public final class MAE
                 predictionCount++;
             }
         }
-
     }
 
     /*
@@ -74,7 +73,7 @@ public final class MAE
     @Override
     public
             int hashCode() {
-        return 1;
+        return 4;
     }
 
     /*

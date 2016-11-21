@@ -1,10 +1,9 @@
 package controller.similarity;
 
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 
 import interfaces.SimilarityInterface;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import model.DataModel;
 import model.Globals;
 
@@ -75,9 +74,9 @@ public final class TagSimilarityRepository
                 && this.dataModel.getItem(itemId2) != null)
         {
 
-            final Set<String> item1List = this.dataModel.getItem(itemId1)
+            final ObjectSet<String> item1List = this.dataModel.getItem(itemId1)
                     .getTags();
-            final Set<String> item2List = this.dataModel.getItem(itemId2)
+            final ObjectSet<String> item2List = this.dataModel.getItem(itemId2)
                     .getTags();
 
             float dotProduct = 0;

@@ -1,7 +1,6 @@
 package algorithms;
 
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -9,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import interfaces.Recommender;
 import interfaces.SimilarityInterface;
+import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
 import model.DataModel;
 import model.Item;
 import model.User;
@@ -18,7 +18,7 @@ import util.MapUtil;
  * This is non-personalized average popularity algorithm which return item global mean
  * for all the queries 
  * 
- * @author Admin
+ * @author FBM
  *
  */
 public final class AveragePopularity implements Recommender {
@@ -61,7 +61,7 @@ public final class AveragePopularity implements Recommender {
 	if (user == null) {
 	    throw new IllegalArgumentException("User is null");
 	}
-	final Map<Integer, Float> predictions = new LinkedHashMap<Integer, Float>();
+	final Int2FloatOpenHashMap predictions = new Int2FloatOpenHashMap();
 	for (final Item item : trainData.getItems().values()) {
 	    final int itemId = item.getId();
 	    final float predictRating = predictRating(user, item);

@@ -1,11 +1,11 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
+
+import it.unimi.dsi.fastutil.floats.FloatArrayList;
+import it.unimi.dsi.fastutil.ints.Int2FloatLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 
 /**
  * Item class
@@ -22,19 +22,19 @@ public class Item {
     /**
      * All the used who rated this item with the rating value
      */
-    private LinkedHashMap<Integer, Float> userRated;
+    private Int2FloatLinkedOpenHashMap userRated;
     /**
      * List of low level features
      */
-    private List<Float> lowLevelFeature;
+    private FloatArrayList lowLevelFeature;
     /**
      * List of Genre
      */
-    private List<Float> genres;
+    private FloatArrayList genres;
     /**
      * List of tags
      */
-    private Set<String> tags;
+    private ObjectSet<String> tags;
     /**
      * Global mean for this item
      */
@@ -44,20 +44,20 @@ public class Item {
             final int id)
     {
         this.id = id;
-        this.userRated = new LinkedHashMap<>();
-        this.lowLevelFeature = new ArrayList<>();
-        this.genres = new ArrayList<>();
-        this.tags = new HashSet<>();
+        this.userRated = new Int2FloatLinkedOpenHashMap();
+        this.lowLevelFeature = new FloatArrayList();
+        this.genres = new FloatArrayList();
+        this.tags = new ObjectOpenHashSet<>();
     }
 
     public Item(
             final Item item)
     {
         this.id = item.id;
-        this.userRated = new LinkedHashMap<>(item.userRated);
-        this.lowLevelFeature = new ArrayList<>(item.lowLevelFeature);
-        this.genres = new ArrayList<>(item.genres);
-        this.tags = new HashSet<>(item.tags);
+        this.userRated = new Int2FloatLinkedOpenHashMap(item.userRated);
+        this.lowLevelFeature = new FloatArrayList(item.lowLevelFeature);
+        this.genres = new FloatArrayList(item.genres);
+        this.tags = new ObjectOpenHashSet<>(item.tags);
     }
 
     public
@@ -66,7 +66,7 @@ public class Item {
     }
 
     public
-            LinkedHashMap<Integer, Float> getUserRated() {
+        Int2FloatLinkedOpenHashMap getUserRated() {
         return userRated;
     }
 
@@ -101,7 +101,7 @@ public class Item {
             double[] getLowLevelFeatureAsArray() {
         final double[] array = new double[lowLevelFeature.size()];
         for (int i = 0; i < lowLevelFeature.size(); i++) {
-            array[i] = (double)lowLevelFeature.get(i);
+            array[i] = (double)lowLevelFeature.getFloat(i);
         }
         return array;
     }
@@ -130,7 +130,7 @@ public class Item {
      * @return the tags
      */
     public final
-            Set<String> getTags() {
+            ObjectSet<String> getTags() {
         return tags;
     }
 
@@ -140,16 +140,16 @@ public class Item {
      */
     public final
             void setTags(
-                    Set<String> tags)
+                    ObjectSet<String> tags)
     {
-        this.tags = new HashSet<>(tags);
+        this.tags = new ObjectOpenHashSet<>(tags);
     }
 
     /**
      * @return the genres
      */
     public final
-            List<Float> getGenres() {
+        FloatArrayList getGenres() {
         return genres;
     }
 
@@ -157,7 +157,7 @@ public class Item {
      * @return the lowLevelFeature
      */
     public final
-            List<Float> getLowLevelFeature() {
+        FloatArrayList getLowLevelFeature() {
         return lowLevelFeature;
     }
 
@@ -167,9 +167,9 @@ public class Item {
      */
     public final
             void setLowLevelFeature(
-                    List<Float> lowLevelFeature)
+                    FloatArrayList lowLevelFeature)
     {
-        this.lowLevelFeature = new ArrayList<>(lowLevelFeature);
+        this.lowLevelFeature = new FloatArrayList(lowLevelFeature);
     }
 
     /**
@@ -178,7 +178,7 @@ public class Item {
      */
     public final
             void setUserRated(
-                    LinkedHashMap<Integer, Float> userRated)
+                    final Int2FloatLinkedOpenHashMap userRated)
     {
         this.userRated = userRated;
     }
@@ -189,9 +189,9 @@ public class Item {
      */
     public final
             void setGenres(
-                    List<Float> genres)
+                    final FloatArrayList genres)
     {
-        this.genres = new ArrayList<>(genres);
+        this.genres = new FloatArrayList(genres);
     }
 
     /**
@@ -203,7 +203,7 @@ public class Item {
             double[] getGenresAsArray() {
         final double[] array = new double[genres.size()];
         for (int i = 0; i < genres.size(); i++) {
-            array[i] = genres.get(i);
+            array[i] = genres.getFloat(i);
         }
         return array;
     }

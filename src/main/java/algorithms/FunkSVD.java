@@ -19,7 +19,7 @@ import model.Item;
 import model.Rating;
 import model.User;
 import util.MapUtil;
-import util.StaticFunctions;
+import util.StatisticFunctions;
 /**
  * This is FunkSVD algorithm. http://sifter.org/~simon/journal/20061211.html
  * The code based is from Recommneder101: http://ls13-www.cs.tu-dortmund.de/homepage/recommender101/index.shtml
@@ -108,7 +108,7 @@ public final class FunkSVD implements Recommender {
     }
 
     private void nextTrainStep() {
-	Collections.shuffle(cachedPreferences, StaticFunctions.random);
+	Collections.shuffle(cachedPreferences, StatisticFunctions.random);
 	int userid;
 	int itemid;
 	for (int i = 0; i < numFeatures; i++) {

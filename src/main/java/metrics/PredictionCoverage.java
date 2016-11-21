@@ -15,11 +15,11 @@ public final class PredictionCoverage
     /**
      * A counter for the total number of ratings
      */
-    int totalRatings = 0;
+    private int totalRatings = 0;
     /**
      * A counter for the predicted one
      */
-    int predictedRatings = 0;
+    private int predictedRatings = 0;
 
     /*
      * @see interfaces.AccuracyEvaluation#addTestPrediction(model.Rating, float)
@@ -61,7 +61,7 @@ public final class PredictionCoverage
     @Override
     public
             int hashCode() {
-        return 6;
+        return 12;
     }
 
     /*

@@ -1,42 +1,29 @@
 package metrics;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Map.Entry;
 
 import interfaces.ListEvaluation;
+import model.DataModel;
 import model.Globals;
-import model.Rating;
 import model.User;
 
 /**
- * Calculates the NDCG (normalized discounted cumulative gain) value. 
- * The code based is from Recommneder101:
- * http://ls13-www.cs.tu-dortmund.de/homepage/recommender101/index.shtml
+ * @author FBM
+ *
  */
-public final class NDCG
+public class NDCG
         implements ListEvaluation
 {
 
-    private double accumulatedNDCGValue = 0.0;
-    private int count = 0;
+    float ndcg = 0;
+    long counter = 0;
 
     /*
      * (non-Javadoc)
      * 
-     * @see interfaces.ListEvaluation#getEvaluationResult()
-     */
-    @Override
-    public
-            float getEvaluationResult() {
-        return ((float)accumulatedNDCGValue) / ((float)count);
-    }
-
-    /*
      * @see interfaces.ListEvaluation#addRecommendations(model.User,
-     * java.util.List)
+     * java.util.Map)
      */
     @Override
     public
@@ -49,57 +36,65 @@ public final class NDCG
         if (list == null) {
             throw new IllegalArgumentException("Recommended list is null");
         }
-        int depth = Math.min(Globals.TOP_N, list.size());
+        if (list.size() == 0) {
+            return;
+        }
 
-        double dcg = 0.0;
-        int loopCount = 0;
-        for (int item: list.keySet()) {
-            if (user.getItemRating().keySet().contains(item)) {
-                double a = Math.pow(2, user.getItemRating().get(item));
-                double b = Math.log(2 + loopCount) / Math.log(2);
-                loopCount++;
-                dcg += a / b;
-            }
-
-            if (loopCount >= depth)
+        int listLengthThreshold = 0;
+        float dcg = 0;
+        final double log2 = Math.log(2);
+        for (final Entry<Integer, Float> entry: list.entrySet()) {
+            if (listLengthThreshold >= Globals.AT_N) {
                 break;
-        }
-
-        final List<Rating> ratings = user.getItemRating().entrySet().stream()
-                .map(p -> new Rating(user.getId(), p.getKey(), p.getValue()))
-                .collect(Collectors.toList());
-        Collections.sort(ratings, new Comparator<Rating>() {
-            @Override
-            public
-                    int compare(
-                            Rating o1, Rating o2)
-            {
-                return Float.compare(o2.getRating(), o1.getRating());
             }
-        });
-
-        double ideal_dcg = 0.0;
-        depth = loopCount;
-        for (int i = 0; i < depth; i++) {
-            double a = Math.pow(2, ratings.get(i).getRating());
-            double b = Math.log(2 + i) / Math.log(2);
-            ideal_dcg += a / b;
+            listLengthThreshold++;
+            if (user.getItemRating().containsKey(entry.getKey())) {
+                if (user.getItemRating().get((int)entry
+                        .getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
+                {
+                    dcg += (1.0 / (Math.log(listLengthThreshold + 1) / log2));
+                }
+            }
         }
 
-        double nDCG = dcg / ideal_dcg;
-        if (!Double.isNaN(nDCG)) {
-            count++;
-            accumulatedNDCGValue += nDCG;
+        final long count = user.getItemRating().entrySet()
+                .stream().filter(p -> p
+                        .getValue() >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
+                .map(p -> p.getKey()).count();
+
+        float idcg = 0;
+        for (int i = 1; i <= count; i++) {
+            idcg += (1.0 / (Math.log(i + 1) / log2));
         }
+
+        ndcg += dcg / idcg;
+        counter++;
     }
 
     /*
-     * @see java.lang.Object#hashCode()
+     * (non-Javadoc)
+     * 
+     * @see interfaces.ListEvaluation#getEvaluationResult()
      */
     @Override
     public
+            float getEvaluationResult() {
+        return ndcg / counter;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public
+            String toString() {
+        return "NDCG";
+    }
+    
+    @Override
+    public
             int hashCode() {
-        return 2;
+        return 6;
     }
 
     /*
@@ -117,13 +112,12 @@ public final class NDCG
         }
     }
 
-    /*
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public
-            String toString() {
-        return "NDCG";
-    }
+	@Override
+	public void setTrainData(DataModel trainData) {
+		//Empty function
+		
+	}
+    
+    
 
 }

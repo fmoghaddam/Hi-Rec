@@ -3,17 +3,20 @@ package controller;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import it.unimi.dsi.fastutil.floats.FloatArrayList;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import model.DataModel;
 import model.Globals;
 import model.Item;
 import model.Rating;
 import model.User;
+import util.TopPopularItemsUtil;
 
 /**
  * This class is responsible for reading files and converting them to
@@ -29,7 +32,9 @@ public final class DataLoader {
      */
     private Logger LOG = Logger.getLogger(DataLoader.class.getCanonicalName());
     private final DataModel dataModel = new DataModel();
-
+    private final List<Integer> doNotAddList = new ArrayList<>();
+    private boolean alreadyReduced=false;
+    
     /**
      * Reads rating files.
      */
@@ -60,6 +65,10 @@ public final class DataLoader {
                     maxUserId = userId;
                 }
                 final int itemId = Integer.parseInt(tokens[1]);
+                if(doNotAddList.contains(itemId)){
+                    line = reader.readLine();
+                    continue;
+                }
                 if (itemId > maxItemId) {
                     maxItemId = itemId;
                 }
@@ -94,7 +103,9 @@ public final class DataLoader {
             Globals.setMaxNumberOfUsers(maxUserId);
             Globals.setMaxNumberOfItems(maxItemId);
             reader.close();
-            LOG.info("Rating Data loaded.");
+            if(!alreadyReduced){
+                LOG.info("Rating Data loaded from "+Globals.RATING_FILE_PATH);
+            }
         } catch (final Exception exception) {
             LOG.error("Can not load rating file: " + Globals.RATING_FILE_PATH);
             LOG.error(exception);
@@ -123,8 +134,12 @@ public final class DataLoader {
                     continue;
                 }
                 tokens = line.split(Globals.LOW_LEVEL_FILE_SEPERATOR);
-                final List<Float> features = new ArrayList<>();
+                final FloatArrayList features = new FloatArrayList();
                 final int itemId = Integer.parseInt(tokens[0]);
+                if(doNotAddList.contains(itemId)){
+                    line = reader.readLine();
+                    continue;
+                }
                 for (int i = 1; i < tokens.length; i++) {
                     try {
                         features.add(Float.parseFloat(tokens[i]));
@@ -141,7 +156,9 @@ public final class DataLoader {
                 line = reader.readLine();
             }
             reader.close();
-            LOG.info("Low Level file loaded.");
+            if(!alreadyReduced){
+                LOG.info("Low Level file loaded from "+Globals.LOW_LEVEL_FILE_PATH);
+            }
         } catch (final Exception exception) {
             LOG.error("Can not load low level feature file: "
                     + Globals.LOW_LEVEL_FILE_PATH);
@@ -173,8 +190,12 @@ public final class DataLoader {
                     continue;
                 }
                 tokens = line.split(Globals.GENRE_FILE_SEPERATOR);
-                final List<Float> features = new ArrayList<>();
+                final FloatArrayList features = new FloatArrayList();
                 final int itemId = Integer.parseInt(tokens[0]);
+                if(doNotAddList.contains(itemId)){
+                    line = reader.readLine();
+                    continue;
+                }
                 for (int i = 1; i < tokens.length; i++) {
                     try {
                         features.add(Float.parseFloat(tokens[i]));
@@ -196,7 +217,9 @@ public final class DataLoader {
                 line = reader.readLine();
             }
             reader.close();
-            LOG.info("Genre file loaded.");
+            if(!alreadyReduced){
+                LOG.info("Genre file loaded from "+Globals.GENRE_FILE_PATH);
+            }
         } catch (final Exception exception) {
             LOG.error("Can not load genre file: " + Globals.GENRE_FILE_PATH);
             LOG.error(exception);
@@ -226,8 +249,12 @@ public final class DataLoader {
                     continue;
                 }
                 tokens = line.split(Globals.TAG_FILE_SEPERATOR);
-                final Set<String> features = new HashSet<>();
+                final ObjectSet<String> features = new ObjectOpenHashSet<>();
                 final int itemId = Integer.parseInt(tokens[0]);
+                if(doNotAddList.contains(itemId)){
+                    line = reader.readLine();
+                    continue;
+                }
                 for (int i = 1; i < tokens.length; i++) {
                     features.add(tokens[i]);
                 }
@@ -243,7 +270,9 @@ public final class DataLoader {
                 line = reader.readLine();
             }
             reader.close();
-            LOG.info("Tag file loaded.");
+            if(!alreadyReduced){
+                LOG.info("Tag file loaded from "+Globals.TAG_FILE_PATH);
+            }
         } catch (final Exception exception) {
             LOG.error("Can not load tag file: " + Globals.TAG_FILE_PATH);
             LOG.error(exception);
@@ -280,6 +309,12 @@ public final class DataLoader {
         } else {
             this.readRatingFile();
         }
+        
+        if(Globals.DROP_POPULAR_ITEM && !alreadyReduced){
+            alreadyReduced=true;
+            return removeTopPopular(Globals.DROP_POPULAR_ITEM_NUMBER);
+        }
+        
         return dataModel;
     }
 
@@ -312,7 +347,10 @@ public final class DataLoader {
                 final float rating = Float.parseFloat(tokens[2]);
                 final Integer userId = Integer.parseInt(tokens[0]);
                 final Integer itemId = Integer.parseInt(tokens[1]);
-
+                if(doNotAddList.contains(itemId)){
+                    line = reader.readLine();
+                    continue;
+                }
                 if (this.dataModel.getItem(itemId) != null) {
 
                     if (userId > maxUserId) {
@@ -350,11 +388,26 @@ public final class DataLoader {
             Globals.setMaxNumberOfItems(maxItemId);
             Globals.setMaxNumberOfUsers(maxUserId);
             reader.close();
-            LOG.info("Related Rating Data loaded.");
+            if(!alreadyReduced){
+                LOG.info("Related Rating Data loaded from "+Globals.RATING_FILE_PATH);
+            }
         } catch (final Exception exception) {
             LOG.error("Can not load rating file : " + Globals.RATING_FILE_PATH);
             LOG.error(exception);
             System.exit(1);
         }
     }
+    
+    /**
+     * Removes #numberOfItems top popular items from this dataset
+     * @param numberOfItems
+     * @return 
+     */
+    public DataModel removeTopPopular(final int numberOfItems){
+        LOG.info("Removing 800 top popular items ...");
+        final IntArrayList topPopularItems = TopPopularItemsUtil.getTopPopularItems(numberOfItems, dataModel);
+        this.doNotAddList.addAll(topPopularItems);
+        this.dataModel.clearAll();
+        return readData();
+    }   
 }

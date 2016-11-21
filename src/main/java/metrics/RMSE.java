@@ -63,7 +63,7 @@ public final class RMSE
     @Override
     public
             int hashCode() {
-        return 9;
+        return 15;
     }
 
     /*

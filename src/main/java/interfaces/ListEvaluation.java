@@ -2,6 +2,7 @@ package interfaces;
 
 import java.util.Map;
 
+import model.DataModel;
 import model.User;
 
 /**
@@ -29,4 +30,10 @@ public interface ListEvaluation extends Metric {
      * @return The calculated result
      */
     float getEvaluationResult();
+    
+    /**
+     * Set train data. Train data neede for some metrics such as popularity
+     * @param trainData
+     */
+    void setTrainData(DataModel trainData);
 }

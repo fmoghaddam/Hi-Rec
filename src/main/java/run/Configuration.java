@@ -1,10 +1,8 @@
-/**
- * 
- */
 package run;
 
 import interfaces.Recommender;
 import model.Globals;
+import util.TimeUtil;
 
 /**
  * Running Configuration
@@ -20,6 +18,7 @@ public final class Configuration {
     private final boolean useGenre;
     private final boolean useTag;
     private final boolean useRating;
+    private final TimeUtil timeUtil= new TimeUtil();
 
     /**
      * @param algorithm 
@@ -146,7 +145,14 @@ public final class Configuration {
         return id;
     }
 
-    /*
+    /**
+     * @return the timeUtil
+     */
+    public TimeUtil getTimeUtil() {
+		return timeUtil;
+	}
+
+	/*
      * (non-Javadoc)
      * 
      * @see java.lang.Object#hashCode()
@@ -193,9 +199,9 @@ public final class Configuration {
         } else if (!algorithm.equals(other.algorithm)) {
             return false;
         }
-        if (id != other.id) {
-            return false;
-        }
+//        if (id != other.id) {
+//            return false;
+//        }
         if (useGenre != other.useGenre) {
             return false;
         }

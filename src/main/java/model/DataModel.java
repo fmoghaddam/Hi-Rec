@@ -7,12 +7,14 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.math3.stat.Frequency;
 import org.apache.log4j.Logger;
+
+import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 /**
  * Main data model which contains all the information about items,users,ratings,
@@ -32,15 +34,15 @@ public final class DataModel {
     /**
      * Map between itemId and Item
      */
-    private Map<Integer, Item> items;
+    private Int2ObjectLinkedOpenHashMap<Item> items;
     /**
      * Map between userId and User
      */
-    private Map<Integer, User> users;
+    private Int2ObjectLinkedOpenHashMap<User> users;
     /**
      * List of ratings
      */
-    private List<Rating> ratings;
+    private ObjectArrayList<Rating> ratings;
 
     private int numberOfRatings = 0;
     private int numberOfUsers = 0;
@@ -49,23 +51,23 @@ public final class DataModel {
     private Frequency freq = new Frequency();
 
     public DataModel() {
-        items = new HashMap<>();
-        users = new HashMap<>();
-        ratings = new ArrayList<>();
+        items = new Int2ObjectLinkedOpenHashMap<Item>();
+        users = new Int2ObjectLinkedOpenHashMap<User>();
+        ratings = new ObjectArrayList<>();
     }
 
     public
-            Map<Integer, Item> getItems() {
+        Int2ObjectLinkedOpenHashMap<Item> getItems() {
         return items;
     }
 
     public
-            Map<Integer, User> getUsers() {
+        Int2ObjectLinkedOpenHashMap<User> getUsers() {
         return users;
     }
 
     public
-            List<Rating> getRatings() {
+        ObjectArrayList<Rating> getRatings() {
         return ratings;
     }
 
@@ -153,9 +155,9 @@ public final class DataModel {
     public
             DataModel getCopy() {
         final DataModel newDataModel = new DataModel();
-        newDataModel.items = new HashMap<>(this.items);
-        newDataModel.users = new HashMap<>(this.users);
-        newDataModel.ratings = new ArrayList<>(this.ratings);
+        newDataModel.items = new Int2ObjectLinkedOpenHashMap<Item>(this.items);
+        newDataModel.users = new Int2ObjectLinkedOpenHashMap<User>(this.users);
+        newDataModel.ratings = new ObjectArrayList<>(this.ratings);
         newDataModel.numberOfItems = items.size();
         newDataModel.numberOfUsers = users.size();
         newDataModel.numberOfRatings = ratings.size();
@@ -202,10 +204,10 @@ public final class DataModel {
      * Write all the ratings to a file
      */
     public
-            void writeRatingsToFile() {
+            void writeRatingsToFile(final String path) {
         BufferedWriter bw = null;
         try {
-            final File file = new File("ratings.csv");
+            final File file = new File(path);
 
             if (!file.exists()) {
                 file.createNewFile();
@@ -315,7 +317,7 @@ public final class DataModel {
      * @param percentage
      */
     public
-            DataModel sample(
+            DataModel sampleRatings(
                     int percentage)
     {
         Collections.shuffle(ratings);
@@ -341,5 +343,53 @@ public final class DataModel {
             sampleData.addRating(rating);
         }
         return sampleData;
+    }
+    
+    public 
+        DataModel sampleUsers(
+            int percentage){
+        final DataModel sampledDataModel = new DataModel();
+        final List<User> allUsers = new ArrayList<>(users.values());
+        Collections.shuffle(allUsers);
+        for (int i = 0; i < numberOfUsers * (percentage / 100.0); i++) {
+            final User user = allUsers.get(i);
+            final int userId = user.getId();
+            for(Entry<Integer, Float> entry: user.getItemRating().entrySet()){
+                int itemId = entry.getKey();
+                float rating = entry.getValue();
+                if (sampledDataModel.getUser(userId) != null) {
+                    sampledDataModel.getUser(userId).addItemRating(itemId,
+                            rating);
+                } else {
+                    final User newUser = new User(userId);
+                    newUser.addItemRating(itemId, rating);
+                    sampledDataModel.addUser(newUser);
+                }
+                if (sampledDataModel.getItem(itemId) != null) {
+                    sampledDataModel.getItem(itemId).addUserRating(userId,
+                            rating);
+                } else {
+                    final Item item = new Item(itemId);
+                    item.addUserRating(userId, rating);
+                    sampledDataModel.addItem(item);
+                }
+                sampledDataModel.addRating(new Rating(user.getId(), itemId, rating));
+            }
+        }
+        return sampledDataModel;
+    }
+
+    /**
+     * Clear every collection in this data model
+     */
+    public
+            void clearAll() {
+        this.ratings.clear();
+        this.items.clear();
+        this.users.clear();
+        this.numberOfRatings = 0;
+        this.numberOfUsers = 0;
+        this.numberOfItems = 0;
+        this.freq = new Frequency();
     }
 }

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +29,7 @@ import model.User;
 import util.ClassInstantiator;
 import util.Config;
 import util.PrettyPrinter;
-import util.TimeUtil;
+import util.StatisticFunctions;
 
 /**
  * This is the main executor of all the algorithms. This class read the config
@@ -42,11 +43,16 @@ public final class ParallelEvaluator {
     private static final Logger LOG = Logger
             .getLogger(ParallelEvaluator.class.getCanonicalName());
     private final DataModel dataModel;
+    private final DataSplitter dataSpliter;
+    private final Map<Configuration, Map<Metric, List<Float>>> tTestValues = new LinkedHashMap<>();
+    private Object LOCK = new Object();
 
     public ParallelEvaluator(
             final DataModel data)
     {
         this.dataModel = data;
+        this.dataSpliter = new DataSplitter(this.dataModel.getCopy());
+        this.dataSpliter.shuffle();
     }
 
     /**
@@ -73,7 +79,7 @@ public final class ParallelEvaluator {
             final String algorithmName = Config
                     .getString("ALGORITHM_" + i + "_NAME", "");
             try {
-                Object algo = ClassInstantiator
+                final Object algo = ClassInstantiator
                         .instantiateClass("algorithms." + algorithmName);
                 algorithm = (Recommender)algo;
             } catch (final Exception e) {
@@ -98,17 +104,41 @@ public final class ParallelEvaluator {
      */
     public
             void evaluate() {
+        final List<Configuration> configurations = readConfigurations();
+        final ExecutorService executor = Executors
+                .newFixedThreadPool(Runtime.getRuntime()
+                        .availableProcessors() > configurations.size()
+                                ? configurations.size()
+                                : Runtime.getRuntime().availableProcessors());
+        final Runnable[] tasks = new Runnable[configurations.size()];
         try {
-            final List<Configuration> configurations = readConfigurations();
             for (Configuration configuration: configurations) {
-                TimeUtil.clean();                
-                LOG.info(
-                        "This process may take long time. Still running please wait....");
-                LOG.info(configuration+"...");
-                execute(configuration);
+                final Runnable task = () -> {
+                    LOG.info(
+                            "This process may take long time. Still running please wait....");
+                    LOG.info(configuration + "...");
+                    execute(configuration);
+                };
+                tasks[configuration.getId() - 1] = task;
+            }
+            for (int i = 0; i < tasks.length; i++) {
+                try {
+                    executor.execute(tasks[i]);
+                } catch (final Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+            executor.shutdown();
+            try {
+                executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            } catch (final InterruptedException exception) {
+                exception.printStackTrace();
             }
         } catch (final Exception exception) {
             LOG.error(exception.getMessage());
+        }
+        if (Globals.CALCULATE_TTEST) {
+            StatisticFunctions.runTTestAndPrettyPrint(tTestValues);
         }
     }
 
@@ -128,9 +158,6 @@ public final class ParallelEvaluator {
                         .availableProcessors() > Globals.NUMBER_OF_FOLDS
                                 ? (int)Globals.NUMBER_OF_FOLDS
                                 : Runtime.getRuntime().availableProcessors());
-        final DataSplitter dataSpliter = new DataSplitter(
-                this.dataModel.getCopy());
-        dataSpliter.shuffle();
         final Runnable[] tasks = new Runnable[(int)Globals.NUMBER_OF_FOLDS];
         for (int i = 1; i <= Globals.NUMBER_OF_FOLDS; i++) {
             final DataModel trainData = dataSpliter.getTrainData(i);
@@ -153,14 +180,35 @@ public final class ParallelEvaluator {
                         System.exit(1);
                     }
 
+                    final SimilarityRepository similarityRepository = new SimilarityRepository(
+                            trainData, configuration);
                     algorithm.setSimilarityRepository(
-                            new SimilarityRepository(trainData, configuration));
-                    TimeUtil.setTrainTimeStart(foldNumber);
+                            similarityRepository);
+
+                    // List<Long> COUNTER = new ArrayList<>();
+                    // System.err.println("TOTAL "+testData.getUsers().size());
+                    // for(User user:testData.getUsers().values()){
+                    // final FloatCollection values =
+                    // user.getItemRating().values();
+                    // long count1 = 0;
+                    // for(float value:values){
+                    // if (value>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
+                    // {
+                    // count1++;
+                    // }
+                    // }
+                    // if (count1 >= 1) {
+                    // COUNTER.add(count1);
+                    // }
+                    // }
+                    // System.err.println("HEAVY: "+COUNTER.size());
+
+                    configuration.getTimeUtil().setTrainTimeStart(foldNumber);
                     LOG.debug("Fold " + foldNumber + " Train started...");
                     algorithm.train(trainData);
                     LOG.debug("Fold " + foldNumber + " Train is done");
-                    TimeUtil.setTrainTimeEnd(foldNumber);
-                    TimeUtil.setTestTimeStart(foldNumber);
+                    configuration.getTimeUtil().setTrainTimeEnd(foldNumber);
+                    configuration.getTimeUtil().setTestTimeStart(foldNumber);
                     final Metric hasRatingEvaluator = evalTypes.stream()
                             .filter(p1 -> p1 instanceof AccuracyEvaluation)
                             .findAny().orElse(null);
@@ -168,12 +216,21 @@ public final class ParallelEvaluator {
                         for (final Rating rating: testData.getRatings()) {
                             final User testUser = testData
                                     .getUser(rating.getUserId());
-                            final long count1 = testUser.getItemRating()
-                                    .values().stream().filter(p2 -> p2 >= 4)
+                            final long numberOfPositiveItems = testUser
+                                    .getItemRating()
+                                    .values().stream()
+                                    .filter(p2 -> p2 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
                                     .count();
-                            if (count1 < Globals.TOP_N) {
-                                continue;
+                            if (Globals.USE_ONLY_POSITIVE_RATING_IN_TEST) {
+                                if (numberOfPositiveItems < Globals.TOP_N) {
+                                    continue;
+                                }
+                            } else {
+                                if (numberOfPositiveItems == 0) {
+                                    continue;
+                                }
                             }
+
                             final Item testItem = testData
                                     .getItem(rating.getItemId());
                             final Float predictRating = algorithm
@@ -195,16 +252,31 @@ public final class ParallelEvaluator {
                                 .keySet())
                         {
                             final User user = testData.getUser(userId);
-                            final long count2 = user.getItemRating().values()
-                                    .stream().filter(p4 -> p4 >= 4).count();// >Globals.TOP_N;
-                            if (count2 < Globals.TOP_N) {
-                                continue;
+                            if (Globals.USE_ONLY_POSITIVE_RATING_IN_TEST) {
+                                final long numberOfPositiveItems = user
+                                        .getItemRating().values()
+                                        .stream()
+                                        .filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
+                                        .count();
+                                if (numberOfPositiveItems < Globals.TOP_N) {
+                                    continue;
+                                }
+                            } else {
+                                final long numberOfPositiveItems = user
+                                        .getItemRating().values()
+                                        .stream()
+                                        .filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
+                                        .count();
+                                if (numberOfPositiveItems == 0) {
+                                    continue;
+                                }
                             }
                             final Map<Integer, Float> recommendItems = algorithm
                                     .recommendItems(user);
 
-                            for (Metric metric2: evalTypes) {
+                            for (Metric metric2: evalTypes) {                            	
                                 if (metric2 instanceof ListEvaluation) {
+                                	((ListEvaluation)metric2).setTrainData(trainData);
                                     ((ListEvaluation)metric2)
                                             .addRecommendations(user,
                                                     recommendItems);
@@ -212,7 +284,7 @@ public final class ParallelEvaluator {
                             }
                         }
                     }
-                    TimeUtil.setTestTimeEnd(foldNumber);
+                    configuration.getTimeUtil().setTestTimeEnd(foldNumber);
                     handleMetric(evalTypes, printResult);
                     LOG.debug("Fold " + foldNumber + " is done.");
                 } catch (final Exception exception) {
@@ -238,11 +310,24 @@ public final class ParallelEvaluator {
         } catch (final InterruptedException exception) {
             exception.printStackTrace();
         }
-        LOG.info(configuration.getAlgorithm().toString() + " result is:");
-        LOG.info("Train Time: " + TimeUtil.getTrainTime() + " seconds");
-        LOG.info("Test Time: " + TimeUtil.getTestTime() + " seconds");
-        pretyPrintResult(printResult);
-        // googleDocPrintResult(printResult);
+        synchronized (LOCK) {
+            LOG.info(configuration + " result is:");
+            LOG.info("Average Train Time: "
+                    + configuration.getTimeUtil().getAverageTrainTime()
+                    + " seconds");
+            LOG.info("Total Train Time: "
+                    + configuration.getTimeUtil().getTotalTrainTime()
+                    + " seconds");
+            LOG.info("Average Test Time: "
+                    + configuration.getTimeUtil().getAverageTestTime()
+                    + " seconds");
+            LOG.info("Total Test Time: "
+                    + configuration.getTimeUtil().getTotalTestTime()
+                    + " seconds");
+            this.addAverageAndPretyPrintResult(printResult);
+            this.googleDocPrintResult(printResult);
+            this.tTestValues.put(configuration, printResult);
+        }
     }
 
     /**
@@ -252,14 +337,13 @@ public final class ParallelEvaluator {
      * @param printResult
      * 
      */
-    @SuppressWarnings("unused")
-    private
+    private synchronized
             void googleDocPrintResult(
                     Map<Metric, List<Float>> printResult)
     {
         final StringBuilder result = new StringBuilder();
-        for (Metric evalType: printResult.keySet()) {
-            result.append(evalType).append(",").append("=SPLIT(\"");
+        for (final Metric evalType: printResult.keySet()) {
+            result.append("=SPLIT(\"").append(evalType).append(",");
             for (float accuracy: printResult.get(evalType)) {
                 result.append(accuracy).append(",");
             }
@@ -312,22 +396,22 @@ public final class ParallelEvaluator {
      * 
      * @param printResult
      */
-    private
-            void pretyPrintResult(
+    private synchronized
+            void addAverageAndPretyPrintResult(
                     Map<Metric, List<Float>> printResult)
     {
 
         String[][] resultTable = new String[printResult.keySet().size()
                 + 1][(int)(Globals.NUMBER_OF_FOLDS + 2)];
         resultTable[0][0] = "Fold number";
-        resultTable[0][(int)(Globals.NUMBER_OF_FOLDS + 1)] = "Avearge";
+        resultTable[0][(int)(Globals.NUMBER_OF_FOLDS + 1)] = "Average";
         for (int nFold = 1; nFold <= Globals.NUMBER_OF_FOLDS; nFold++) {
             resultTable[0][nFold] = String.valueOf(nFold);
         }
 
         int i = 1;
         int nFold = 1;
-        for (Metric evalType: printResult.keySet()) {
+        for (final Metric evalType: printResult.keySet()) {
             resultTable[i][0] = evalType.getClass().getName();
             resultTable[i][(int)(Globals.NUMBER_OF_FOLDS + 1)] = String
                     .valueOf(mean(printResult.get(evalType)));

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package controller.similarity;
 
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
