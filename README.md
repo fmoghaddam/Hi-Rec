@@ -20,6 +20,9 @@ Hi-Rec (A Java Framework for Recommender Systems)
  - Precision
  - Recall
  - NDCG
+ - Diversity
+ - Novelty
+ - MAP
   
 **Implemented Features:**
 
