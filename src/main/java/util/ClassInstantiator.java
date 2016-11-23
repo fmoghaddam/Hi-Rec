@@ -29,7 +29,7 @@ final public class ClassInstantiator {
             Object instance = clazz.newInstance();
             return instance;
         } catch (final Exception exception) {
-            LOG.fatal("FATAL ERROR WHEN LOADING CLASSES:  " + className);
+            LOG.fatal("Can not load class:  " + className);
             System.exit(1);
             return null;
         }
