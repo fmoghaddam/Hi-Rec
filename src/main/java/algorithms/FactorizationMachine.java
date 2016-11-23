@@ -1,16 +1,14 @@
 package algorithms;
 
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
 import algorithms.fatorizationmachine.FactorizationMachineModel;
 import algorithms.fatorizationmachine.SGDLearner;
 import controller.similarity.SimilarityRepository;
-import interfaces.Recommender;
+import interfaces.AbstractRecommender;
 import interfaces.SimilarityInterface;
 import model.DataModel;
 import model.Item;
@@ -20,107 +18,169 @@ import run.Configuration;
 import util.MapUtil;
 
 /**
- * This is Factorization Machine algorithm based on:
- * "Factorization Machines", Steffan Rendle 
+ * This is Factorization Machine algorithm based on: "Factorization Machines",
+ * Steffan Rendle
+ * 
  * @author FBM
  *
  */
-public final class FactorizationMachine implements Recommender {
+public final class FactorizationMachine extends AbstractRecommender {
 
-    /**
-     * Logger for this class
+	/**
+	 * Unique id used for serialization
+	 */
+	private static final long serialVersionUID = -1309491493850748844L;
+	/**
+	 * Logger for this class
+	 */
+	@SuppressWarnings("unused")
+	private static final Logger LOG = Logger.getLogger(FactorizationMachine.class.getCanonicalName());
+	private FactorizationMachineModel model;
+	private Configuration configuration;
+	/**
+	 * Number of features
+	 */
+	public int numberOfLatentFactors;
+	/**
+     * Number of iteration for stopping learning
      */
-    private static final Logger LOG = Logger.getLogger(FactorizationMachine.class.getCanonicalName());
-    private FactorizationMachineModel model;
-    private Configuration configuration;
+	private int numberOfIteration;
+	/**
+	 * Learning rate
+	 */
+	private float learnRates;
 
-    public FactorizationMachine() {
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see interfaces.Recommender#predictRating(model.User, model.Item)
-     */
-    @Override
-    public Float predictRating(final User user,final Item item) {
-	if (item == null) {
-	    throw new IllegalArgumentException("Item is null");
+	public FactorizationMachine() {
+		this.configurableParametersMap.put("numberOfLatentFactors", "NUMBER_OF_FEATURES_FOR_FM");
+		this.configurableParametersMap.put("numberOfIteration", "NUMBER_OF_ITERATION_FOR_FM");
+		this.configurableParametersMap.put("learnRates", "LEARNING_RATE_FOR_FM");
 	}
-	if (user == null) {
-	    throw new IllegalArgumentException("User is null");
-	}
-	return this.model.calculate(new Rating(user.getId(), item.getId(), (float) 0));
-    }
 
-    /*
-     * (non-Javadoc)
-     * @see interfaces.Recommender#recommendItems(model.User)
-     */
-    @Override
-    public Map<Integer, Float> recommendItems(final User user) {
-	if(user == null){
-	    throw new IllegalArgumentException("User is null");
+	/**
+	 * @return the numberOfLatentFactors
+	 */
+	public final int getNumberOfLatentFactors() {
+		return numberOfLatentFactors;
 	}
-	final Map<Integer, Float> predictions = new LinkedHashMap<Integer, Float>();
 
-	for (final Item item : model.getDataModel().getItems().values()) {
-	    final int itemId = item.getId();
-	    final float predictRating = predictRating(user, item);
-	    if (!Float.isNaN(predictRating)) {
-		predictions.put(itemId, predictRating);
-	    }
+
+	/**
+	 * @param numberOfLatentFactors the numberOfLatentFactors to set
+	 */
+	public final void setNumberOfLatentFactors(int numberOfLatentFactors) {
+		this.numberOfLatentFactors = numberOfLatentFactors;
 	}
-	final Map<Integer, Float> sortByComparator = MapUtil.sortByValueDescending(predictions);
-	return sortByComparator;
-    }
 
-    /*
-     * (non-Javadoc)
-     * @see interfaces.Recommender#train(model.DataModel)
-     */
-    @Override
-    public void train(final DataModel trainData) {
-	if(trainData == null){
-	    throw new IllegalArgumentException("Train data is null");
+
+	/**
+	 * @return the numberOfIteration
+	 */
+	public final int getNumberOfIteration() {
+		return numberOfIteration;
 	}
-	final long now = new Date().getTime();
-	this.model = new FactorizationMachineModel(trainData, configuration);
-	new SGDLearner().learn(this.model);
-	LOG.debug("Train time: " + TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - now));
-    }
 
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-	return "FactorizationMachine";
-    }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see interfaces.Recommender#setSimilarityRepository(controller.
-     * SimilarityRepository)
-     */
-    @Override
-    public void setSimilarityRepository(SimilarityInterface similarityRepository) {
-	if(similarityRepository == null){
-	    throw new IllegalArgumentException("SimilarityRepository is null");
+	/**
+	 * @param numberOfIteration the numberOfIteration to set
+	 */
+	public final void setNumberOfIteration(int numberOfIteration) {
+		this.numberOfIteration = numberOfIteration;
 	}
-	if (similarityRepository instanceof SimilarityRepository) {
-	    this.configuration = ((SimilarityRepository) similarityRepository).getConfiguration();
-	}
-    }
 
-    /*
-     * (non-Javadoc)
-     * @see interfaces.Recommender#isSimilairtyNeeded()
-     */
-    @Override
-    public boolean isSimilairtyNeeded() {
-	return false;
-    }
+
+	/**
+	 * @return the learnRates
+	 */
+	public final float getLearnRates() {
+		return learnRates;
+	}
+
+
+	/**
+	 * @param learnRates the learnRates to set
+	 */
+	public final void setLearnRates(float learnRates) {
+		this.learnRates = learnRates;
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.Recommender#predictRating(model.User, model.Item)
+	 */
+	@Override
+	public Float predictRating(final User user, final Item item) {
+		if (item == null) {
+			throw new IllegalArgumentException("Item is null");
+		}
+		if (user == null) {
+			throw new IllegalArgumentException("User is null");
+		}
+		return this.model.calculate(new Rating(user.getId(), item.getId(), (float) 0));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.Recommender#recommendItems(model.User)
+	 */
+	@Override
+	public Map<Integer, Float> recommendItems(final User user) {
+		if (user == null) {
+			throw new IllegalArgumentException("User is null");
+		}
+		final Map<Integer, Float> predictions = new LinkedHashMap<Integer, Float>();
+
+		for (final Item item : model.getDataModel().getItems().values()) {
+			final int itemId = item.getId();
+			final float predictRating = predictRating(user, item);
+			if (!Float.isNaN(predictRating)) {
+				predictions.put(itemId, predictRating);
+			}
+		}
+		final Map<Integer, Float> sortByComparator = MapUtil.sortByValueDescending(predictions);
+		return sortByComparator;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.Recommender#train(model.DataModel)
+	 */
+	@Override
+	public void train(final DataModel trainData) {
+		if (trainData == null) {
+			throw new IllegalArgumentException("Train data is null");
+		}
+		this.model = new FactorizationMachineModel(trainData, this.configuration,this.numberOfLatentFactors);
+		new SGDLearner(this.numberOfIteration,this.learnRates).learn(this.model);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "FactorizationMachine";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.Recommender#setSimilarityRepository(controller.
+	 * SimilarityRepository)
+	 */
+	@Override
+	public void setSimilarityRepository(SimilarityInterface similarityRepository) {
+		if (similarityRepository == null) {
+			throw new IllegalArgumentException("SimilarityRepository is null");
+		}
+		if (similarityRepository instanceof SimilarityRepository) {
+			this.configuration = ((SimilarityRepository) similarityRepository).getConfiguration();
+		}
+	}
 
 }

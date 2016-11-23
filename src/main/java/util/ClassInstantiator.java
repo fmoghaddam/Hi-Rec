@@ -1,6 +1,13 @@
 package util;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
+
+import interfaces.AbstractRecommender;
 
 /**
  * A helper class that accepts a class name + parameters and instantiates the
@@ -34,4 +41,27 @@ final public class ClassInstantiator {
             return null;
         }
     }
+    
+    public static void setParametersDynamically(AbstractRecommender algorithm, int configId)
+			throws IllegalAccessException, InvocationTargetException {
+		final Field[] allFields = algorithm.getClass().getDeclaredFields();
+		final Map<String,String> configurabaleParameters = algorithm.getConfigurabaleParameters();
+		for (Field field : allFields) {
+			if(configurabaleParameters.containsKey(field.getName())){
+				if(field.getType().equals(int.class)){
+					BeanUtils.setProperty(algorithm, field.getName(), Config.getInt("ALGORITHM_" + configId +"_"+configurabaleParameters.get(field.getName())));
+				}else if(field.getType().equals(double.class)){
+					BeanUtils.setProperty(algorithm, field.getName(), Config.getDouble("ALGORITHM_" + configId +"_"+configurabaleParameters.get(field.getName())));
+				}else if(field.getType().equals(float.class)){
+					BeanUtils.setProperty(algorithm, field.getName(), Config.getDouble("ALGORITHM_" + configId +"_"+configurabaleParameters.get(field.getName())));
+				}else if(field.getType().equals(boolean.class)){
+					BeanUtils.setProperty(algorithm, field.getName(), Config.getBoolean("ALGORITHM_" + configId +"_"+configurabaleParameters.get(field.getName())));
+				}else if(field.getType().equals(long.class)){
+					BeanUtils.setProperty(algorithm, field.getName(), Config.getLong("ALGORITHM_" + configId +"_"+configurabaleParameters.get(field.getName())));
+				}else if(field.getType().equals(String.class)){
+					BeanUtils.setProperty(algorithm, field.getName(), Config.getString("ALGORITHM_" + configId +"_"+configurabaleParameters.get(field.getName())));
+				}
+			}
+		}
+	}
 }

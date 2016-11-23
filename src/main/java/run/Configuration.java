@@ -1,6 +1,8 @@
 package run;
 
-import interfaces.Recommender;
+import java.io.Serializable;
+
+import interfaces.AbstractRecommender;
 import model.Globals;
 import util.TimeUtil;
 
@@ -10,10 +12,14 @@ import util.TimeUtil;
  * @author FBM
  *
  */
-public final class Configuration {
+public final class Configuration implements Serializable {
 
-    private final int id;
-    private final Recommender algorithm;
+    /**
+	 * Unique id used for serialization
+	 */
+	private static final long serialVersionUID = -8054655100563267008L;
+	private final int id;
+    private final AbstractRecommender algorithm;
     private final boolean useLowLevel;
     private final boolean useGenre;
     private final boolean useTag;
@@ -28,7 +34,7 @@ public final class Configuration {
      * @param useRating
      */
     public Configuration(
-            int id, Recommender algorithm, boolean useLowLevel,
+            int id, AbstractRecommender algorithm, boolean useLowLevel,
             boolean useGenre, boolean useTag,
             boolean useRating)
     {
@@ -101,7 +107,7 @@ public final class Configuration {
      * @return the algorithm
      */
     public final
-            Recommender getAlgorithm() {
+    	AbstractRecommender getAlgorithm() {
         return algorithm;
     }
 

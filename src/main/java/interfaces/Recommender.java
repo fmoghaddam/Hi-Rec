@@ -40,8 +40,7 @@ public interface Recommender {
     void train(DataModel trainData);
 
     /**
-     * Set similarity function for the algorithm. Some algorithm does not need
-     * similarity function (e.g. FunkSVD), then this function could be empty
+     * Set similarity function for the algorithm. 
      * 
      * @param similarityRepository
      *            Given {@link SimilarityInterface}
@@ -56,5 +55,18 @@ public interface Recommender {
      *         O.W. {@code false}
      */
     boolean isSimilairtyNeeded();
+    
+    /**
+     * Returns all the configurable parameters. These parameters should be set in 
+     * config.properties file.
+     * @return
+     */
+    Map<String,String> getConfigurabaleParameters();
+
+	/**
+	 * Get similairty function
+	 * @return
+	 */
+	SimilarityInterface getSimilarityRepository();
 
 }

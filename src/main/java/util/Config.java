@@ -1,118 +1,131 @@
 package util;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.io.File;
 
+import org.apache.commons.configuration2.FileBasedConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.configuration2.io.FileHandler;
 import org.apache.log4j.Logger;
 
 /**
- * This class is responsible for reading attributes fom config file
  * @author FBM
  *
  */
-public final class Config {
-    
-    private static final String BUNDLE_NAME = "config";
-    private static final Logger LOG = Logger.getLogger(Config.class.getSimpleName());
-    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(Config.BUNDLE_NAME);
-
-    /**
-     * Returns a boolean from the config.properties file.
-     * 
-     * @param key
-     * @param defBoolean
-     *            default boolean being returned, if no value is found
-     * @return
-     */
-    public static boolean getBoolean(final String key, final boolean defBoolean) {
-	try {
-	    return Boolean.parseBoolean(Config.RESOURCE_BUNDLE.getString(key));
-	} catch (final Exception e) {
-	    Config.LOG.warn(e.getMessage(), e);
-	    return defBoolean;
+public class Config {
+	private static final Logger LOG = Logger.getLogger(Config.class.getSimpleName());
+	private static FileBasedConfigurationBuilder<FileBasedConfiguration> builder ;
+	static {
+		final Parameters params = new Parameters();
+		builder = new FileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration.class)
+				.configure(params.fileBased().setFile(new File("config.properties")));
+		builder.setAutoSave(true);
 	}
-    }
 
-    /**
-     * Returns an integer from the config.properties file.
-     * 
-     * @param key
-     * @param defInt
-     *            default integer being returned, if no value is found
-     * @return
-     */
-    public static int getInt(final String key, final int defInt) {
-	try {
-	    return Integer.parseInt(Config.RESOURCE_BUNDLE.getString(key));
-	} catch (final Exception e) {
-	    Config.LOG.warn(e.getMessage());
-	    return defInt;
+	public static String getString(final String key) {
+		try {
+			return builder.getConfiguration().getString(key);
+		} catch (ConfigurationException e) {
+			LOG.error(e.getMessage(),e);
+			System.exit(1);
+			return null;
+		}
 	}
-    }
-
-    /**
-     * Returns a long integer from the config.properties file.
-     * 
-     * @param key
-     * @param defLong
-     *            default long integer being returned, if no value is found
-     * @return
-     */
-    public static long getLong(final String key, final long defLong) {
-	try {
-	    return Long.parseLong(Config.RESOURCE_BUNDLE.getString(key));
-	} catch (final Exception e) {
-	    Config.LOG.warn(e.getMessage());
-	    return defLong;
+	
+	public static String getString(final String key,final String def) {
+		try {
+			return builder.getConfiguration().getString(key,def);
+		} catch (ConfigurationException e) {
+			LOG.error(e.getMessage(),e);
+			System.exit(1);
+			return null;
+		}
 	}
-    }
-    
-    /**
-     * Returns a long integer from the config.properties file.
-     * 
-     * @param key
-     * @param defLong
-     *            default long integer being returned, if no value is found
-     * @return
-     */
-    public static Long getLong(final String key, final Long defLong) {
-        try {
-            return Long.parseLong(Config.RESOURCE_BUNDLE.getString(key));
-        } catch (final Exception e) {
-            return defLong;
-        }
-    }
-
-    /**
-     * Returns a string from the config.properties file.
-     * 
-     * @param key
-     * @param defString
-     *            default string being returned, if no value is found
-     * @return
-     */
-    public static String getString(final String key, final String defString) {
-	try {
-	    return Config.RESOURCE_BUNDLE.getString(key);
-	} catch (final MissingResourceException e) {
-	    Config.LOG.warn(e.getMessage());
-	    return defString;
+	
+	public static boolean getBoolean(final String key) {
+		try {
+			return builder.getConfiguration().getBoolean(key);
+		} catch (ConfigurationException e) {
+			LOG.error(e.getMessage(),e);
+			System.exit(1);
+			return false;
+		}
 	}
-    }
-
-    /**
-     * Private constructor to prevent creation with new.
-     */
-    private Config() {
-    }
-
-    public static double getDouble(final String key, final double defLong) {
-	try {
-	    return Double.parseDouble(Config.RESOURCE_BUNDLE.getString(key));
-	} catch (final Exception e) {
-	    Config.LOG.warn(e.getMessage());
-	    return defLong;
+	
+	public static double getDouble(final String key) {
+		try {
+			return builder.getConfiguration().getDouble(key);
+		} catch (ConfigurationException e) {
+			LOG.error(e.getMessage(),e);
+			System.exit(1);
+			return 0.0;
+		}
 	}
-    }
 
+	public static int getInt(final String key,final int def) {
+		try {
+			return builder.getConfiguration().getInt(key,def);
+		} catch (ConfigurationException e) {
+			LOG.error(e.getMessage(),e);
+			System.exit(1);
+			return 0;
+		}
+	}
+	
+	public static int getInt(final String key) {
+		try {
+			return builder.getConfiguration().getInt(key);
+		} catch (ConfigurationException e) {
+			LOG.error(e.getMessage(),e);
+			System.exit(1);
+			return 0;
+		}
+	}
+	
+	public static long getLong(final String key) {
+		try {
+			return builder.getConfiguration().getLong(key);
+		} catch (ConfigurationException e) {
+			LOG.error(e.getMessage(),e);
+			System.exit(1);
+			return 0;
+		}
+	}
+	
+	public static Long getLong(final String key,final Long def) {
+		try {
+			return builder.getConfiguration().getLong(key,def);
+		} catch (ConfigurationException e) {
+			LOG.error(e.getMessage(),e);
+			System.exit(1);
+			return null;
+		}
+	}
+
+	public static void add(){
+		try {
+			FileHandler handler = new FileHandler(builder.getConfiguration());
+			builder.getConfiguration().addProperty("XXXXXXX", "XXXXXXXX");
+			handler.save();
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @param string
+	 * @param b
+	 * @return
+	 */
+	public static boolean getBoolean(final String key,final boolean def) {
+		try {
+			return builder.getConfiguration().getBoolean(key,def);
+		} catch (ConfigurationException e) {
+			LOG.error(e.getMessage(),e);
+			System.exit(1);
+			return false;
+		}
+	}
 }

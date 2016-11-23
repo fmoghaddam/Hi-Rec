@@ -13,10 +13,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.apache.log4j.Logger;
 
 import controller.DataSplitter;
 import controller.similarity.SimilarityRepository;
+import interfaces.AbstractRecommender;
 import interfaces.AccuracyEvaluation;
 import interfaces.ListEvaluation;
 import interfaces.Metric;
@@ -63,7 +65,7 @@ public final class ParallelEvaluator {
 		if (numberOfConfiguration <= 0) {
 			throw new IllegalArgumentException("Number of configuarion in config file is " + numberOfConfiguration);
 		}
-		Recommender algorithm = null;
+		AbstractRecommender algorithm = null;
 		boolean useTag;
 		boolean useRating;
 		boolean useLowLevel;
@@ -71,8 +73,8 @@ public final class ParallelEvaluator {
 		for (int i = 1; i <= numberOfConfiguration; i++) {
 			final String algorithmName = Config.getString("ALGORITHM_" + i + "_NAME", "");
 			try {
-				final Object algo = ClassInstantiator.instantiateClass("algorithms." + algorithmName);
-				algorithm = (Recommender) algo;
+				algorithm = (AbstractRecommender)ClassInstantiator.instantiateClass("algorithms." + algorithmName);				
+				ClassInstantiator.setParametersDynamically(algorithm, i);
 			} catch (final Exception e) {
 				LOG.error("Can not load algorithm " + algorithmName, e);
 				System.exit(1);
@@ -138,9 +140,7 @@ public final class ParallelEvaluator {
 					LOG.debug("Fold " + foldNumber + " Started...");
 					final List<Metric> evalTypes = loadMetics();
 
-					final String algorithmName = Config.getString("ALGORITHM_" + configuration.getId() + "_NAME", "");
-					final Recommender algorithm = (Recommender) ClassInstantiator.instantiateClass("algorithms." + algorithmName);
-
+					final AbstractRecommender algorithm = (AbstractRecommender) SerializationUtils.clone(configuration.getAlgorithm());
 					final SimilarityRepository similarityRepository = new SimilarityRepository(trainData,configuration);
 					algorithm.setSimilarityRepository(similarityRepository);
 

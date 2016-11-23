@@ -1,5 +1,7 @@
 package controller.similarity;
 
+import java.io.Serializable;
+
 import org.apache.log4j.Logger;
 
 import interfaces.SimilarityInterface;
@@ -11,9 +13,13 @@ import run.Configuration;
  * 
  * @author FBM
  */
-public final class SimilarityRepository implements SimilarityInterface {
+public final class SimilarityRepository implements SimilarityInterface,Serializable {
 
     /**
+	 * Unique id used for serialization
+	 */
+	private static final long serialVersionUID = -1351308470553215704L;
+	/**
      * Logger for this class
      */
     private static final Logger LOG = Logger.getLogger(SimilarityRepository.class.getCanonicalName());

@@ -404,7 +404,7 @@ public final class DataLoader {
      * @return 
      */
     public DataModel removeTopPopular(final int numberOfItems){
-        LOG.info("Removing 800 top popular items ...");
+        LOG.info("Removing "+numberOfItems+" top popular items ...");
         final IntArrayList topPopularItems = TopPopularItemsUtil.getTopPopularItems(numberOfItems, dataModel);
         this.doNotAddList.addAll(topPopularItems);
         this.dataModel.clearAll();

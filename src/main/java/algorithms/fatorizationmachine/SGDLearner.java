@@ -3,7 +3,6 @@ package algorithms.fatorizationmachine;
 import org.apache.log4j.Logger;
 
 import model.DataModel;
-import model.Globals;
 import model.Rating;
 
 /**
@@ -22,17 +21,19 @@ public final class SGDLearner {
     /**
      * Number of iteration for stopping learning
      */
-    private final int numberOfIteration = Globals.NUMBER_OF_ITERATION_FOR_FM;
+    private final int numberOfIteration;
     /**
      * Learning rate
      */
-    private final float learnRates = Globals.LEARNING_RATE_FOR_FM;
+    private final float learnRates;
     /**
      * Train data
      */
     private DataModel trainDataModel;
 
-    public SGDLearner() {
+    public SGDLearner(int numberOfIteration, float learnRates) {
+    	this.numberOfIteration = numberOfIteration;
+    	this.learnRates = learnRates;
     }
 
     /**
