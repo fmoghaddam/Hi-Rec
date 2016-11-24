@@ -27,9 +27,8 @@ public class Config {
 	public static String getString(final String key) {
 		try {
 			return builder.getConfiguration().getString(key);
-		} catch (ConfigurationException e) {
-			LOG.error(e.getMessage(),e);
-			System.exit(1);
+		} catch (final Exception exception) {
+			LOG.error("Key '"+key+"' does not exist in the config file!");
 			return null;
 		}
 	}
@@ -37,9 +36,8 @@ public class Config {
 	public static String getString(final String key,final String def) {
 		try {
 			return builder.getConfiguration().getString(key,def);
-		} catch (ConfigurationException e) {
-			LOG.error(e.getMessage(),e);
-			System.exit(1);
+		} catch (final Exception exception) {
+			LOG.error(exception.getMessage());
 			return null;
 		}
 	}
@@ -47,9 +45,8 @@ public class Config {
 	public static boolean getBoolean(final String key) {
 		try {
 			return builder.getConfiguration().getBoolean(key);
-		} catch (ConfigurationException e) {
-			LOG.error(e.getMessage(),e);
-			System.exit(1);
+		} catch (final Exception exception) {
+			LOG.error("Key '"+key+"' does not exist in the config file!");
 			return false;
 		}
 	}
@@ -57,9 +54,8 @@ public class Config {
 	public static double getDouble(final String key) {
 		try {
 			return builder.getConfiguration().getDouble(key);
-		} catch (ConfigurationException e) {
-			LOG.error(e.getMessage(),e);
-			System.exit(1);
+		} catch (final Exception exception) {
+			LOG.error("Key '"+key+"' does not exist in the config file!");
 			return 0.0;
 		}
 	}
@@ -67,9 +63,8 @@ public class Config {
 	public static int getInt(final String key,final int def) {
 		try {
 			return builder.getConfiguration().getInt(key,def);
-		} catch (ConfigurationException e) {
-			LOG.error(e.getMessage(),e);
-			System.exit(1);
+		} catch (final Exception exception) {
+			LOG.error(exception.getMessage());
 			return 0;
 		}
 	}
@@ -77,9 +72,8 @@ public class Config {
 	public static int getInt(final String key) {
 		try {
 			return builder.getConfiguration().getInt(key);
-		} catch (ConfigurationException e) {
-			LOG.error(e.getMessage(),e);
-			System.exit(1);
+		} catch (final Exception exception) {
+			LOG.error("Key '"+key+"' does not exist in the config file!");
 			return 0;
 		}
 	}
@@ -87,9 +81,8 @@ public class Config {
 	public static long getLong(final String key) {
 		try {
 			return builder.getConfiguration().getLong(key);
-		} catch (ConfigurationException e) {
-			LOG.error(e.getMessage(),e);
-			System.exit(1);
+		} catch (final Exception exception) {
+			LOG.error("Key '"+key+"' does not exist in the config file!");
 			return 0;
 		}
 	}
@@ -97,9 +90,8 @@ public class Config {
 	public static Long getLong(final String key,final Long def) {
 		try {
 			return builder.getConfiguration().getLong(key,def);
-		} catch (ConfigurationException e) {
-			LOG.error(e.getMessage(),e);
-			System.exit(1);
+		} catch (final Exception exception) {
+			LOG.error(exception.getMessage());
 			return null;
 		}
 	}
@@ -122,9 +114,8 @@ public class Config {
 	public static boolean getBoolean(final String key,final boolean def) {
 		try {
 			return builder.getConfiguration().getBoolean(key,def);
-		} catch (ConfigurationException e) {
-			LOG.error(e.getMessage(),e);
-			System.exit(1);
+		} catch (final Exception exception) {
+			LOG.error(exception.getMessage());
 			return false;
 		}
 	}
