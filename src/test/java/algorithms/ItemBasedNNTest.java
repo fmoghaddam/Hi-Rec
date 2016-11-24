@@ -22,6 +22,7 @@ public class ItemBasedNNTest {
             void test() {
         final DataModel trainData = TestDataGenerator.getTrainData();
         final ItemBasedNN algorithm = new ItemBasedNN();
+        algorithm.setNumberOfNeighbours(10);
         final LowLevelSimilarityRepository similarityRepository = new LowLevelSimilarityRepository(trainData);
         algorithm.setSimilarityRepository(similarityRepository);
         algorithm.train(trainData);
