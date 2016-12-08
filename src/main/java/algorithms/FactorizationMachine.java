@@ -1,5 +1,6 @@
 package algorithms;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -51,9 +52,17 @@ public final class FactorizationMachine extends AbstractRecommender {
 	private float learnRates;
 
 	public FactorizationMachine() {
-		this.configurableParametersMap.put("numberOfLatentFactors", "NUMBER_OF_FEATURES_FOR_FM");
-		this.configurableParametersMap.put("numberOfIteration", "NUMBER_OF_ITERATION_FOR_FM");
-		this.configurableParametersMap.put("learnRates", "LEARNING_RATE_FOR_FM");
+		final HashMap<String, String> h1 = new HashMap<String, String>();
+		h1.put("NUMBER_OF_FEATURES_FOR_FM","Numbre of latent factor");
+		this.configurableParametersMap.put("numberOfLatentFactors", h1);
+		
+		final HashMap<String, String> h2 = new HashMap<String, String>();
+		h2.put("NUMBER_OF_ITERATION_FOR_FM","Number of iteration");
+		this.configurableParametersMap.put("numberOfIteration", h2);
+		
+		final HashMap<String, String> h3 = new HashMap<String, String>();
+		h3.put("LEARNING_RATE_FOR_FM","Learning rate");
+		this.configurableParametersMap.put("learnRates", h3);
 	}
 
 	/**

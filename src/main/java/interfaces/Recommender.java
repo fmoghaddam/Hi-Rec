@@ -61,7 +61,7 @@ public interface Recommender {
      * config.properties file.
      * @return
      */
-    Map<String,String> getConfigurabaleParameters();
+    Map<String,Map<String,String>> getConfigurabaleParameters();
 
 	/**
 	 * Get similairty function

@@ -2,6 +2,7 @@ package algorithms;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,9 +60,17 @@ public final class FunkSVD extends AbstractRecommender {
 	 * 
 	 */
 	public FunkSVD() {
-		this.configurableParametersMap.put("numFeatures", "NUMBER_OF_FEATURES_FOR_FUNKSVD");
-		this.configurableParametersMap.put("initialSteps", "NUMBER_OF_ITERATION_FOR_FUNKSVD");
-		this.configurableParametersMap.put("learningRate", "LEARNING_RATE_FOR_FUNKSVD");
+		final HashMap<String, String> h1 = new HashMap<>();
+		h1.put("NUMBER_OF_FEATURES_FOR_FUNKSVD", "Number of latent factor");
+		this.configurableParametersMap.put("numFeatures", h1);
+		
+		final HashMap<String, String> h2 = new HashMap<>();
+		h2.put("NUMBER_OF_ITERATION_FOR_FUNKSVD", "Number of iteration");
+		this.configurableParametersMap.put("initialSteps", h2);
+		
+		final HashMap<String, String> h3 = new HashMap<>();
+		h3.put("LEARNING_RATE_FOR_FUNKSVD", "Learning rate");
+		this.configurableParametersMap.put("learningRate", h3);
 	}
 
 	/**

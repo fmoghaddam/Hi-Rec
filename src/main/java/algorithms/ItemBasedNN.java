@@ -1,5 +1,6 @@
 package algorithms;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -41,7 +42,9 @@ public final class ItemBasedNN extends AbstractRecommender {
 	 * 
 	 */
 	public ItemBasedNN() {
-		configurableParametersMap.put("numberOfNeighbours","NUMBER_OF_NEAREST_NEIGHBOUR");
+		final Map<String,String> value = new HashMap<>();
+		value.put("NUMBER_OF_NEAREST_NEIGHBOUR", "Number of nearest neighbor");
+		configurableParametersMap.put("numberOfNeighbours",value);
 	}
 
 	/*
@@ -170,7 +173,7 @@ public final class ItemBasedNN extends AbstractRecommender {
 	 * @see interfaces.AbstractRecommender#getConfigurabaleParameters()
 	 */
 	@Override
-	public Map<String,String> getConfigurabaleParameters() {
+	public Map<String,Map<String,String>> getConfigurabaleParameters() {
 		return configurableParametersMap;
 	}
 

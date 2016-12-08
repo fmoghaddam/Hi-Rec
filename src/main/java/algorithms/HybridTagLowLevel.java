@@ -1,5 +1,6 @@
 package algorithms;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -54,7 +55,9 @@ public final class HybridTagLowLevel extends AbstractRecommender {
 	 * 
 	 */
 	public HybridTagLowLevel() {
-		this.configurableParametersMap.put("numberOfNeighbours", "NUMBER_OF_NEAREST_NEIGHBOUR");
+		final HashMap<String,String> h1 = new HashMap<>();
+		h1.put("NUMBER_OF_NEAREST_NEIGHBOUR","Numbre of nearset neighbor");
+		this.configurableParametersMap.put("numberOfNeighbours", h1);
 	}
 
 	/**

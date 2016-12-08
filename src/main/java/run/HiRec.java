@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import controller.DataLoader;
 import model.DataModel;
+import model.Globals;
 
 /**
  * This class is responsible for running main code
@@ -38,6 +39,18 @@ public final class HiRec {
         evaluator.evaluate();
         Toolkit.getDefaultToolkit().beep();
         waitTillKeyPress();
+    }
+    
+    /**
+     * Start the application in integrated mode
+     */
+    public static void execute(){
+        Globals.readData();
+        final DataLoader loader = new DataLoader();
+        final DataModel dataModel = loader.readData();
+        dataModel.printStatistic();
+        final ParallelEvaluator evaluator = new ParallelEvaluator(dataModel);
+        evaluator.evaluate();
     }
 
     /**

@@ -20,9 +20,10 @@ public class AbstractRecommender implements Recommender,Serializable {
 	 * A map which contains information about the fields name in the class
 	 * and the related key in config file.
 	 * Key = filed name
-	 * Value = config file key
+	 * Value = Map<config file key,pretty name>
+	 * pretty name used in GUI
 	 */
-	protected final Map<String,String> configurableParametersMap = new HashMap<>();
+	protected final Map<String,Map<String,String>> configurableParametersMap = new HashMap<>();
 	/**
 	 * Repository used for calculating similarities
 	 */
@@ -84,7 +85,7 @@ public class AbstractRecommender implements Recommender,Serializable {
 	 * @see interfaces.Recommender#getConfigurabaleParameters()
 	 */
 	@Override
-	public Map<String,String> getConfigurabaleParameters() {
+	public Map<String,Map<String,String>> getConfigurabaleParameters() {
 		return this.configurableParametersMap;
 	}
 
