@@ -37,7 +37,7 @@ public class FirstPage extends WizardPage {
 		});
 
 		runApplicationBtn.setOnAction(event -> {
-			navTo(3);
+			navTo(5);
 		});
 
 		return initLayout();

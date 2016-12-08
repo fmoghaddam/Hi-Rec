@@ -18,6 +18,9 @@ import org.apache.log4j.Logger;
 
 import controller.DataSplitter;
 import controller.similarity.SimilarityRepository;
+import gui.pages.AlgorithmLevelUpdateMessage;
+import gui.pages.FoldLevelUpdateMessage;
+import gui.pages.FoldStatus;
 import interfaces.AbstractRecommender;
 import interfaces.AccuracyEvaluation;
 import interfaces.ListEvaluation;
@@ -30,6 +33,7 @@ import model.Rating;
 import model.User;
 import util.ClassInstantiator;
 import util.Config;
+import util.MessageBus;
 import util.PrettyPrinter;
 import util.StatisticFunctions;
 
@@ -84,6 +88,7 @@ public final class ParallelEvaluator {
 			useTag = Config.getBoolean("ALGORITHM_" + i + "_USE_TAG", false);
 			useGenre = Config.getBoolean("ALGORITHM_" + i + "_USE_GENRE", false);
 			configurations.add(new Configuration(i, algorithm, useLowLevel, useGenre, useTag, useRating));
+			MessageBus.getInstance().getBus().post(new AlgorithmLevelUpdateMessage(i, algorithmName, Globals.NUMBER_OF_FOLDS));
 		}
 		return configurations;
 	}
@@ -137,6 +142,7 @@ public final class ParallelEvaluator {
 			final int foldNumber = i;
 			final Runnable task = () -> {
 				try {
+					MessageBus.getInstance().getBus().post(new FoldLevelUpdateMessage(configuration.getId(),foldNumber,FoldStatus.STARTED));
 					LOG.debug("Fold " + foldNumber + " Started...");
 					final List<Metric> evalTypes = loadMetics();
 
@@ -144,12 +150,14 @@ public final class ParallelEvaluator {
 					final SimilarityRepository similarityRepository = new SimilarityRepository(trainData,configuration);
 					algorithm.setSimilarityRepository(similarityRepository);
 
+					MessageBus.getInstance().getBus().post(new FoldLevelUpdateMessage(configuration.getId(),foldNumber,FoldStatus.TRAINING));
 					configuration.getTimeUtil().setTrainTimeStart(foldNumber);
 					LOG.debug("Fold " + foldNumber + " Train started...");
 					algorithm.train(trainData);
 					LOG.debug("Fold " + foldNumber + " Train is done");
-					configuration.getTimeUtil().setTrainTimeEnd(foldNumber);
+					configuration.getTimeUtil().setTrainTimeEnd(foldNumber);					
 
+					MessageBus.getInstance().getBus().post(new FoldLevelUpdateMessage(configuration.getId(),foldNumber,FoldStatus.TESTING));
 					configuration.getTimeUtil().setTestTimeStart(foldNumber);
 					handleRatingEvaluation(testData, evalTypes, algorithm);
 					handleListEvaluation(trainData, testData, evalTypes, algorithm);
@@ -157,6 +165,7 @@ public final class ParallelEvaluator {
 
 					handleMetric(evalTypes, printResult);
 					LOG.debug("Fold " + foldNumber + " is done.");
+					MessageBus.getInstance().getBus().post(new FoldLevelUpdateMessage(configuration.getId(),foldNumber,FoldStatus.FINISHED));
 				} catch (final Exception exception) {
 					LOG.error("Fold " + foldNumber + " is done with error. Error is " + exception.getMessage());
 					exception.printStackTrace();

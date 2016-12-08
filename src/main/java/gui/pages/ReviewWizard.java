@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Map.Entry;
 
+
 import gui.ConfigGeneratorGui;
 import gui.WizardPage;
 import gui.model.ConfigData;
@@ -14,6 +15,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
@@ -25,7 +27,7 @@ public class ReviewWizard extends WizardPage {
 
 	private TextArea textArea;
 	private Button exportButton;
-
+	private Button startButton;
 	/**
 	 * @param title
 	 */
@@ -56,9 +58,28 @@ public class ReviewWizard extends WizardPage {
 				}
 			}
 		});
+		startButton = new Button("Start The Application");
+		startButton.setOnAction(event->{
+			fillConfigFileWithNewData();
+			navTo(6);
+		});
+		
 		fillContent();
-		final VBox hbox = new VBox(10.0, textArea, exportButton);
+		final VBox hbox = new VBox(10.0, textArea, new HBox(5.0,exportButton,startButton));
 		return hbox;
+	}
+
+	private void fillConfigFileWithNewData() {
+		try
+		{
+		    String filename= "config.properties";
+		    FileWriter fw = new FileWriter(filename,false); //the true will append the new data
+		    fw.write(textArea.getText());//appends the string to the file
+		    fw.close();
+		}
+		catch(IOException ioe)
+		{
+		}
 	}
 
 	/**

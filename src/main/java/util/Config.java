@@ -96,7 +96,8 @@ public class Config {
 		}
 	}
 
-	public static void add(){
+	@SuppressWarnings("unused")
+	private static void add(){
 		try {
 			FileHandler handler = new FileHandler(builder.getConfiguration());
 			builder.getConfiguration().addProperty("XXXXXXX", "XXXXXXXX");

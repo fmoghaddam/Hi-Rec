@@ -2,6 +2,10 @@ package run;
 
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 
 import org.apache.log4j.Logger;
 
@@ -32,6 +36,7 @@ public final class HiRec {
             void main(
                     String[] args)
     {
+    	CleanLogFile();
         final DataLoader loader = new DataLoader();
         final DataModel dataModel = loader.readData();
         dataModel.printStatistic();
@@ -42,15 +47,32 @@ public final class HiRec {
     }
     
     /**
+	 * 
+	 */
+	private static void CleanLogFile() {
+		try {
+		    Files.deleteIfExists(Paths.get("log/Recommender.log"));
+		} catch (NoSuchFileException x) {
+		} catch (DirectoryNotEmptyException x) {
+		} catch (IOException x) {
+		}
+	}
+
+	/**
      * Start the application in integrated mode
      */
-    public static void execute(){
-        Globals.readData();
-        final DataLoader loader = new DataLoader();
-        final DataModel dataModel = loader.readData();
-        dataModel.printStatistic();
-        final ParallelEvaluator evaluator = new ParallelEvaluator(dataModel);
-        evaluator.evaluate();
+    public static void execute(){    	
+        final Thread thread = new Thread(() -> {
+        	CleanLogFile();
+			Globals.readData();
+		    final DataLoader loader = new DataLoader();
+		    final DataModel dataModel = loader.readData();
+		    dataModel.printStatistic();
+		    final ParallelEvaluator evaluator = new ParallelEvaluator(dataModel);
+		    evaluator.evaluate();
+		});
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**
