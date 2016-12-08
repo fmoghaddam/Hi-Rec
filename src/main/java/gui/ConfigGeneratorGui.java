@@ -35,4 +35,11 @@ public class ConfigGeneratorGui extends Application {
 		return currentStage;
 	}
 
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#stop()
+	 */
+	@Override
+	public void stop() throws Exception {
+		System.exit(1);
+	}
 }

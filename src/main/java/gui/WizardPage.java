@@ -1,6 +1,5 @@
 package gui;
 
-import gui.model.ConfigData;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -40,7 +39,6 @@ public abstract class WizardPage extends VBox {
 		nextButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent actionEvent) {
-				System.err.println(ConfigData.instance);
 				if (validate()) {
 					nextPage();
 				}

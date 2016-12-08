@@ -37,5 +37,6 @@ class WizardMaker extends Wizard {
 	@Override
 	public void cancel() {
 		owner.close();
+		System.exit(0);
 	}
 }
