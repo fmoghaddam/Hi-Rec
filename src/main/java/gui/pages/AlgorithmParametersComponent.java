@@ -56,4 +56,12 @@ public class AlgorithmParametersComponent {
 	public Parent getLayout() {
 		return grid;
 	}
+
+	/**
+	 * @return
+	 */
+	public String validate() {
+		//TODO
+		return "";
+	}
 }

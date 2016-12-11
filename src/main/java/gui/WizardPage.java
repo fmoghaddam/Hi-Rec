@@ -78,6 +78,18 @@ public abstract class WizardPage extends VBox {
 	protected boolean shouldHideBack() {
 		return false;
 	}
+	
+	protected boolean shouldDisbaleNext() {
+		return false;
+	}
+
+	protected boolean shouldDisbaleCancel() {
+		return false;
+	}
+
+	protected boolean shouldDisbaleBack() {
+		return false;
+	}
 
 	public boolean hasNextPage() {
 		return getWizard().hasNextPage();
@@ -129,6 +141,22 @@ public abstract class WizardPage extends VBox {
 		}
 		if (shouldHideBack()) {
 			priorButton.setVisible(false);
+		}
+
+	}
+	
+	/**
+	 * 
+	 */
+	public void manageDisbalingButtons() {
+		if (shouldDisbaleNext()) {
+			nextButton.setDisable(true);
+		}
+		if (shouldDisbaleCancel()) {
+			cancelButton.setDisable(true);
+		}
+		if (shouldDisbaleBack()) {
+			priorButton.setDisable(true);
 		}
 
 	}

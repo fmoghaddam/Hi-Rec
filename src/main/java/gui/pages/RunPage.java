@@ -38,8 +38,8 @@ public class RunPage extends WizardPage implements Consumers {
 
 	@Subscribe
 	private void addAlgorithmComponent(final AlgorithmLevelUpdateMessage message) {
-		Platform.runLater(() -> {
-			final Parent c = new AlgorithmVisualComponent(message.getId(), message.getAlgorithmName(), message.getNumberOfFold()).getLayout();
+		final Parent c = new AlgorithmVisualComponent(message.getId(), message.getAlgorithmName(), message.getNumberOfFold()).getLayout();
+		Platform.runLater(() -> {			
 			if(algorithmsGrid==null){
 				algorithmsGrid = new GridPane();
 				algorithmsGrid.add(c, 0, 0);

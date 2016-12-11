@@ -3,8 +3,12 @@
  */
 package gui.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gui.WizardPage;
 import gui.model.ConfigData;
+import gui.model.ErrorMessage;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
@@ -30,6 +34,9 @@ public class AlgorithmWizard extends WizardPage {
 
 	private GridPane gridpane;
 	private GridPane algorithmGridpane;
+	
+	private ErrorMessage errorMessage;
+	private List<AlgorithmComponent> algorithmComponents;
 
 	/**
 	 * @param title
@@ -54,6 +61,7 @@ public class AlgorithmWizard extends WizardPage {
 		slider.setShowTickLabels(true);
 		slider.setBlockIncrement(1);
 		slider.setPrefWidth(400);
+		slider.setMajorTickUnit(1);
 
 		slider.valueProperty().addListener((ChangeListener<Number>) (observable, oldValue, newValue) -> {
 			numberOfConfigurationValue.setText(String.valueOf((int) slider.getValue()));
@@ -63,6 +71,8 @@ public class AlgorithmWizard extends WizardPage {
 			ConfigData.instance.ALGORITHM_PARAMETERS.clear();
 			addAlgorithmComponent(value);
 		});
+		
+		algorithmComponents = new ArrayList<>();
 	}
 
 	/**
@@ -70,12 +80,22 @@ public class AlgorithmWizard extends WizardPage {
 	 */
 	private void addAlgorithmComponent(int value) {
 		algorithmGridpane.getChildren().clear();
+		algorithmComponents.clear();
 		for (int i = 1; i <= value; i++) {
-			algorithmGridpane.add(new AlgorithmComponent(i).getLayout(), 0, i);
+			final AlgorithmComponent algorithmComponent = new AlgorithmComponent(i);
+			algorithmComponents.add(algorithmComponent);
+			algorithmGridpane.add(algorithmComponent.getLayout(), 0, i);
 		}
 		algorithmGridpane.setAlignment(Pos.CENTER);
 	}
 
+	/**
+	 * 
+	 */
+	private void initErrorLabel() {
+		errorMessage = new ErrorMessage();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -84,6 +104,7 @@ public class AlgorithmWizard extends WizardPage {
 	@Override
 	public Parent getContent() {
 		initConfigurationNumberAttributes();
+		initErrorLabel();
 		return initLayout();
 	}
 
@@ -103,11 +124,10 @@ public class AlgorithmWizard extends WizardPage {
 		algorithmGridpane.setHgap(10);
 		algorithmGridpane.setVgap(10);
 
-		final VBox vbox = new VBox(5, gridpane, algorithmGridpane);
-
+		final VBox vbox = new VBox(5, gridpane, algorithmGridpane,errorMessage);
 		algorithmGridpane.setAlignment(Pos.CENTER);
 		gridpane.setAlignment(Pos.CENTER);
-
+		
 		scrollPane = new ScrollPane();
 		scrollPane.setContent(vbox);
 		scrollPane.setStyle("-fx-background-color:transparent;-fx-background: rgb(241,255,242);");
@@ -121,7 +141,25 @@ public class AlgorithmWizard extends WizardPage {
 	 */
 	@Override
 	public boolean validate() {
-		return true;
+		if(slider.getValue()<=0){
+			errorMessage.setText("At lease 1 algorithm should be configured");
+			return false;
+		}else{
+			final StringBuilder result = new StringBuilder();
+			for(int i=1;i<=algorithmComponents.size();i++){
+				final AlgorithmComponent algo = algorithmComponents.get(i-1);
+				final String validate = algo.validate();
+				if(validate!=null && !validate.isEmpty()){
+					result.append("In configuration "+i+": ").append(validate).append("\n");
+				}
+			}
+			errorMessage.setText(result.toString());
+			if(errorMessage.getText()==null || errorMessage.getText().isEmpty()){
+				return true;
+			}else{
+				return false;
+			}
+		}
 	}
 
 	/*

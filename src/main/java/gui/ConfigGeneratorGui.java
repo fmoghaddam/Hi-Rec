@@ -10,6 +10,9 @@ import javafx.stage.Stage;
  */
 public class ConfigGeneratorGui extends Application {
 
+	public static final int HEIGHT = 880;
+	public static final int WIDTH = 670;
+	
 	private static Stage currentStage;
 
 	public static void main(String[] args) throws Exception {
@@ -24,7 +27,7 @@ public class ConfigGeneratorGui extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		currentStage = stage;
-		stage.setScene(new Scene(new WizardMaker(stage), 670, 880));
+		stage.setScene(new Scene(new WizardMaker(stage), WIDTH, HEIGHT));
 		stage.show();
 	}
 

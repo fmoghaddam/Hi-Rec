@@ -2,6 +2,7 @@ package gui.pages;
 
 import gui.WizardPage;
 import gui.model.ConfigData;
+import gui.model.ErrorMessage;
 import gui.model.Metrics;
 import gui.model.SimilarityFunctions;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,8 +20,6 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 /**
  * @author FBM
@@ -48,7 +47,7 @@ public class GeneralFeatureWizard extends WizardPage {
 	private CheckBox dropMostPopularItemsCheckBox;
 	private TextField dropMostPopularItemsTextField;
 
-	private Label errorMessage;
+	private ErrorMessage errorMessage;
 
 	/**
 	 * @param title
@@ -79,9 +78,7 @@ public class GeneralFeatureWizard extends WizardPage {
 	 * 
 	 */
 	private void initErrorLabel() {
-		errorMessage = new Label();
-		errorMessage.setTextFill(Color.web("#FF0000"));
-		errorMessage.setFont(new Font("Arial", 16));
+		errorMessage = new ErrorMessage();
 	}
 
 	private void initMetricAttributes() {
@@ -185,7 +182,7 @@ public class GeneralFeatureWizard extends WizardPage {
 		gridpane.add(metricsLabel, 0, 6);
 		gridpane.add(metrics, 1, 6);
 
-		VBox mainLayout = new VBox(5.0, gridpane, errorMessage);
+		final VBox mainLayout = new VBox(5.0, gridpane, errorMessage);
 		return mainLayout;
 	}
 
@@ -228,6 +225,10 @@ public class GeneralFeatureWizard extends WizardPage {
 			}
 		}
 
+		if(metrics.getSelectionModel().getSelectedItems()==null || metrics.getSelectionModel().getSelectedItems().isEmpty()){
+			overalErrorMessage.append("At lease 1 metric shoudl be selected").append("\n");
+			overalError=true;
+		}
 		if (!overalError) {
 			errorMessage.setText("");
 			return true;

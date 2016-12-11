@@ -121,4 +121,12 @@ public class AlgorithmComponent {
 				+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: gray;");
 		return main;
 	}
+	
+	public String validate(){
+		if(algorithmCombobox.getValue()==null){
+			return "Select algorithm name";
+		}else{
+			return algorithmParameters.validate();
+		}
+	}
 }

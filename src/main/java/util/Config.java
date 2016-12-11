@@ -37,62 +37,78 @@ public class Config {
 		try {
 			return builder.getConfiguration().getString(key,def);
 		} catch (final Exception exception) {
-			LOG.error(exception.getMessage());
+			LOG.error("Key '"+key+"' does not exist in the config file!");
 			return null;
 		}
 	}
 	
 	public static boolean getBoolean(final String key) {
 		try {
-			return builder.getConfiguration().getBoolean(key);
+			final String value = builder.getConfiguration().getString(key);
+			return Boolean.parseBoolean(value);
 		} catch (final Exception exception) {
-			LOG.error("Key '"+key+"' does not exist in the config file!");
+			LOG.error(key+"-"+exception.getMessage()+ ". False will be returned");
 			return false;
 		}
 	}
 	
 	public static double getDouble(final String key) {
 		try {
-			return builder.getConfiguration().getDouble(key);
+			final String value = builder.getConfiguration().getString(key);
+			return Double.parseDouble(value);
+		}catch(final NumberFormatException exception){
+			return 0.0;
 		} catch (final Exception exception) {
-			LOG.error("Key '"+key+"' does not exist in the config file!");
+			LOG.error(key+"-"+exception.getMessage() + ". 0.0 will be returned");
 			return 0.0;
 		}
 	}
 
 	public static int getInt(final String key,final int def) {
 		try {
-			return builder.getConfiguration().getInt(key,def);
+			final String value = builder.getConfiguration().getString(key);
+			return Integer.parseInt(value);
+		}catch(final NumberFormatException exception){
+			return def;
 		} catch (final Exception exception) {
-			LOG.error(exception.getMessage());
-			return 0;
+			LOG.error(key+"-"+exception.getMessage() + ". "+def+" will be returned");
+			return def;
 		}
 	}
 	
 	public static int getInt(final String key) {
 		try {
-			return builder.getConfiguration().getInt(key);
+			final String value = builder.getConfiguration().getString(key);
+			return Integer.parseInt(value);
+		}catch(final NumberFormatException exception){
+			return 0;
 		} catch (final Exception exception) {
-			LOG.error("Key '"+key+"' does not exist in the config file!");
+			LOG.error(key+"-"+exception.getMessage() + ". 0 will be returned");
 			return 0;
 		}
 	}
 	
 	public static long getLong(final String key) {
 		try {
-			return builder.getConfiguration().getLong(key);
+			final String value = builder.getConfiguration().getString(key);
+			return Long.parseLong(value);
+		}catch(final NumberFormatException exception){
+			return 0;
 		} catch (final Exception exception) {
-			LOG.error("Key '"+key+"' does not exist in the config file!");
+			LOG.error(key+"-"+exception.getMessage() + ". 0 will be returned");
 			return 0;
 		}
 	}
 	
 	public static Long getLong(final String key,final Long def) {
 		try {
-			return builder.getConfiguration().getLong(key,def);
-		} catch (final Exception exception) {
-			LOG.error(exception.getMessage());
-			return null;
+			final String value = builder.getConfiguration().getString(key);
+			return Long.parseLong(value);
+		}catch(final NumberFormatException exception){
+			return def;
+		}catch (final Exception exception) {
+			LOG.error(key+"-"+exception.getMessage() + ". "+def+" will be returned");
+			return def;
 		}
 	}
 
@@ -114,10 +130,13 @@ public class Config {
 	 */
 	public static boolean getBoolean(final String key,final boolean def) {
 		try {
-			return builder.getConfiguration().getBoolean(key,def);
+			final String value = builder.getConfiguration().getString(key);
+			return Boolean.parseBoolean(value);
+		}catch(final NumberFormatException exception){
+			return def;
 		} catch (final Exception exception) {
-			LOG.error(exception.getMessage());
-			return false;
+			LOG.error(key+"-"+exception.getMessage() + ". "+def+" will be returned");
+			return def;
 		}
 	}
 }

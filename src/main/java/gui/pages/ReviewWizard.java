@@ -43,6 +43,7 @@ public class ReviewWizard extends WizardPage {
 	@Override
 	public Parent getContent() {
 		textArea = new TextArea();
+		textArea.setPrefHeight(ConfigGeneratorGui.HEIGHT-100);
 		exportButton = new Button("Export Config file");
 		exportButton.setOnAction(event -> {
 			final FileChooser fileChooser = new FileChooser();
@@ -97,6 +98,8 @@ public class ReviewWizard extends WizardPage {
 					if (((StringProperty) field.get(ConfigData.instance)).get() != null) {
 						result.append(field.getName()).append("=")
 								.append(((StringProperty) field.get(ConfigData.instance)).get()).append("\n");
+					}else{
+						result.append(field.getName()).append("=").append("\n");
 					}
 				} else if (field.get(ConfigData.instance) instanceof Map) {
 					@SuppressWarnings("unchecked")
@@ -105,6 +108,8 @@ public class ReviewWizard extends WizardPage {
 					for (final Entry<String, StringProperty> entry : map.entrySet()) {
 						if (entry.getValue().get() != null) {
 							result.append(entry.getKey()).append("=").append(entry.getValue().get()).append("\n");
+						}else{
+							result.append(entry.getKey()).append("=").append("\n");
 						}
 					}
 				}
@@ -136,4 +141,14 @@ public class ReviewWizard extends WizardPage {
 	public void reloadIfNeeded() {
 		fillContent();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see gui.WizardPage#shouldDisbaleNext()
+	 */
+	@Override
+	protected boolean shouldDisbaleNext() {
+		return true;
+	}
+	
 }

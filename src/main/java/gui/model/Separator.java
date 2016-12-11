@@ -8,9 +8,9 @@ import javafx.beans.property.StringProperty;
  *
  */
 public enum Separator {
+	Comma(","),
 	SemiColon(";"),
-	Tab("\\t"),
-	Comma(",");
+	Tab("\\t");
 	
 	private StringProperty text;
 	

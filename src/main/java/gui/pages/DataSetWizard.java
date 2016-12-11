@@ -4,6 +4,7 @@ import java.io.File;
 import gui.ConfigGeneratorGui;
 import gui.WizardPage;
 import gui.model.ConfigData;
+import gui.model.ErrorMessage;
 import gui.model.Separator;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
@@ -13,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 /**
@@ -20,6 +22,8 @@ import javafx.stage.FileChooser;
  *
  */
 public class DataSetWizard extends WizardPage {
+	private ErrorMessage errorMessage;
+
 	private FileChooser lowLevelFileChooser;
 	private Button lowLevelFileBtn;
 	private TextField lowLevelFileText;
@@ -57,6 +61,13 @@ public class DataSetWizard extends WizardPage {
 		super("Dataset wizard");
 	}
 
+	/**
+	 * 
+	 */
+	private void initErrorLabel() {
+		errorMessage = new ErrorMessage();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -68,6 +79,7 @@ public class DataSetWizard extends WizardPage {
 		handleGenreAttributes();
 		handleTagAttributes();
 		handleRatingAttributes();
+		initErrorLabel();
 		return initLayout();
 	}
 
@@ -102,7 +114,8 @@ public class DataSetWizard extends WizardPage {
 		gridpane.setHgap(10);
 		gridpane.setVgap(10);
 
-		return gridpane;
+		final VBox mainLayout = new VBox(5.0, gridpane, errorMessage);
+		return mainLayout;
 	}
 
 	/**
@@ -110,11 +123,16 @@ public class DataSetWizard extends WizardPage {
 	 */
 	private void handleRatingAttributes() {
 		ratingFileChooser = new FileChooser();
+		ratingFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Files", "*.*"),
+				new FileChooser.ExtensionFilter("CSV", "*.csv"), new FileChooser.ExtensionFilter("TXT", "*.txt"));
 
 		ratingFileBtn = new Button("Browse");
 		ratingFileBtn.setOnAction(event -> {
 			final File file = ratingFileChooser.showOpenDialog(ConfigGeneratorGui.getCurrentStage());
-			ratingFileText.setText(file.getAbsolutePath());
+			if (file != null) {
+				ratingFileText.setText(file.getAbsolutePath());
+				ratingFileChooser.setInitialDirectory(file.getParentFile());
+			}
 		});
 
 		ratingFileText = new TextField();
@@ -139,11 +157,16 @@ public class DataSetWizard extends WizardPage {
 	 */
 	private void handleTagAttributes() {
 		tagFileChooser = new FileChooser();
+		tagFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Files", "*.*"),
+				new FileChooser.ExtensionFilter("CSV", "*.csv"), new FileChooser.ExtensionFilter("TXT", "*.txt"));
 
 		tagFileBtn = new Button("Browse");
 		tagFileBtn.setOnAction(event -> {
 			final File file = tagFileChooser.showOpenDialog(ConfigGeneratorGui.getCurrentStage());
-			tagFileText.setText(file.getAbsolutePath());
+			if (file != null) {
+				tagFileText.setText(file.getAbsolutePath());
+				tagFileChooser.setInitialDirectory(file.getParentFile());
+			}
 		});
 
 		tagFileText = new TextField();
@@ -168,11 +191,16 @@ public class DataSetWizard extends WizardPage {
 	 */
 	private void handleGenreAttributes() {
 		genreFileChooser = new FileChooser();
+		genreFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Files", "*.*"),
+				new FileChooser.ExtensionFilter("CSV", "*.csv"), new FileChooser.ExtensionFilter("TXT", "*.txt"));
 
 		genreFileBtn = new Button("Browse");
 		genreFileBtn.setOnAction(event -> {
 			final File file = genreFileChooser.showOpenDialog(ConfigGeneratorGui.getCurrentStage());
-			genreFileText.setText(file.getAbsolutePath());
+			if (file != null) {
+				genreFileText.setText(file.getAbsolutePath());
+				genreFileChooser.setInitialDirectory(file.getParentFile());
+			}
 		});
 
 		genreFileText = new TextField();
@@ -197,14 +225,15 @@ public class DataSetWizard extends WizardPage {
 	 */
 	private void handleLowLevelAttributes() {
 		lowLevelFileChooser = new FileChooser();
+		lowLevelFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Files", "*.*"),
+				new FileChooser.ExtensionFilter("CSV", "*.csv"), new FileChooser.ExtensionFilter("TXT", "*.txt"));
 
 		lowLevelFileBtn = new Button("Browse");
 		lowLevelFileBtn.setOnAction(event -> {
 			final File file = lowLevelFileChooser.showOpenDialog(ConfigGeneratorGui.getCurrentStage());
-			if (file == null) {
-				lowLevelFileText.setText("");
-			} else {
+			if (file != null) {
 				lowLevelFileText.setText(file.getAbsolutePath());
+				lowLevelFileChooser.setInitialDirectory(file.getParentFile());
 			}
 		});
 
@@ -233,10 +262,12 @@ public class DataSetWizard extends WizardPage {
 	@Override
 	public boolean validate() {
 		if (ratingFileText.getText() == null || ratingFileText.getText().isEmpty()) {
-
+			errorMessage.setText("The rating file should be selected");
 			return false;
+		} else {
+			errorMessage.setText("");
+			return true;
 		}
-		return true;
 	}
 
 	/*

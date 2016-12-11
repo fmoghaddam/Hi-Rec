@@ -61,6 +61,7 @@ class Wizard extends StackPane {
 		getChildren().add(nextPage);
 		nextPage.manageButtons();
 		nextPage.manageHidingButtons();
+		nextPage.manageDisbalingButtons();
 		nextPage.reloadIfNeeded();
 	}
 

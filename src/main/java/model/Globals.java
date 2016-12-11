@@ -72,7 +72,9 @@ public final class Globals {
         AT_N = Config.getInt("AT_N");
 
         DROP_POPULAR_ITEM = Config.getBoolean("DROP_POPULAR_ITEM");
-        DROP_POPULAR_ITEM_NUMBER = Config.getInt("DROP_POPULAR_ITEM_NUMBER");
+        if(DROP_POPULAR_ITEM){
+        	DROP_POPULAR_ITEM_NUMBER = Config.getInt("DROP_POPULAR_ITEM_NUMBER",0);
+        }
         CALCULATE_TTEST = Config.getBoolean("CALCULATE_TTEST");
         RANDOMIZATION_SEED = Config.getLong("RANDOMIZATION_SEED", null);
     }

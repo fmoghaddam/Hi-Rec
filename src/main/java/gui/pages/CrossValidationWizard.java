@@ -2,6 +2,7 @@ package gui.pages;
 
 import gui.WizardPage;
 import gui.model.ConfigData;
+import gui.model.ErrorMessage;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -12,7 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 /**
@@ -28,7 +30,7 @@ public class CrossValidationWizard extends WizardPage {
 	private CheckBox randomizationSeedCheckBox;
 	private TextField randomizationSeedTextField;
 
-	private Label errorMessage;
+	private ErrorMessage errorMessage;
 
 	/**
 	 * @param title
@@ -54,9 +56,7 @@ public class CrossValidationWizard extends WizardPage {
 	 * 
 	 */
 	private void initErrorLabel() {
-		errorMessage = new Label();
-		errorMessage.setTextFill(Color.web("#FF0000"));
-		errorMessage.setFont(new Font("Arial", 30));
+		errorMessage = new ErrorMessage();
 	}
 
 	/**
@@ -90,14 +90,13 @@ public class CrossValidationWizard extends WizardPage {
 
 		gridpane.add(numberOfFolds, 0, 0);
 		gridpane.add(slider, 1, 0);
-		gridpane.add(numberOfFoldsValue, 2, 0);
 
 		gridpane.add(randomizationSeedCheckBox, 0, 1);
 		gridpane.add(randomizationSeedTextField, 1, 1);
 
-		gridpane.add(errorMessage, 0, 2);
-
-		return gridpane;
+		final HBox hBox = new HBox(5.0,gridpane,numberOfFoldsValue);
+		final VBox mainLayout = new VBox(5.0, hBox, errorMessage);
+		return mainLayout;
 	}
 
 	/**
@@ -113,9 +112,11 @@ public class CrossValidationWizard extends WizardPage {
 		slider.setMax(50);
 		slider.setValue(5);
 		slider.setShowTickLabels(true);
+		slider.setMajorTickUnit(5);
 		slider.setBlockIncrement(1);
 		slider.setPrefWidth(300);
-
+		numberOfFoldsValue.setText(String.valueOf((int) slider.getValue()));
+		ConfigData.instance.NUMBER_OF_FOLDS.bind(new SimpleStringProperty(String.valueOf((int) slider.getValue())));
 		slider.valueProperty().addListener((ChangeListener<Number>) (observable, oldValue, newValue) -> {
 			numberOfFoldsValue.setText(String.valueOf((int) slider.getValue()));
 			ConfigData.instance.NUMBER_OF_FOLDS.bind(new SimpleStringProperty(String.valueOf((int) slider.getValue())));
