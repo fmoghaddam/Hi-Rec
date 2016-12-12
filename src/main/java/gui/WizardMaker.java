@@ -5,9 +5,9 @@ import gui.pages.CrossValidationWizard;
 import gui.pages.DataSetWizard;
 import gui.pages.FirstPage;
 import gui.pages.GeneralFeatureWizard;
-import gui.pages.ParallelWizard;
 import gui.pages.ReviewWizard;
 import gui.pages.RunPage;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 class WizardMaker extends Wizard {
@@ -16,18 +16,8 @@ class WizardMaker extends Wizard {
 
 	public WizardMaker(Stage owner) {
 		super(new FirstPage(), new DataSetWizard(), new CrossValidationWizard(), new GeneralFeatureWizard(),
-				new AlgorithmWizard(),new ParallelWizard(), new ReviewWizard(), new RunPage());
+				new AlgorithmWizard(), new ReviewWizard(), new RunPage());
 		this.owner = owner;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gui.Wizard#finish()
-	 */
-	@Override
-	public void finish() {
-		owner.close();
 	}
 
 	/*
@@ -38,6 +28,6 @@ class WizardMaker extends Wizard {
 	@Override
 	public void cancel() {
 		owner.close();
-		System.exit(0);
+		Platform.exit();
 	}
 }

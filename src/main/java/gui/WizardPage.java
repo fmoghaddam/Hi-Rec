@@ -4,12 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.StageStyle;
 
 public abstract class WizardPage extends VBox {
 	public Button priorButton = new Button("_Previous");
@@ -23,8 +25,8 @@ public abstract class WizardPage extends VBox {
 		getChildren().add(label);
 		setId(title);
 		setSpacing(5);
-		setStyle(
-				"-fx-padding:10; -fx-background-color: honeydew; -fx-border-color: derive(honeydew, -30%); -fx-border-width: 3;");
+		//setStyle(
+		//		"-fx-padding:10; -fx-background-color: honeydew; -fx-border-color: derive(honeydew, -30%); -fx-border-width: 3;");
 		this.setAlignment(Pos.CENTER);
 		final Region spring = new Region();
 		VBox.setVgrow(spring, Priority.ALWAYS);
@@ -41,6 +43,12 @@ public abstract class WizardPage extends VBox {
 			public void handle(ActionEvent actionEvent) {
 				if (validate()) {
 					nextPage();
+				}else{
+					final Alert alert = new Alert(Alert.AlertType.ERROR);
+		            alert.setTitle("Error");
+		            alert.setContentText(getErrorMessage());
+		            alert.initStyle(StageStyle.UTILITY);
+		            alert.showAndWait();
 				}
 			}
 		});
@@ -50,6 +58,13 @@ public abstract class WizardPage extends VBox {
 				getWizard().cancel();
 			}
 		});
+	}
+
+	/**
+	 * 
+	 */
+	protected String getErrorMessage() {
+		return "";
 	}
 
 	public HBox getButtons() {
@@ -67,7 +82,7 @@ public abstract class WizardPage extends VBox {
 		return true;
 	};
 
-	protected void reloadIfNeeded() {
+	protected void reloadIfNeeded(){
 		
 	};
 

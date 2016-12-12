@@ -6,6 +6,7 @@ package gui.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import gui.ConfigGeneratorGui;
 import gui.WizardPage;
 import gui.model.ConfigData;
 import gui.model.ErrorMessage;
@@ -124,7 +125,7 @@ public class AlgorithmWizard extends WizardPage {
 		algorithmGridpane.setHgap(10);
 		algorithmGridpane.setVgap(10);
 
-		final VBox vbox = new VBox(5, gridpane, algorithmGridpane,errorMessage);
+		final VBox vbox = new VBox(5, gridpane, algorithmGridpane);
 		algorithmGridpane.setAlignment(Pos.CENTER);
 		gridpane.setAlignment(Pos.CENTER);
 		
@@ -160,6 +161,14 @@ public class AlgorithmWizard extends WizardPage {
 				return false;
 			}
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see gui.WizardPage#getErrorMessage()
+	 */
+	@Override
+	protected String getErrorMessage() {
+		return errorMessage.getText();
 	}
 
 }

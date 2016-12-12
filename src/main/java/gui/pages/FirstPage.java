@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * @author FBM
@@ -46,13 +47,16 @@ public class FirstPage extends WizardPage {
 				+ "in an interactive way. Finally you will be able to "
 				+ "generate your configuration file for next usage or "
 				+ "just run the application with it.");
+		generateConfigText.setTextAlignment(TextAlignment.JUSTIFY);
+
 		generateConfigText.setWrappingWidth(ConfigGeneratorGui.WIDTH - 50);
 		runText = new Text(
 				"If you already have a configuration file "
 				+ "and want to run the application based "
 				+ "on that, this option can be used.");
 		runText.setWrappingWidth(ConfigGeneratorGui.WIDTH - 50);
-
+		runText.setTextAlignment(TextAlignment.JUSTIFY);
+		
 		generateConfigVBox = new VBox(10.0, generateConfigText, generateConfigFileBtn);
 		generateConfigVBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
 				+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: black;");
@@ -68,7 +72,7 @@ public class FirstPage extends WizardPage {
 		});
 
 		runApplicationBtn.setOnAction(event -> {
-			navTo(6);
+			navTo(5);
 		});
 
 		return initLayout();

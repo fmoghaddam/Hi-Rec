@@ -1,5 +1,6 @@
 package gui.pages;
 
+import gui.ConfigGeneratorGui;
 import gui.WizardPage;
 import gui.model.ConfigData;
 import gui.model.ErrorMessage;
@@ -182,7 +183,7 @@ public class GeneralFeatureWizard extends WizardPage {
 		gridpane.add(metricsLabel, 0, 6);
 		gridpane.add(metrics, 1, 6);
 
-		final VBox mainLayout = new VBox(5.0, gridpane, errorMessage);
+		final VBox mainLayout = new VBox(5.0, gridpane);
 		return mainLayout;
 	}
 
@@ -239,4 +240,11 @@ public class GeneralFeatureWizard extends WizardPage {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see gui.WizardPage#getErrorMessage()
+	 */
+	@Override
+	protected String getErrorMessage() {
+		return errorMessage.getText();
+	}
 }

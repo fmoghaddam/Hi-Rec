@@ -14,7 +14,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 
 /**
@@ -52,6 +55,7 @@ public class DataSetWizard extends WizardPage {
 	private ComboBox<Separator> ratingFileSeparator;
 	private Label ratingFileSeparatorLabel;
 
+	private HBox description;
 	private static final int TEXT_FIELD_WIDTH = 200;
 
 	/**
@@ -80,7 +84,21 @@ public class DataSetWizard extends WizardPage {
 		handleTagAttributes();
 		handleRatingAttributes();
 		initErrorLabel();
+		initDescription();
 		return initLayout();
+	}
+
+	/**
+	 * 
+	 */
+	private void initDescription() {
+		description = new HBox();
+		final Text text = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+		text.setWrappingWidth(ConfigGeneratorGui.WIDTH-60);
+		text.setTextAlignment(TextAlignment.JUSTIFY);
+		description.getChildren().add(text);
+		description.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
+				+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: gray");
 	}
 
 	private Parent initLayout() {
@@ -114,7 +132,7 @@ public class DataSetWizard extends WizardPage {
 		gridpane.setHgap(10);
 		gridpane.setVgap(10);
 
-		final VBox mainLayout = new VBox(5.0, gridpane, errorMessage);
+		final VBox mainLayout = new VBox(5.0, gridpane,description);
 		return mainLayout;
 	}
 
@@ -132,6 +150,9 @@ public class DataSetWizard extends WizardPage {
 			if (file != null) {
 				ratingFileText.setText(file.getAbsolutePath());
 				ratingFileChooser.setInitialDirectory(file.getParentFile());
+				genreFileChooser.setInitialDirectory(file.getParentFile());
+				lowLevelFileChooser.setInitialDirectory(file.getParentFile());
+				tagFileChooser.setInitialDirectory(file.getParentFile());
 			}
 		});
 
@@ -165,6 +186,9 @@ public class DataSetWizard extends WizardPage {
 			final File file = tagFileChooser.showOpenDialog(ConfigGeneratorGui.getCurrentStage());
 			if (file != null) {
 				tagFileText.setText(file.getAbsolutePath());
+				ratingFileChooser.setInitialDirectory(file.getParentFile());
+				genreFileChooser.setInitialDirectory(file.getParentFile());
+				lowLevelFileChooser.setInitialDirectory(file.getParentFile());
 				tagFileChooser.setInitialDirectory(file.getParentFile());
 			}
 		});
@@ -199,7 +223,10 @@ public class DataSetWizard extends WizardPage {
 			final File file = genreFileChooser.showOpenDialog(ConfigGeneratorGui.getCurrentStage());
 			if (file != null) {
 				genreFileText.setText(file.getAbsolutePath());
+				ratingFileChooser.setInitialDirectory(file.getParentFile());
 				genreFileChooser.setInitialDirectory(file.getParentFile());
+				lowLevelFileChooser.setInitialDirectory(file.getParentFile());
+				tagFileChooser.setInitialDirectory(file.getParentFile());
 			}
 		});
 
@@ -233,7 +260,10 @@ public class DataSetWizard extends WizardPage {
 			final File file = lowLevelFileChooser.showOpenDialog(ConfigGeneratorGui.getCurrentStage());
 			if (file != null) {
 				lowLevelFileText.setText(file.getAbsolutePath());
+				ratingFileChooser.setInitialDirectory(file.getParentFile());
+				genreFileChooser.setInitialDirectory(file.getParentFile());
 				lowLevelFileChooser.setInitialDirectory(file.getParentFile());
+				tagFileChooser.setInitialDirectory(file.getParentFile());
 			}
 		});
 
@@ -270,4 +300,11 @@ public class DataSetWizard extends WizardPage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see gui.WizardPage#getErrorMessage()
+	 */
+	@Override
+	protected String getErrorMessage() {
+		return errorMessage.getText();
+	}
 }

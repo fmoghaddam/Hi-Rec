@@ -62,7 +62,7 @@ public class ReviewWizard extends WizardPage {
 		startButton = new Button("Start The Application");
 		startButton.setOnAction(event->{
 			fillConfigFileWithNewData();
-			navTo(7);
+			navTo(6);
 		});
 		
 		fillContent();

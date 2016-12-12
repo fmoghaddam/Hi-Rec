@@ -79,9 +79,6 @@ class Wizard extends StackPane {
 		}
 	}
 
-	public void finish() {
-	}
-
 	public void cancel() {
 	}
 }
