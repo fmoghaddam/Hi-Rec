@@ -144,15 +144,4 @@ public class CrossValidationWizard extends WizardPage {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gui.WizardPage#reloadIfNeeded()
-	 */
-	@Override
-	public void reloadIfNeeded() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

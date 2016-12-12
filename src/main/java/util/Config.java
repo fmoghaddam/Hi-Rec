@@ -76,6 +76,18 @@ public class Config {
 		}
 	}
 	
+	public static Integer getInt(final String key,final Integer def) {
+		try {
+			final String value = builder.getConfiguration().getString(key);
+			return Integer.parseInt(value);
+		}catch(final NumberFormatException exception){
+			return def;
+		} catch (final Exception exception) {
+			LOG.error(key+"-"+exception.getMessage() + ". "+def+" will be returned");
+			return def;
+		}
+	}
+	
 	public static int getInt(final String key) {
 		try {
 			final String value = builder.getConfiguration().getString(key);

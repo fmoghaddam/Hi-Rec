@@ -62,7 +62,7 @@ public class ReviewWizard extends WizardPage {
 		startButton = new Button("Start The Application");
 		startButton.setOnAction(event->{
 			fillConfigFileWithNewData();
-			navTo(6);
+			navTo(7);
 		});
 		
 		fillContent();
@@ -73,8 +73,8 @@ public class ReviewWizard extends WizardPage {
 	private void fillConfigFileWithNewData() {
 		try
 		{
-		    String filename= "config.properties";
-		    FileWriter fw = new FileWriter(filename,false); //the true will append the new data
+		    final String filename= "config.properties";
+		    final FileWriter fw = new FileWriter(filename,false); //the true will append the new data
 		    fw.write(textArea.getText());//appends the string to the file
 		    fw.close();
 		}
@@ -120,16 +120,6 @@ public class ReviewWizard extends WizardPage {
 			e.printStackTrace();
 		}
 		textArea.setText(result.toString());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gui.WizardPage#validate()
-	 */
-	@Override
-	public boolean validate() {
-		return true;
 	}
 
 	/*

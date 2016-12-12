@@ -39,6 +39,11 @@ public final class Globals {
     public static boolean CALCULATE_TTEST;
 
     public static Long RANDOMIZATION_SEED;
+    
+    public static boolean RUN_ALGORITHMS_PARALLEL;
+    public static Integer RUN_ALGORITHMS_NUMBER_OF_THREAD;
+    public static boolean RUN_FOLDS_PARALLEL;
+    public static Integer RUN_FOLDS_NUMBER_OF_THREAD;
 
     static {
         readData();
@@ -77,6 +82,11 @@ public final class Globals {
         }
         CALCULATE_TTEST = Config.getBoolean("CALCULATE_TTEST");
         RANDOMIZATION_SEED = Config.getLong("RANDOMIZATION_SEED", null);
+        
+        RUN_ALGORITHMS_PARALLEL= Config.getBoolean("RUN_ALGORITHMS_PARALLEL");
+        RUN_ALGORITHMS_NUMBER_OF_THREAD= Config.getInt("RUN_ALGORITHMS_NUMBER_OF_THREAD",null);
+        RUN_FOLDS_PARALLEL= Config.getBoolean("RUN_FOLDS_PARALLEL");
+        RUN_FOLDS_NUMBER_OF_THREAD= Config.getInt("RUN_FOLDS_NUMBER_OF_THREAD",null);
     }
 
     public static

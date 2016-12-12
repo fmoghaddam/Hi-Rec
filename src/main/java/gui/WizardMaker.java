@@ -5,6 +5,7 @@ import gui.pages.CrossValidationWizard;
 import gui.pages.DataSetWizard;
 import gui.pages.FirstPage;
 import gui.pages.GeneralFeatureWizard;
+import gui.pages.ParallelWizard;
 import gui.pages.ReviewWizard;
 import gui.pages.RunPage;
 import javafx.stage.Stage;
@@ -15,7 +16,7 @@ class WizardMaker extends Wizard {
 
 	public WizardMaker(Stage owner) {
 		super(new FirstPage(), new DataSetWizard(), new CrossValidationWizard(), new GeneralFeatureWizard(),
-				new AlgorithmWizard(), new ReviewWizard(),new RunPage());
+				new AlgorithmWizard(),new ParallelWizard(), new ReviewWizard(), new RunPage());
 		this.owner = owner;
 	}
 

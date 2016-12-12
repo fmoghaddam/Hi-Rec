@@ -63,9 +63,13 @@ public abstract class WizardPage extends VBox {
 
 	protected abstract Parent getContent();
 
-	protected abstract boolean validate();
+	protected boolean validate(){
+		return true;
+	};
 
-	protected abstract void reloadIfNeeded();
+	protected void reloadIfNeeded() {
+		
+	};
 
 	protected boolean shouldHideNext() {
 		return false;

@@ -36,6 +36,12 @@ public class ConfigData {
 
 	public Map<String, StringProperty> ALGORITHM_PARAMETERS = new LinkedHashMap<>();
 
+	public StringProperty RUN_ALGORITHMS_PARALLEL = new SimpleStringProperty();
+	public StringProperty RUN_ALGORITHMS_NUMBER_OF_THREAD = new SimpleStringProperty();
+	
+	public StringProperty RUN_FOLDS_PARALLEL = new SimpleStringProperty();
+	public StringProperty RUN_FOLDS_NUMBER_OF_THREAD = new SimpleStringProperty();
+	
 	public static ConfigData instance = new ConfigData();
 
 	/*

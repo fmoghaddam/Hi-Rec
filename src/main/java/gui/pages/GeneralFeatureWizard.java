@@ -239,15 +239,4 @@ public class GeneralFeatureWizard extends WizardPage {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gui.WizardPage#reloadIfNeeded()
-	 */
-	@Override
-	public void reloadIfNeeded() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

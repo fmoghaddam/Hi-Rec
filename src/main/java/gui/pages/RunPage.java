@@ -65,15 +65,6 @@ public class RunPage extends WizardPage implements Consumers {
 	}
 
 	/* (non-Javadoc)
-	 * @see gui.WizardPage#validate()
-	 */
-	@Override
-	protected boolean validate() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	/* (non-Javadoc)
 	 * @see gui.WizardPage#shouldHideNext()
 	 */
 	@Override

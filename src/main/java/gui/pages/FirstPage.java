@@ -68,7 +68,7 @@ public class FirstPage extends WizardPage {
 		});
 
 		runApplicationBtn.setOnAction(event -> {
-			navTo(5);
+			navTo(6);
 		});
 
 		return initLayout();
@@ -82,26 +82,6 @@ public class FirstPage extends WizardPage {
 		gridpane.add(runVBox, 0, 1);
 		gridpane.setAlignment(Pos.CENTER);
 		return gridpane;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gui.WizardPage#validate()
-	 */
-	@Override
-	public boolean validate() {
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gui.WizardPage#reloadIfNeeded()
-	 */
-	@Override
-	public void reloadIfNeeded() {
-		// Empty function
 	}
 
 	/*

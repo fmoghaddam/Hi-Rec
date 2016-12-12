@@ -270,14 +270,4 @@ public class DataSetWizard extends WizardPage {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gui.WizardPage#reloadIfNeeded()
-	 */
-	@Override
-	public void reloadIfNeeded() {
-		// Empty function
-	}
-
 }
