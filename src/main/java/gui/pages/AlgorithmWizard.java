@@ -6,7 +6,6 @@ package gui.pages;
 import java.util.ArrayList;
 import java.util.List;
 
-import gui.ConfigGeneratorGui;
 import gui.WizardPage;
 import gui.model.ConfigData;
 import gui.model.ErrorMessage;

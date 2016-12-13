@@ -1,6 +1,7 @@
 package gui.pages;
 
 import java.io.File;
+
 import gui.ConfigGeneratorGui;
 import gui.WizardPage;
 import gui.model.ConfigData;
@@ -14,8 +15,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
@@ -55,7 +56,7 @@ public class DataSetWizard extends WizardPage {
 	private ComboBox<Separator> ratingFileSeparator;
 	private Label ratingFileSeparatorLabel;
 
-	private HBox description;
+	private VBox description;
 	private static final int TEXT_FIELD_WIDTH = 200;
 
 	/**
@@ -92,13 +93,33 @@ public class DataSetWizard extends WizardPage {
 	 * 
 	 */
 	private void initDescription() {
-		description = new HBox();
-		final Text text = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+		description = new VBox();
+		final String content = createContent();
+		final Text text = new Text(content);
 		text.setWrappingWidth(ConfigGeneratorGui.WIDTH-60);
 		text.setTextAlignment(TextAlignment.JUSTIFY);
+		text.setFill(Color.BLUE);
 		description.getChildren().add(text);
 		description.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
 				+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: gray");
+	}
+
+	/**
+	 * @return
+	 */
+	private String createContent() {
+		final StringBuilder content = new StringBuilder();
+		content.append("1) If the files have some meta data, '#' must be added at the beginning before running the application. All the lines with '#' will be ignored.").append("\n");
+		content.append("2) Rating file format:").append("\n");
+		content.append("\t User Id,Item Id,Rating").append("\n");
+		content.append("3) Low Level feature file format:").append("\n");
+		content.append("\t Item id,feature 1,feature 2,feature 3, ...").append("\n");
+		content.append("4) Genre file format:").append("\n");
+		content.append("\t Genre file should be preprocessed and converted to the binary representatiopn:").append("\n");
+		content.append("\t Item id,0,0,1,0,1,1,0,...").append("\n");
+		content.append("5) Tag file format:").append("\n");
+		content.append("\t Item id,Tag 1,Tag 2, ....").append("\n");
+		return content.toString();
 	}
 
 	private Parent initLayout() {
@@ -131,8 +152,10 @@ public class DataSetWizard extends WizardPage {
 
 		gridpane.setHgap(10);
 		gridpane.setVgap(10);
-
-		final VBox mainLayout = new VBox(5.0, gridpane,description);
+		gridpane.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
+				+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: gray");
+		
+		final VBox mainLayout = new VBox(5.0, gridpane,description);		
 		return mainLayout;
 	}
 

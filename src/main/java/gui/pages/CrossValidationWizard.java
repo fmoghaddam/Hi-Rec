@@ -1,6 +1,5 @@
 package gui.pages;
 
-import gui.ConfigGeneratorGui;
 import gui.WizardPage;
 import gui.model.ConfigData;
 import gui.model.ErrorMessage;
@@ -151,7 +150,7 @@ public class CrossValidationWizard extends WizardPage {
 	private Parent initLayout() {
 		final GridPane gridpane = new GridPane();
 		gridpane.setAlignment(Pos.CENTER);
-		gridpane.setHgap(10);
+		gridpane.setHgap(20);
 		gridpane.setVgap(10);
 
 		gridpane.add(numberOfFolds, 0, 0);
@@ -164,7 +163,7 @@ public class CrossValidationWizard extends WizardPage {
 		gridpane.add(runFoldsParallelCheckBox, 0, 3);
 		gridpane.add(runFoldsNumberOfThreadTextField, 1, 3);
 		
-		final HBox hBox = new HBox(5.0,gridpane,numberOfFoldsValue);
+		final HBox hBox = new HBox(20.0,gridpane,numberOfFoldsValue);
 		
 		final VBox mainLayout = new VBox(5.0, hBox);
 		return mainLayout;
