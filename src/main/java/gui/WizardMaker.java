@@ -1,7 +1,6 @@
 package gui;
 
 import gui.pages.AlgorithmWizard;
-import gui.pages.CrossValidationWizard;
 import gui.pages.DataSetWizard;
 import gui.pages.FirstPage;
 import gui.pages.GeneralFeatureWizard;
@@ -15,7 +14,7 @@ class WizardMaker extends Wizard {
 	final Stage owner;
 
 	public WizardMaker(Stage owner) {
-		super(new FirstPage(), new DataSetWizard(), new CrossValidationWizard(), new GeneralFeatureWizard(),
+		super(new FirstPage(), new DataSetWizard() , new GeneralFeatureWizard(),
 				new AlgorithmWizard(), new ReviewWizard(), new RunPage());
 		this.owner = owner;
 	}
@@ -29,5 +28,6 @@ class WizardMaker extends Wizard {
 	public void cancel() {
 		owner.close();
 		Platform.exit();
+		System.exit(0);
 	}
 }

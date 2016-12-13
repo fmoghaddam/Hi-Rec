@@ -1,6 +1,5 @@
 package gui.pages;
 
-import gui.ConfigGeneratorGui;
 import gui.WizardPage;
 import gui.model.ConfigData;
 import gui.model.ErrorMessage;

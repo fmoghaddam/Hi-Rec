@@ -59,7 +59,6 @@ public class AlgorithmWizard extends WizardPage {
 		slider.setMax(10);
 		slider.setValue(0);
 		slider.setShowTickLabels(true);
-		slider.setBlockIncrement(1);
 		slider.setPrefWidth(400);
 		slider.setMajorTickUnit(1);
 
@@ -121,7 +120,7 @@ public class AlgorithmWizard extends WizardPage {
 		gridpane.add(numberOfConfigurationValue, 2, 0);
 
 		algorithmGridpane = new GridPane();
-		algorithmGridpane.setHgap(10);
+		algorithmGridpane.setHgap(20);
 		algorithmGridpane.setVgap(10);
 
 		final VBox vbox = new VBox(5, gridpane, algorithmGridpane);
@@ -130,7 +129,7 @@ public class AlgorithmWizard extends WizardPage {
 		
 		scrollPane = new ScrollPane();
 		scrollPane.setContent(vbox);
-		scrollPane.setStyle("-fx-background-color:transparent;-fx-background: rgb(241,255,242);");
+		scrollPane.setStyle("-fx-background-color:transparent;-fx-background: rgb(255, 248, 220);");
 		return scrollPane;
 	}
 

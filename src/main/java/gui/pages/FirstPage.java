@@ -72,7 +72,7 @@ public class FirstPage extends WizardPage {
 		});
 
 		runApplicationBtn.setOnAction(event -> {
-			navTo(5);
+			navTo(4);
 		});
 
 		return initLayout();

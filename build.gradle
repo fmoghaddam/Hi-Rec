@@ -11,6 +11,10 @@ applicationDistribution.from("src/main/resources/log4j.properties") {
     into "bin"
 }
 
+applicationDistribution.from("src/main/resources/logo.png") {
+    into "bin"
+}
+
 applicationDistribution.from("data") {
     into "bin/data"
 }

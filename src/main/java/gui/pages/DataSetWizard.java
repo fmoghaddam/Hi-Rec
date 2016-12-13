@@ -7,16 +7,24 @@ import gui.WizardPage;
 import gui.model.ConfigData;
 import gui.model.ErrorMessage;
 import gui.model.Separator;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
@@ -58,12 +66,26 @@ public class DataSetWizard extends WizardPage {
 
 	private VBox description;
 	private static final int TEXT_FIELD_WIDTH = 200;
+	
+	private Label numberOfFolds;
+	private Slider slider;
+	private Label numberOfFoldsValue;
+
+	private CheckBox randomizationSeedCheckBox;
+	private TextField randomizationSeedTextField;
+
+	private CheckBox runAlgorithmParallelCheckBox;
+	private TextField runAlgorithmNumberOfThreadTextField;
+
+	private CheckBox runFoldsParallelCheckBox;
+	private TextField runFoldsNumberOfThreadTextField;
+	
 
 	/**
 	 * @param title
 	 */
 	public DataSetWizard() {
-		super("Dataset wizard");
+		super("Dataset/Cross Validation Setting");
 	}
 
 	/**
@@ -86,9 +108,112 @@ public class DataSetWizard extends WizardPage {
 		handleRatingAttributes();
 		initErrorLabel();
 		initDescription();
+		initFoldNumberAttributes();
+		initRandimizationSeedAttributes();
+		initAlgorithmParallelAttributes();
+		initFoldParallelAttributes();
 		return initLayout();
 	}
 
+	/**
+	 * 
+	 */
+	private void initFoldNumberAttributes() {
+		numberOfFolds = new Label("Number of folds");
+		numberOfFoldsValue = new Label();
+		numberOfFoldsValue.setFont(new Font("Arial", 30));
+
+		slider = new Slider();
+		slider.setMin(0);
+		slider.setMax(50);
+		slider.setValue(5);
+		slider.setShowTickLabels(true);
+		slider.setMajorTickUnit(5);
+		slider.setBlockIncrement(1);
+		slider.setPrefWidth(300);
+		numberOfFoldsValue.setText(String.valueOf((int) slider.getValue()));
+		ConfigData.instance.NUMBER_OF_FOLDS.bind(new SimpleStringProperty(String.valueOf((int) slider.getValue())));
+		slider.valueProperty().addListener((ChangeListener<Number>) (observable, oldValue, newValue) -> {
+			numberOfFoldsValue.setText(String.valueOf((int) slider.getValue()));
+			ConfigData.instance.NUMBER_OF_FOLDS.bind(new SimpleStringProperty(String.valueOf((int) slider.getValue())));
+		});
+	}
+	
+	/**
+	 * 
+	 */
+	private void initFoldParallelAttributes() {
+		runFoldsParallelCheckBox = new CheckBox("Run Folds Parallel?");
+		runFoldsNumberOfThreadTextField = new TextField();
+		runFoldsNumberOfThreadTextField.setDisable(true);
+		final Tooltip tooltip = new Tooltip();
+		tooltip.setText(
+		    "If you leave this element empty,\nmaximum number of cores will be used"
+		);
+		runFoldsNumberOfThreadTextField.setTooltip(tooltip);
+		runFoldsNumberOfThreadTextField.setPromptText("If you leave this element empty,\nmaximum number of cores will be used");
+		
+		ConfigData.instance.RUN_FOLDS_PARALLEL.bind(new SimpleStringProperty(String.valueOf(false)));
+		runFoldsParallelCheckBox.selectedProperty()
+				.addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+					runFoldsNumberOfThreadTextField.setDisable(!newValue);
+					ConfigData.instance.RUN_FOLDS_PARALLEL.bind(new SimpleStringProperty(String.valueOf(newValue)));
+					if (!newValue) {
+						runFoldsNumberOfThreadTextField.setText("");
+						errorMessage.setText("");
+					}
+					final StringProperty textProperty = runFoldsNumberOfThreadTextField.textProperty();
+					ConfigData.instance.RUN_FOLDS_NUMBER_OF_THREAD.bind(textProperty);
+				});
+	}
+	
+	/**
+	 * 
+	 */
+	private void initAlgorithmParallelAttributes() {
+		runAlgorithmParallelCheckBox = new CheckBox("Run Algorithms Parallel?");
+		runAlgorithmNumberOfThreadTextField = new TextField();
+		runAlgorithmNumberOfThreadTextField.setDisable(true);
+		final Tooltip tooltip = new Tooltip();
+		tooltip.setText(
+		    "If you leave this element empty,\nmaximum number of cores will be used"
+		);
+		runAlgorithmNumberOfThreadTextField.setTooltip(tooltip);
+		runAlgorithmNumberOfThreadTextField.setPromptText("If you leave this element empty,\nmaximum number of cores will be used");
+		ConfigData.instance.RUN_ALGORITHMS_PARALLEL.bind(new SimpleStringProperty(String.valueOf(false)));
+		runAlgorithmParallelCheckBox.selectedProperty()
+				.addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+					runAlgorithmNumberOfThreadTextField.setDisable(!newValue);
+					ConfigData.instance.RUN_ALGORITHMS_PARALLEL
+							.bind(new SimpleStringProperty(String.valueOf(newValue)));
+					if (!newValue) {
+						runAlgorithmNumberOfThreadTextField.setText("");
+						errorMessage.setText("");
+					}
+					final StringProperty textProperty = runAlgorithmNumberOfThreadTextField.textProperty();
+					ConfigData.instance.RUN_ALGORITHMS_NUMBER_OF_THREAD.bind(textProperty);
+				});
+	}
+	
+	/**
+	 * 
+	 */
+	private void initRandimizationSeedAttributes() {
+		randomizationSeedCheckBox = new CheckBox("Set Randomization Seed?");
+		randomizationSeedTextField = new TextField();
+		randomizationSeedTextField.setDisable(true);
+
+		randomizationSeedCheckBox.selectedProperty()
+				.addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+					randomizationSeedTextField.setDisable(!newValue);
+					if (!newValue) {
+						randomizationSeedTextField.setText("");
+						errorMessage.setText("");
+					}
+					final StringProperty textProperty = randomizationSeedTextField.textProperty();
+					ConfigData.instance.RANDOMIZATION_SEED.bind(textProperty);
+				});
+	}
 	/**
 	 * 
 	 */
@@ -155,7 +280,26 @@ public class DataSetWizard extends WizardPage {
 		gridpane.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
 				+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: gray");
 		
-		final VBox mainLayout = new VBox(5.0, gridpane,description);		
+		final GridPane crossValidationGridpane = new GridPane();
+		crossValidationGridpane.setAlignment(Pos.CENTER);
+		crossValidationGridpane.setHgap(20);
+		crossValidationGridpane.setVgap(10);
+
+		crossValidationGridpane.add(numberOfFolds, 0, 0);
+		crossValidationGridpane.add(slider, 1, 0);
+
+		crossValidationGridpane.add(randomizationSeedCheckBox, 0, 1);
+		crossValidationGridpane.add(randomizationSeedTextField, 1, 1);
+		crossValidationGridpane.add(runAlgorithmParallelCheckBox, 0, 2);
+		crossValidationGridpane.add(runAlgorithmNumberOfThreadTextField, 1, 2);
+		crossValidationGridpane.add(runFoldsParallelCheckBox, 0, 3);
+		crossValidationGridpane.add(runFoldsNumberOfThreadTextField, 1, 3);
+				
+		final HBox crossValidationHBox = new HBox(20.0,crossValidationGridpane,numberOfFoldsValue);
+		crossValidationHBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
+				+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: gray");
+		
+		final VBox mainLayout = new VBox(5.0, gridpane, crossValidationHBox,description);		
 		return mainLayout;
 	}
 
@@ -314,12 +458,43 @@ public class DataSetWizard extends WizardPage {
 	 */
 	@Override
 	public boolean validate() {
+		final StringBuilder overalErrorMessage = new StringBuilder();
+		boolean overalError = false;
 		if (ratingFileText.getText() == null || ratingFileText.getText().isEmpty()) {
-			errorMessage.setText("The rating file should be selected");
-			return false;
-		} else {
+			overalErrorMessage.append("The rating file should be selected").append("\n");
+			overalError = true;
+		} 
+		if (randomizationSeedCheckBox.isSelected()) {
+			try {
+				Double.parseDouble(randomizationSeedTextField.getText());
+			} catch (final Exception exception) {
+				overalErrorMessage.append("Seed is not valid").append("\n");
+				overalError = true;
+			}
+		}
+		if (runAlgorithmParallelCheckBox.isSelected()) {
+			try {
+				Integer.parseInt(runAlgorithmNumberOfThreadTextField.getText());
+			} catch (final Exception exception) {
+				overalErrorMessage.append("Number of cores for running algorithms in parallel mode is not valid").append("\n");
+				overalError = true;
+			}
+		}
+		if (runFoldsParallelCheckBox.isSelected()) {
+			try {
+				Integer.parseInt(runFoldsNumberOfThreadTextField.getText());
+			} catch (final Exception exception) {
+				overalErrorMessage.append("Number of cores for running folds in parallel mode is not valid").append("\n");
+				overalError = true;
+			}
+		}
+		
+		if (!overalError) {
 			errorMessage.setText("");
 			return true;
+		} else {
+			errorMessage.setText(overalErrorMessage.toString());
+			return false;
 		}
 	}
 

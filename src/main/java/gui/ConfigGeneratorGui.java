@@ -87,13 +87,26 @@ public class ConfigGeneratorGui extends Application {
 	}
 
 	private Scene creareAboutUs() {
-		return new Scene(new HBox(new Text("SSSSSSSSSSSSSSSSSSSS")));
+		final HBox hBox = new HBox(new Text(createAboutUsContent()));
+		hBox.setStyle("-fx-background-color:transparent;-fx-background: rgb(255, 248, 220);");
+		return new Scene(hBox);
+	}
+
+	private String createAboutUsContent() {
+		final StringBuilder content = new StringBuilder();
+		
+		content.append("Hi-Rec is a Java framework for recommender systems.").append("\n");
+		content.append("This framework is Cross-Platform, Open Source , Extensible and Easy to Use.").append("\n");
+		content.append("It not only implements state-of-art algorithms but only makes it possible for others to extend it and implement more user-specific algorithms.").append("\n");
+		content.append("This framework developed to be used across with Mise-en-scène Project.").append("\n");
+				 
+		return content.toString();
 	}
 
 	private void showMainApplication(Stage stage) {
 		Platform.runLater(() -> {
 			try {
-				Thread.sleep(500);
+				Thread.sleep(2000);
 			} catch (Exception e) {
 				//Not important
 			}
@@ -103,8 +116,6 @@ public class ConfigGeneratorGui extends Application {
 			borderPane.setTop(menu);
 			borderPane.setCenter(new WizardMaker(stage));
 			final Scene scence = new Scene(borderPane,WIDTH,HEIGHT);
-			//final String css = this.getClass().getResource("/DarkTheme.css").toExternalForm();
-			//scence.getStylesheets().add(css);
 			newStage.setScene(scence);
 			newStage.setResizable(false);
 			newStage.setTitle("Hi-Rec Client");
@@ -121,7 +132,7 @@ public class ConfigGeneratorGui extends Application {
 	 */
 	private void showSplash(Stage initStage) throws FileNotFoundException, InterruptedException{
 		initStage.centerOnScreen();
-		final URL resource = HiRec.class.getResource("/logo.jpg");
+		final URL resource = HiRec.class.getResource("/logo.png");
 		final File imageFile = new File(resource.getFile());
 		final Image image = new Image(imageFile.toURI().toString());
 		final ImageView splash = new ImageView(image);

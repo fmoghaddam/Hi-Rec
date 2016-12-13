@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 
 import gui.ConfigGeneratorGui;
 import gui.WizardPage;
@@ -25,6 +26,8 @@ import javafx.stage.FileChooser;
  */
 public class ReviewWizard extends WizardPage {
 
+	private static final Logger LOG = Logger.getLogger(ReviewWizard.class.getCanonicalName());
+	
 	private TextArea textArea;
 	private Button exportButton;
 	private Button startButton;
@@ -55,14 +58,14 @@ public class ReviewWizard extends WizardPage {
 					fileWriter.write(textArea.getText());
 					fileWriter.close();
 				} catch (final IOException ex) {
-					System.out.println(ex.getMessage());
+					LOG.error(ex.getMessage());
 				}
 			}
 		});
 		startButton = new Button("Start The Application");
 		startButton.setOnAction(event->{
 			fillConfigFileWithNewData();
-			navTo(6);
+			navTo(5);
 		});
 		
 		fillContent();

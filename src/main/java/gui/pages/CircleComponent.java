@@ -70,7 +70,7 @@ public class CircleComponent {
 	}
 	
 	public Parent getLayout(){
-		final HBox hBox = new HBox(5.0,foldNameLabel,circle,statusLabel);
+		final HBox hBox = new HBox(10.0,foldNameLabel,circle,statusLabel);
 		return hBox;
 	}
 
