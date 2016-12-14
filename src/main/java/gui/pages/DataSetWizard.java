@@ -124,7 +124,7 @@ public class DataSetWizard extends WizardPage {
 		numberOfFoldsValue.setFont(new Font("Arial", 30));
 
 		slider = new Slider();
-		slider.setMin(0);
+		slider.setMin(2);
 		slider.setMax(50);
 		slider.setValue(5);
 		slider.setShowTickLabels(true);
