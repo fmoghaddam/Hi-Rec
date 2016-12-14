@@ -473,19 +473,23 @@ public class DataSetWizard extends WizardPage {
 			}
 		}
 		if (runAlgorithmParallelCheckBox.isSelected()) {
-			try {
-				Integer.parseInt(runAlgorithmNumberOfThreadTextField.getText());
-			} catch (final Exception exception) {
-				overalErrorMessage.append("Number of cores for running algorithms in parallel mode is not valid").append("\n");
-				overalError = true;
+			if(!runAlgorithmNumberOfThreadTextField.getText().isEmpty()){
+				try {
+					Integer.parseInt(runAlgorithmNumberOfThreadTextField.getText());
+				} catch (final Exception exception) {
+					overalErrorMessage.append("Number of cores for running algorithms in parallel mode is not valid").append("\n");
+					overalError = true;
+				}
 			}
 		}
 		if (runFoldsParallelCheckBox.isSelected()) {
-			try {
-				Integer.parseInt(runFoldsNumberOfThreadTextField.getText());
-			} catch (final Exception exception) {
-				overalErrorMessage.append("Number of cores for running folds in parallel mode is not valid").append("\n");
-				overalError = true;
+			if(!runFoldsNumberOfThreadTextField.getText().isEmpty()){
+				try {
+					Integer.parseInt(runFoldsNumberOfThreadTextField.getText());
+				} catch (final Exception exception) {
+					overalErrorMessage.append("Number of cores for running folds in parallel mode is not valid").append("\n");
+					overalError = true;
+				}
 			}
 		}
 		

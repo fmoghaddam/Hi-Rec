@@ -132,7 +132,7 @@ public class ConfigGeneratorGui extends Application {
 	 */
 	private void showSplash(Stage initStage) throws FileNotFoundException, InterruptedException{
 		initStage.centerOnScreen();
-		final URL resource = HiRec.class.getResource("/logo.png");
+		final URL resource = HiRec.class.getResource("/images/logo.png");
 		final File imageFile = new File(resource.getFile());
 		final Image image = new Image(imageFile.toURI().toString());
 		final ImageView splash = new ImageView(image);

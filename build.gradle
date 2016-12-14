@@ -11,8 +11,8 @@ applicationDistribution.from("src/main/resources/log4j.properties") {
     into "bin"
 }
 
-applicationDistribution.from("src/main/resources/logo.png") {
-    into "bin"
+applicationDistribution.from("src/main/resources/images") {
+    into "bin/images"
 }
 
 applicationDistribution.from("data") {
@@ -22,7 +22,7 @@ applicationDistribution.from("data") {
 applicationDefaultJvmArgs = ["-Xms5g"]
 
 jar {	
-    exclude('config.properties', 'log4j.properties')
+    exclude('config.properties', 'log4j.properties','images')
 }
 
 startScripts {

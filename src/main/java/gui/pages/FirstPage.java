@@ -1,14 +1,21 @@
 package gui.pages;
 
+import java.io.File;
+import java.net.URL;
+
 import gui.ConfigGeneratorGui;
 import gui.WizardPage;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import run.HiRec;
 
 /**
  * @author FBM
@@ -41,19 +48,19 @@ public class FirstPage extends WizardPage {
 		runApplicationBtn = new Button("Run the application");
 
 		generateConfigText = new Text(
-				"If this is the first time than you want to use this software, "
+				"If this is the first time you want to use this software, "
 				+ "you need to first generate a configuration file. "
 				+ "This option allows you to create your configuration file "
 				+ "in an interactive way. Finally you will be able to "
 				+ "generate your configuration file for next usage or "
-				+ "just run the application with it.");
+				+ "just run the application.");
 		generateConfigText.setTextAlignment(TextAlignment.JUSTIFY);
 
 		generateConfigText.setWrappingWidth(ConfigGeneratorGui.WIDTH - 50);
 		runText = new Text(
 				"If you already have a configuration file "
 				+ "and want to run the application based "
-				+ "on that, this option can be used.");
+				+ "on that, select this option.");
 		runText.setWrappingWidth(ConfigGeneratorGui.WIDTH - 50);
 		runText.setTextAlignment(TextAlignment.JUSTIFY);
 		
@@ -85,6 +92,31 @@ public class FirstPage extends WizardPage {
 		gridpane.add(generateConfigVBox, 0, 0);
 		gridpane.add(runVBox, 0, 1);
 		gridpane.setAlignment(Pos.CENTER);
+		
+		final URL resourceMilan = HiRec.class.getResource("/images/milan.png");
+		final File imageFileMilan = new File(resourceMilan.getFile());
+		final Image imageMilan = new Image(imageFileMilan.toURI().toString());
+        final ImageView ivMilan = new ImageView();
+        ivMilan.setImage(imageMilan);
+        
+        final URL resourceUnibz = HiRec.class.getResource("/images/unibz.png");
+		final File imageFileUnibz = new File(resourceUnibz.getFile());
+		final Image imageUnibz = new Image(imageFileUnibz.toURI().toString());
+        final ImageView ivUnibz = new ImageView();
+        ivUnibz.setImage(imageUnibz);
+        
+        final URL resourceOkit = HiRec.class.getResource("/images/okit.png");
+		final File imageFileOkit = new File(resourceOkit.getFile());
+		final Image imageOkit = new Image(imageFileOkit.toURI().toString());
+        final ImageView ivOkit = new ImageView();
+        ivOkit.setImage(imageOkit);
+        
+        final HBox logoHBox = new HBox(5.0,ivMilan,ivUnibz);
+        final VBox logoVBox = new VBox(5.0,logoHBox,ivOkit);
+        logoVBox.setAlignment(Pos.CENTER);
+        logoHBox.setAlignment(Pos.CENTER);
+        gridpane.add(logoVBox, 0, 2);
+		
 		return gridpane;
 	}
 
