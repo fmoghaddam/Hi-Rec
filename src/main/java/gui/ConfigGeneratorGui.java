@@ -7,6 +7,7 @@ import java.net.URL;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -17,7 +18,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -60,47 +60,57 @@ public class ConfigGeneratorGui extends Application {
 	 */
 	private MenuBar createMenu() {
 		final MenuBar menuBar = new MenuBar();
-        final Menu menuFile = new Menu("File");
-        final Menu menuHelp = new Menu("Help");
-        
-        final MenuItem exit = new MenuItem("Exit");
-        exit.setOnAction(t -> {
-        	Platform.exit();
+		final Menu menuFile = new Menu("File");
+		final Menu menuHelp = new Menu("Help");
+
+		final MenuItem exit = new MenuItem("Exit");
+		exit.setOnAction(t -> {
+			Platform.exit();
 		});        
 
-        exit.setAccelerator(new KeyCodeCombination(KeyCode.X,KeyCombination.ALT_DOWN));
-        menuFile.getItems().add(exit);
-        
-        final MenuItem aboutUs = new MenuItem("About Us");
-        aboutUs.setOnAction(t -> {
-        	final Stage dialog = new Stage();
-        	dialog.centerOnScreen();
-        	dialog.initModality(Modality.APPLICATION_MODAL);
-        	dialog.setScene(creareAboutUs());
-        	dialog.showAndWait();
+		exit.setAccelerator(new KeyCodeCombination(KeyCode.X,KeyCombination.ALT_DOWN));
+		menuFile.getItems().add(exit);
+
+		final MenuItem aboutUs = new MenuItem("About Us");
+		aboutUs.setOnAction(t -> {
+			creareAboutUs();
 		});        
 
-        menuHelp.getItems().addAll(aboutUs);
-        
-        menuBar.getMenus().addAll(menuFile,menuHelp);
-        return menuBar;
+		menuHelp.getItems().addAll(aboutUs);
+
+		menuBar.getMenus().addAll(menuFile,menuHelp);
+		return menuBar;
 	}
 
-	private Scene creareAboutUs() {
-		final HBox hBox = new HBox(new Text(createAboutUsContent()));
-		hBox.setStyle("-fx-background-color:transparent;-fx-background: rgb(255, 248, 220);");
-		return new Scene(hBox);
+	private void creareAboutUs() {
+		final Stage newStage = new Stage();
+		final VBox vBox = createAboutUsContent();
+
+		final Scene scene = new Scene(vBox);
+		newStage.setScene(scene);
+		newStage.setResizable(false);
+		newStage.setTitle("About Us");
+		vBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
+				+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: gray;" +
+				"-fx-background: rgb(255, 248, 220);");
+		newStage.centerOnScreen();
+		newStage.initModality(Modality.APPLICATION_MODAL);
+		newStage.showAndWait();
 	}
 
-	private String createAboutUsContent() {
+	private VBox createAboutUsContent() {
 		final StringBuilder content = new StringBuilder();
-		
-		content.append("Hi-Rec is a Java framework for recommender systems.").append("\n");
-		content.append("This framework is Cross-Platform, Open Source , Extensible and Easy to Use.").append("\n");
-		content.append("It not only implements state-of-art algorithms but only makes it possible for others to extend it and implement more user-specific algorithms.").append("\n");
-		content.append("This framework developed to be used across with Mise-en-scène Project.").append("\n");
-				 
-		return content.toString();
+		content.append("For more infomration about this software you can visit following GitHub page:").append("\n");
+		final Hyperlink link = new Hyperlink();
+		link.setVisited(false);
+		final String linkAddress = "https://fmoghaddam.github.io/Hi-Rec/";
+		link.setText(linkAddress);
+		link.setStyle(" -fx-border-color: transparent;-fx-padding: 4 0 4 0;");
+		link.setOnAction(e -> {
+			getHostServices().showDocument(linkAddress);
+		});
+		final VBox vBox = new VBox(10.0,new Text(content.toString()),link);
+		return vBox;
 	}
 
 	private void showMainApplication(Stage stage) {
@@ -160,5 +170,6 @@ public class ConfigGeneratorGui extends Application {
 	@Override
 	public void stop() throws Exception {
 		Platform.exit();
+		System.exit(0);
 	}
 }
