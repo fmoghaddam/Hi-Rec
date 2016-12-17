@@ -37,9 +37,10 @@ public final class DataLoader {
     
     /**
      * Reads rating files.
+     * @throws DataLoaderException 
      */
     private
-            void readRatingFile() {
+            void readRatingFile() throws DataLoaderException {
         try (final BufferedReader reader = new BufferedReader(
                 new FileReader(Globals.RATING_FILE_PATH));)
         {
@@ -107,18 +108,17 @@ public final class DataLoader {
                 LOG.info("Rating Data loaded from "+Globals.RATING_FILE_PATH);
             }
         } catch (final Exception exception) {
-            LOG.error("Can not load rating file: " + Globals.RATING_FILE_PATH);
-            LOG.error(exception);
-            System.exit(1);
+        	throw new DataLoaderException("Can not load rating file: " + Globals.RATING_FILE_PATH, exception);
         }
     }
 
     /**
      * Reads low level file and parse it. The format of low level file should be
      * like this: ItemId,feature1,feature2,.... Features should be float
+     * @throws DataLoaderException 
      */
     private
-            void readLowLevelFile() {
+            void readLowLevelFile() throws DataLoaderException {
         try (final BufferedReader reader = new BufferedReader(
                 new FileReader(Globals.LOW_LEVEL_FILE_PATH));)
         {
@@ -160,10 +160,7 @@ public final class DataLoader {
                 LOG.info("Low Level file loaded from "+Globals.LOW_LEVEL_FILE_PATH);
             }
         } catch (final Exception exception) {
-            LOG.error("Can not load low level feature file: "
-                    + Globals.LOW_LEVEL_FILE_PATH);
-            LOG.error(exception);
-            System.exit(1);
+        	throw new DataLoaderException("Can not load low level feature file: "+ Globals.LOW_LEVEL_FILE_PATH, exception);
         }
     }
 
@@ -171,10 +168,11 @@ public final class DataLoader {
      * Reads genre file and parse it. Genres are presented as boolean vector The
      * format of genre file should be like this: ItemId,0,1,0,.... which 1 means
      * the movie is in the corresponding genre nad 0 means not
+     * @throws DataLoaderException 
      * 
      */
     private
-            void readGenreFile() {
+            void readGenreFile() throws DataLoaderException {
         try (final BufferedReader reader = new BufferedReader(
                 new FileReader(Globals.GENRE_FILE_PATH));)
         {
@@ -221,9 +219,7 @@ public final class DataLoader {
                 LOG.info("Genre file loaded from "+Globals.GENRE_FILE_PATH);
             }
         } catch (final Exception exception) {
-            LOG.error("Can not load genre file: " + Globals.GENRE_FILE_PATH);
-            LOG.error(exception);
-            System.exit(1);
+        	throw new DataLoaderException("Can not load genre file: " + Globals.GENRE_FILE_PATH, exception);
         }
     }
 
@@ -231,9 +227,10 @@ public final class DataLoader {
      * Reads tag file and parse it. The format of tag file should be like this:
      * ItemId,tag1,tag2,tag3,.... Tags are String. This function just read tags
      * and does not handle stemming, stopping word removal,...
+     * @throws DataLoaderException 
      */
     private
-            void readTagFile() {
+            void readTagFile() throws DataLoaderException {
         try (final BufferedReader reader = new BufferedReader(
                 new FileReader(Globals.TAG_FILE_PATH));)
         {
@@ -274,9 +271,7 @@ public final class DataLoader {
                 LOG.info("Tag file loaded from "+Globals.TAG_FILE_PATH);
             }
         } catch (final Exception exception) {
-            LOG.error("Can not load tag file: " + Globals.TAG_FILE_PATH);
-            LOG.error(exception);
-            System.exit(1);
+        	throw new DataLoaderException("Can not load tag file: " + Globals.TAG_FILE_PATH, exception);
         }
     }
 
@@ -284,9 +279,10 @@ public final class DataLoader {
      * Main function which reads the files and returns {@link DataModel}
      * 
      * @return {@link DataModel}
+     * @throws DataLoaderException 
      */
     public
-            DataModel readData() {
+            DataModel readData() throws DataLoaderException {
         boolean hasContent = false;
         if (Globals.LOW_LEVEL_FILE_PATH != null
                 && !Globals.LOW_LEVEL_FILE_PATH.isEmpty())
@@ -322,9 +318,10 @@ public final class DataLoader {
      * Reads rating file and parse it. Rating file format should be like this:
      * userId,ItemId,Rating This function ignore all the ratings which does not
      * have any feature (lowlevel,genre,tag)
+     * @throws DataLoaderException 
      */
     private
-            void readRatingFileBaseOnExisintItems() {
+            void readRatingFileBaseOnExisintItems() throws DataLoaderException {
         try (final BufferedReader reader = new BufferedReader(
                 new FileReader(Globals.RATING_FILE_PATH));)
         {
@@ -392,9 +389,7 @@ public final class DataLoader {
                 LOG.info("Related Rating Data loaded from "+Globals.RATING_FILE_PATH);
             }
         } catch (final Exception exception) {
-            LOG.error("Can not load rating file : " + Globals.RATING_FILE_PATH);
-            LOG.error(exception);
-            System.exit(1);
+            throw new DataLoaderException("Can not load rating file : " + Globals.RATING_FILE_PATH,exception);
         }
     }
     
@@ -402,8 +397,9 @@ public final class DataLoader {
      * Removes #numberOfItems top popular items from this dataset
      * @param numberOfItems
      * @return 
+     * @throws DataLoaderException 
      */
-    public DataModel removeTopPopular(final int numberOfItems){
+    public DataModel removeTopPopular(final int numberOfItems) throws DataLoaderException{
         LOG.info("Removing "+numberOfItems+" top popular items ...");
         final IntArrayList topPopularItems = TopPopularItemsUtil.getTopPopularItems(numberOfItems, dataModel);
         this.doNotAddList.addAll(topPopularItems);

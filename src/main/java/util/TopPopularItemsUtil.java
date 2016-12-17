@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import controller.DataLoader;
+import controller.DataLoaderException;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import model.DataModel;
 import model.Item;
@@ -27,10 +28,11 @@ public class TopPopularItemsUtil {
 
     /**
      * @param args
+     * @throws DataLoaderException 
      */
     public static
     void main(
-            String[] args)
+            String[] args) throws DataLoaderException
     {
         final DataLoader loader = new DataLoader();
         final DataModel dataModel = loader.readData();
