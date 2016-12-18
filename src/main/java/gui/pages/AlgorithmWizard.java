@@ -82,6 +82,7 @@ public class AlgorithmWizard extends WizardPage {
 		algorithmComponents.clear();
 		for (int i = 1; i <= value; i++) {
 			final AlgorithmComponent algorithmComponent = new AlgorithmComponent(i);
+			algorithmComponent.enableRadioButtons();
 			algorithmComponents.add(algorithmComponent);
 			algorithmGridpane.add(algorithmComponent.getLayout(), 0, i);
 		}
@@ -169,4 +170,10 @@ public class AlgorithmWizard extends WizardPage {
 		return errorMessage.getText();
 	}
 
+	@Override
+	protected void reloadIfNeeded() {
+		algorithmComponents.forEach(p->p.enableRadioButtons());
+	}
+
+	
 }

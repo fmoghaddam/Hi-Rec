@@ -47,7 +47,6 @@ public class AlgorithmComponent {
 		useTag.setToggleGroup(options);
 		useGenre.setToggleGroup(options);
 		useRating.setToggleGroup(options);
-		useLowLevel.setSelected(true);
 		initListeners();
 	}
 
@@ -119,14 +118,42 @@ public class AlgorithmComponent {
 		final VBox main = new VBox(5.0, hBox, algorithmParameters.getLayout());
 		main.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
 				+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: gray;");
+		
 		return main;
+	}
+
+	public void enableRadioButtons() {
+		if(ConfigData.instance.LOW_LEVEL_FILE_PATH==null || ConfigData.instance.LOW_LEVEL_FILE_PATH.isEmpty().get()){
+			useLowLevel.setDisable(true);
+		}else{
+			useLowLevel.setDisable(false);
+		}
+		if(ConfigData.instance.GENRE_FILE_PATH==null || ConfigData.instance.GENRE_FILE_PATH.isEmpty().get()){
+			useGenre.setDisable(true);
+		}else{
+			useGenre.setDisable(false);
+		}
+		if(ConfigData.instance.TAG_FILE_PATH==null || ConfigData.instance.TAG_FILE_PATH.isEmpty().get()){
+			useTag.setDisable(true);
+		}else{
+			useTag.setDisable(false);
+		}
+		if(ConfigData.instance.RATING_FILE_PATH==null || ConfigData.instance.RATING_FILE_PATH.isEmpty().get()){
+			useRating.setDisable(true);
+		}else{
+			useRating.setDisable(false);
+		}
 	}
 	
 	public String validate(){
+		if(!useRating.isSelected() && !useTag.isSelected() && !useGenre.isSelected() && !useLowLevel.isSelected()){
+			return "Select criteria for calculating similarity";
+		}
 		if(algorithmCombobox.getValue()==null){
 			return "Select algorithm name";
 		}else{
 			return algorithmParameters.validate();
 		}
 	}
+	
 }
