@@ -22,6 +22,7 @@ public class CircleComponent {
 	private Circle circle;
 	private boolean blinking;
 	private Timeline timeline;
+	private Color color = Color.RED;
 
 	/**
 	 * @param label
@@ -36,13 +37,20 @@ public class CircleComponent {
 	}
 
 	/**
+	 * @param color the color to set
+	 */
+	public final void setColor(Color color) {
+		this.color = color;
+	}
+
+	/**
 	 * Stop circle blinking by set its color to transparent.
 	 */
 	public void stopBlinking() {
 		if(this.blinking){	
 			this.blinking = false;
 			timeline.stop();			
-			this.circle.setFill(Color.LIGHTGREEN) ;
+			this.circle.setFill(color) ;
 		}		
 	}
 
@@ -56,11 +64,11 @@ public class CircleComponent {
 			this.timeline.setCycleCount(Animation.INDEFINITE) ;
 			final EventHandler<ActionEvent> onFinished = (ActionEvent event) ->
 			{
-				if (this.circle.getFill()==Color.RED){
+				if (this.circle.getFill()==color){
 					this.circle.setFill(Color.TRANSPARENT) ;
 				}
 				else{
-					this.circle.setFill(Color.RED) ;
+					this.circle.setFill(color) ;
 				}	        
 			};
 			final KeyFrame keyframe = new KeyFrame(Duration.millis(500),onFinished ) ;

@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import util.MessageBus;
 
 /**
@@ -58,16 +59,20 @@ public class AlgorithmVisualComponent {
 			if(circleComponent!=null){
 				switch (message.getStatus()) {
 				case STARTED:
-					circleComponent.startBlinking();
+					circleComponent.setColor(Color.RED);
+					circleComponent.startBlinking();					
 					circleComponent.setStatusLabel(FoldStatus.STARTED.getText());
 					break;
 				case TRAINING:
+					circleComponent.setColor(Color.YELLOW);
 					circleComponent.setStatusLabel(FoldStatus.TRAINING.getText());
 					break;
 				case TESTING:
+					circleComponent.setColor(Color.AQUA);
 					circleComponent.setStatusLabel(FoldStatus.TESTING.getText());
 					break;
 				case FINISHED:
+					circleComponent.setColor(Color.GREENYELLOW);
 					circleComponent.stopBlinking();
 					circleComponent.setStatusLabel(FoldStatus.FINISHED.getText());
 				default:
