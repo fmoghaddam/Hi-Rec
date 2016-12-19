@@ -15,7 +15,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import run.HiRec;
 import util.MessageBus;
 
@@ -103,7 +102,7 @@ class StatusMessageAppender extends AppenderSkeleton {
 	public StatusMessageAppender() {
 		this.textArea = new TextArea();
 		this.textArea.setMinHeight(400);
-		this.textArea.setFont(new Font("Monaco",12));
+		this.textArea.setStyle("-fx-font-family: monospace");
 		this.textArea.setEditable(false);
 		this.textArea.clear();
 	}

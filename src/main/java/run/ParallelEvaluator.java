@@ -210,7 +210,7 @@ public final class ParallelEvaluator {
 			LOG.info("Total Train Time: " + configuration.getTimeUtil().getTotalTrainTime() + " seconds");
 			LOG.info("Average Test Time: " + configuration.getTimeUtil().getAverageTestTime() + " seconds");
 			LOG.info("Total Test Time: " + configuration.getTimeUtil().getTotalTestTime() + " seconds");
-			//this.addAverageAndPretyPrintResult(printResult);
+			this.addAverageAndPretyPrintResult(printResult);
 			this.googleDocPrintResult(printResult);
 			this.tTestValues.put(configuration, printResult);
 		}
@@ -344,7 +344,6 @@ public final class ParallelEvaluator {
 	 * 
 	 * @param printResult
 	 */
-	@SuppressWarnings("unused")
 	private synchronized void addAverageAndPretyPrintResult(Map<Metric, List<Float>> printResult) {
 
 		String[][] resultTable = new String[printResult.keySet().size() + 1][(int) (Globals.NUMBER_OF_FOLDS + 2)];
