@@ -1,6 +1,8 @@
 package gui.pages;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -27,10 +29,12 @@ import javafx.stage.FileChooser;
 public class ReviewWizard extends WizardPage {
 
 	private static final Logger LOG = Logger.getLogger(ReviewWizard.class.getCanonicalName());
-	
+
 	private TextArea textArea;
 	private Button exportButton;
+	private Button importButton;
 	private Button startButton;
+
 	/**
 	 * @param title
 	 */
@@ -46,7 +50,7 @@ public class ReviewWizard extends WizardPage {
 	@Override
 	public Parent getContent() {
 		textArea = new TextArea();
-		textArea.setPrefHeight(ConfigGeneratorGui.HEIGHT-100);
+		textArea.setPrefHeight(ConfigGeneratorGui.HEIGHT - 100);
 		exportButton = new Button("Export Config file");
 		exportButton.setOnAction(event -> {
 			final FileChooser fileChooser = new FileChooser();
@@ -62,27 +66,64 @@ public class ReviewWizard extends WizardPage {
 				}
 			}
 		});
-		startButton = new Button("Start The Application");
-		startButton.setOnAction(event->{
+		startButton = new Button("Run Application");
+		startButton.setOnAction(event -> {
 			fillConfigFileWithNewData();
 			navTo(5);
 		});
-		
+
+		importButton = new Button("Import Config file");
+		importButton.setOnAction(event -> {
+			handleImportFile();
+		});
+
 		fillContent();
-		final VBox hbox = new VBox(10.0, textArea, new HBox(5.0,exportButton,startButton));
+		final VBox hbox = new VBox(10.0, textArea, new HBox(5.0, exportButton, importButton, startButton));
 		return hbox;
 	}
 
 	private void fillConfigFileWithNewData() {
-		try
-		{
-		    final String filename= "config.properties";
-		    final FileWriter fw = new FileWriter(filename,false); //the true will append the new data
-		    fw.write(textArea.getText());//appends the string to the file
-		    fw.close();
+		try {
+			final String filename = "config.properties";
+			final FileWriter fw = new FileWriter(filename, false);
+			fw.write(textArea.getText());
+			fw.close();
+		} catch (IOException ioe) {
 		}
-		catch(IOException ioe)
-		{
+	}
+
+	/**
+	 * 
+	 */
+	private void handleImportFile() {
+		final FileChooser fileChooser = new FileChooser();
+		final File file = fileChooser.showOpenDialog(ConfigGeneratorGui.getCurrentStage());
+		if (file != null) {
+			BufferedReader br = null;
+			FileReader fr = null;
+			final StringBuilder fileContent = new StringBuilder();
+			try {
+				fr = new FileReader(file);
+				br = new BufferedReader(fr);
+				String sCurrentLine;
+				br = new BufferedReader(new FileReader(file));
+				while ((sCurrentLine = br.readLine()) != null) {
+					fileContent.append(sCurrentLine).append("\n");
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (br != null)
+						br.close();
+					if (fr != null)
+						fr.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+			textArea.clear();
+			textArea.setText(fileContent.toString());
 		}
 	}
 
@@ -101,7 +142,7 @@ public class ReviewWizard extends WizardPage {
 					if (((StringProperty) field.get(ConfigData.instance)).get() != null) {
 						result.append(field.getName()).append("=")
 								.append(((StringProperty) field.get(ConfigData.instance)).get()).append("\n");
-					}else{
+					} else {
 						result.append(field.getName()).append("=").append("\n");
 					}
 				} else if (field.get(ConfigData.instance) instanceof Map) {
@@ -111,7 +152,7 @@ public class ReviewWizard extends WizardPage {
 					for (final Entry<String, StringProperty> entry : map.entrySet()) {
 						if (entry.getValue().get() != null) {
 							result.append(entry.getKey()).append("=").append(entry.getValue().get()).append("\n");
-						}else{
+						} else {
 							result.append(entry.getKey()).append("=").append("\n");
 						}
 					}
@@ -137,11 +178,12 @@ public class ReviewWizard extends WizardPage {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see gui.WizardPage#shouldDisbaleNext()
 	 */
 	@Override
 	protected boolean shouldDisbaleNext() {
 		return true;
 	}
-	
+
 }
