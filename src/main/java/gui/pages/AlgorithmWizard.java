@@ -150,7 +150,7 @@ public class AlgorithmWizard extends WizardPage {
 				final AlgorithmComponent algo = algorithmComponents.get(i-1);
 				final String validate = algo.validate();
 				if(validate!=null && !validate.isEmpty()){
-					result.append("In configuration "+i+": ").append(validate).append("\n");
+					result.append("In configuration "+i+": ").append("\n").append(validate).append("\n");
 				}
 			}
 			errorMessage.setText(result.toString());

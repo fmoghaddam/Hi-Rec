@@ -1,5 +1,6 @@
 package gui.pages;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -19,6 +20,7 @@ public class AlgorithmParametersComponent {
 
 	private GridPane grid;
 	private final int id;
+	private Map<String,TextField> parametersMap;
 
 	/**
 	 * @param id
@@ -30,14 +32,16 @@ public class AlgorithmParametersComponent {
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
+		parametersMap= new HashMap<>();
 	}
 
 	/**
 	 * @param map
 	 */
 	public void setParameters(final Map<String, Map<String, String>> map) {
-		int i = 0;
-		grid.getChildren().clear();
+		int i = 0;		
+		this.grid.getChildren().clear();
+		this.parametersMap.clear();
 		for (Map<String, String> subMap : map.values()) {
 			for (Entry<String, String> entity : subMap.entrySet()) {
 				final String value = entity.getValue();
@@ -49,6 +53,7 @@ public class AlgorithmParametersComponent {
 				final String key = "ALGORITHM_" + id + "_" + entity.getKey();
 				ConfigData.instance.ALGORITHM_PARAMETERS.put(key, new SimpleStringProperty(""));
 				ConfigData.instance.ALGORITHM_PARAMETERS.get(key).bind(parameterValue.textProperty());
+				this.parametersMap.put(value,parameterValue);
 			}
 		}
 	}
@@ -61,7 +66,14 @@ public class AlgorithmParametersComponent {
 	 * @return
 	 */
 	public String validate() {
-		//TODO
-		return "";
+		final StringBuilder totalError = new StringBuilder();
+		for(Entry<String, TextField> entry:this.parametersMap.entrySet()){
+			try{
+				Double.parseDouble(entry.getValue().getText());
+			}catch(final Exception exception){
+				totalError.append("The value of \""+entry.getKey()+"\" is not valid").append("\n");
+			}
+		}
+		return totalError.toString();
 	}
 }

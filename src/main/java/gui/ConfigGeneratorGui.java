@@ -130,7 +130,7 @@ public class ConfigGeneratorGui extends Application {
 			borderPane.setCenter(new WizardMaker(stage));
 			final Scene scence = new Scene(borderPane, WIDTH, HEIGHT);
 			newStage.setScene(scence);
-			newStage.setResizable(false);
+			newStage.setResizable(true);
 			newStage.setTitle("Hi-Rec Client");
 			newStage.centerOnScreen();
 			newStage.show();

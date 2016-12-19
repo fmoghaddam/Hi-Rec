@@ -226,7 +226,7 @@ public class GeneralFeatureWizard extends WizardPage {
 		}
 
 		if(metrics.getSelectionModel().getSelectedItems()==null || metrics.getSelectionModel().getSelectedItems().isEmpty()){
-			overalErrorMessage.append("At lease 1 metric shoudl be selected").append("\n");
+			overalErrorMessage.append("At lease 1 metric should be selected").append("\n");
 			overalError=true;
 		}
 		if (!overalError) {
