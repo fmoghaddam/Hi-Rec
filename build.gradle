@@ -36,7 +36,7 @@ startScripts {
 }
 
 sourceCompatibility = 1.8
-version = '2.0'
+version = '2.1.1'
 jar {
     manifest {
         attributes 'Implementation-Title': 'Gradle Quickstart',
