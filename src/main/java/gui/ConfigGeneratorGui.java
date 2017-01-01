@@ -21,6 +21,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,7 +48,7 @@ public class ConfigGeneratorGui extends Application {
 	private static final String LATEST_RELEASE_JSON_URL = "https://api.github.com/repos/fmoghaddam/Hi-Rec/releases/latest";
 
 	private Logger LOG = Logger.getLogger(ConfigGeneratorGui.class.getCanonicalName());
-	
+
 	public static final int HEIGHT = 800;
 	public static final int WIDTH = 670;
 
@@ -138,14 +139,17 @@ public class ConfigGeneratorGui extends Application {
 			} catch (final Exception exception) {
 				// Not important
 			}
-			
+
 			showConfirmation();
 			final Stage newStage = new Stage();
 			currentStage = newStage;
 			final BorderPane borderPane = new BorderPane();
+			final ScrollPane scrollPane = new ScrollPane(borderPane);
+			scrollPane.setFitToWidth(true);
+			scrollPane.setFitToHeight(true);
 			borderPane.setTop(menu);
 			borderPane.setCenter(new WizardMaker(stage));
-			final Scene scence = new Scene(borderPane, WIDTH, HEIGHT);
+			final Scene scence = new Scene(scrollPane, WIDTH, HEIGHT);
 			newStage.setScene(scence);
 			newStage.setResizable(true);
 			newStage.setTitle("Hi-Rec Client");
@@ -156,15 +160,15 @@ public class ConfigGeneratorGui extends Application {
 
 	private void showVersionControl() {
 		final String version = checkVersion();
-		if(!APP_VERSION.equals(version)){
+		if (!APP_VERSION.equals(version)) {
 			showNewVersionIsAvailable(version);
-		}				
+		}
 	}
 
 	private void showNewVersionIsAvailable(final String version) {
 		final Stage newStageConfirmation = new Stage();
 		final StringBuilder content = new StringBuilder();
-		content.append("A new version "+version+" is available.").append("\n");
+		content.append("A new version " + version + " is available.").append("\n");
 		content.append("You can download it from :").append("\n");
 		final Hyperlink link = new Hyperlink(version);
 		link.setVisited(false);
@@ -189,7 +193,7 @@ public class ConfigGeneratorGui extends Application {
 		newStageConfirmation.initModality(Modality.APPLICATION_MODAL);
 		newStageConfirmation.showAndWait();
 	}
-	
+
 	private String checkVersion() {
 		try {
 			URL url = new URL(LATEST_RELEASE_JSON_URL);
@@ -198,14 +202,12 @@ public class ConfigGeneratorGui extends Application {
 			conn.setRequestProperty("Accept", "application/json");
 
 			if (conn.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : "
-						+ conn.getResponseCode());
+				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
 			}
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					(conn.getInputStream())));
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 			final String jsonText = readAll(br);
 			final JSONObject json = new JSONObject(jsonText);
-			final String versionName = (String)json.get("tag_name");
+			final String versionName = (String) json.get("tag_name");
 			conn.disconnect();
 			return versionName;
 		} catch (final IOException exception) {
@@ -213,7 +215,7 @@ public class ConfigGeneratorGui extends Application {
 			return null;
 		}
 	}
-	
+
 	private String readAll(Reader rd) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		int cp;
@@ -222,7 +224,7 @@ public class ConfigGeneratorGui extends Application {
 		}
 		return sb.toString();
 	}
-	
+
 	private void showConfirmation() {
 		final Stage newStageConfirmation = new Stage();
 		final VBox vBox = createConfirmationContent(newStageConfirmation);
