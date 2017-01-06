@@ -76,4 +76,13 @@ public class AlgorithmParametersComponent {
 		}
 		return totalError.toString();
 	}
+
+	/**
+	 * 
+	 */
+	public void fillWithSampleData() {
+		for(Entry<String, TextField> entry:parametersMap.entrySet()){
+			entry.getValue().setText("10");
+		}
+	}
 }

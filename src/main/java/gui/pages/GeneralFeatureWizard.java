@@ -246,4 +246,19 @@ public class GeneralFeatureWizard extends WizardPage {
 	protected String getErrorMessage() {
 		return errorMessage.getText();
 	}
+
+	/* (non-Javadoc)
+	 * @see gui.WizardPage#fillWithSampleData()
+	 */
+	@Override
+	protected void fillWithSampleData() {
+		topN.setText("10");
+		minimumRatingForPositiveRatingTextField.setText("3.5");
+		atN.setText("10");
+		dropMostPopularItemsCheckBox.setSelected(true);
+		dropMostPopularItemsTextField.setText("800");
+		metrics.getSelectionModel().select(Metrics.RMSE);
+		metrics.getSelectionModel().select(Metrics.NDCG);
+		
+	}
 }

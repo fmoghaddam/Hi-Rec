@@ -15,10 +15,15 @@ class WizardMaker extends Wizard {
 
 	public WizardMaker(Stage owner) {
 		super(new FirstPage(), new DataSetWizard() , new GeneralFeatureWizard(),
-				new AlgorithmWizard(), new ReviewWizard(), new RunPage());
+				new AlgorithmWizard(), new ReviewWizard(), new RunPage());		
 		this.owner = owner;
 	}
 
+	public void fillWithSampleData(){
+		for(final WizardPage page:this.pages){
+			page.fillWithSampleData();
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

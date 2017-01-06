@@ -15,7 +15,7 @@ import javafx.scene.layout.StackPane;
 class Wizard extends StackPane {
 
 	private static final int UNDEFINED = -1;
-	private ObservableList<WizardPage> pages = FXCollections.observableArrayList();
+	protected ObservableList<WizardPage> pages = FXCollections.observableArrayList();
 	private Stack<Integer> history = new Stack<>();
 	private int curPageIdx = UNDEFINED;
 

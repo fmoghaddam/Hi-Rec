@@ -47,14 +47,15 @@ public class ConfigGeneratorGui extends Application {
 	private static final String LEATEST_RELEASE_URL = "https://github.com/fmoghaddam/Hi-Rec/releases/latest";
 	private static final String LATEST_RELEASE_JSON_URL = "https://api.github.com/repos/fmoghaddam/Hi-Rec/releases/latest";
 
-	private Logger LOG = Logger.getLogger(ConfigGeneratorGui.class.getCanonicalName());
+	private static final Logger LOG = Logger.getLogger(ConfigGeneratorGui.class.getCanonicalName());
 
 	public static final int HEIGHT = 800;
 	public static final int WIDTH = 670;
 
 	private static Stage currentStage;
 	private MenuBar menu;
-
+	private WizardMaker wizardMaker;
+	
 	public static void main(String[] args) throws Exception {
 		launch(args);
 	}
@@ -81,10 +82,15 @@ public class ConfigGeneratorGui extends Application {
 		final Menu menuHelp = new Menu("Help");
 
 		final MenuItem exit = new MenuItem("Exit");
-		exit.setOnAction(t -> {
+		exit.setOnAction(e -> {
 			Platform.exit();
 		});
+		final MenuItem fillWithSampleDate = new MenuItem("Fill With Sample Data");
+		fillWithSampleDate.setOnAction(e->{
+			wizardMaker.fillWithSampleData();
+		});
 
+		menuFile.getItems().add(fillWithSampleDate);
 		exit.setAccelerator(new KeyCodeCombination(KeyCode.X, KeyCombination.ALT_DOWN));
 		menuFile.getItems().add(exit);
 
@@ -148,7 +154,8 @@ public class ConfigGeneratorGui extends Application {
 			scrollPane.setFitToWidth(true);
 			scrollPane.setFitToHeight(true);
 			borderPane.setTop(menu);
-			borderPane.setCenter(new WizardMaker(stage));
+			wizardMaker = new WizardMaker(stage);
+			borderPane.setCenter(wizardMaker);
 			final Scene scence = new Scene(scrollPane, WIDTH, HEIGHT);
 			newStage.setScene(scence);
 			newStage.setResizable(true);
@@ -160,7 +167,7 @@ public class ConfigGeneratorGui extends Application {
 
 	private void showVersionControl() {
 		final String version = checkVersion();
-		if (!APP_VERSION.equals(version)) {
+		if (version!=null && !APP_VERSION.equals(version)) {
 			showNewVersionIsAvailable(version);
 		}
 	}
@@ -196,22 +203,22 @@ public class ConfigGeneratorGui extends Application {
 
 	private String checkVersion() {
 		try {
-			URL url = new URL(LATEST_RELEASE_JSON_URL);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			final URL url = new URL(LATEST_RELEASE_JSON_URL);
+			final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
 
 			if (conn.getResponseCode() != 200) {
 				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
 			}
-			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+			final BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 			final String jsonText = readAll(br);
 			final JSONObject json = new JSONObject(jsonText);
 			final String versionName = (String) json.get("tag_name");
 			conn.disconnect();
 			return versionName;
 		} catch (final IOException exception) {
-			LOG.error(exception.getMessage());
+			LOG.error(exception);
 			return null;
 		}
 	}

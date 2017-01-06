@@ -9,11 +9,13 @@ import gui.model.ConfigData;
 import interfaces.AbstractRecommender;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -88,6 +90,19 @@ public class AlgorithmComponent {
 		ConfigData.instance.ALGORITHM_PARAMETERS.get(key5)
 				.bind(new SimpleStringProperty(String.valueOf(useRating.selectedProperty().get())));
 
+		options.selectedToggleProperty().addListener((ChangeListener<Toggle>) (observable, oldValue, newValue) -> {
+			if (options.getSelectedToggle() != null) {
+				ConfigData.instance.ALGORITHM_PARAMETERS.get(key1)
+				.bind(new SimpleStringProperty(algorithmCombobox.getValue().getText().get()));
+				ConfigData.instance.ALGORITHM_PARAMETERS.get(key3)
+				.bind(new SimpleStringProperty(String.valueOf(useGenre.selectedProperty().get())));
+				ConfigData.instance.ALGORITHM_PARAMETERS.get(key4)
+				.bind(new SimpleStringProperty(String.valueOf(useTag.selectedProperty().get())));
+				ConfigData.instance.ALGORITHM_PARAMETERS.get(key5)
+				.bind(new SimpleStringProperty(String.valueOf(useRating.selectedProperty().get())));
+			}
+		});
+		
 		final String selectedAlgorithmName = "algorithms." + algorithmCombobox.getValue().getText().get();
 		final AbstractRecommender instantiateClass = (AbstractRecommender) ClassInstantiator
 				.instantiateClass(selectedAlgorithmName);
@@ -154,6 +169,16 @@ public class AlgorithmComponent {
 		}else{
 			return algorithmParameters.validate();
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public void fillWithSampleData() {
+		useLowLevel.setSelected(true);
+		algorithmCombobox.getSelectionModel().select(Algorithms.ItemBasedNN);
+		addParametersToDataModel();
+		algorithmParameters.fillWithSampleData();
 	}
 	
 }

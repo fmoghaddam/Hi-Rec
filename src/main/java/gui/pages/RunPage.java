@@ -94,6 +94,15 @@ public class RunPage extends WizardPage{
 	protected void reloadIfNeeded() {
 		HiRec.execute();
 	}
+
+	/* (non-Javadoc)
+	 * @see gui.WizardPage#fillWithSampleData()
+	 */
+	@Override
+	protected void fillWithSampleData() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 class StatusMessageAppender extends AppenderSkeleton {

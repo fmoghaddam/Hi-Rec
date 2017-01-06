@@ -76,6 +76,8 @@ public abstract class WizardPage extends VBox {
 		return buttonBar;
 	}
 
+	protected abstract void fillWithSampleData();
+	
 	protected abstract Parent getContent();
 
 	protected boolean validate(){

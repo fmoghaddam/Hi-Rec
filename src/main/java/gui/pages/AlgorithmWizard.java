@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gui.pages;
 
 import java.util.ArrayList;
@@ -173,6 +170,16 @@ public class AlgorithmWizard extends WizardPage {
 	@Override
 	protected void reloadIfNeeded() {
 		algorithmComponents.forEach(p->p.enableRadioButtons());
+	}
+
+	/* (non-Javadoc)
+	 * @see gui.WizardPage#fillWithSampleData()
+	 */
+	@Override
+	protected void fillWithSampleData() {
+		slider.setValue(1.0);
+		final AlgorithmComponent algorithmComponent = algorithmComponents.get(0);
+		algorithmComponent.fillWithSampleData();
 	}
 
 	
