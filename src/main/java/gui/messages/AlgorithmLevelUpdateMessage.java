@@ -1,7 +1,7 @@
 /**
  * 
  */
-package gui.pages;
+package gui.messages;
 
 /**
  * @author Farshad Moghaddam

@@ -178,6 +178,9 @@ public final class FunkSVD extends AbstractRecommender {
 		int itemid;
 		for (int i = 0; i < numFeatures; i++) {
 			for (final Rating rating : cachedPreferences) {
+				if(Thread.interrupted()){
+					return;
+				}
 				userid = rating.getUserId();
 				itemid = rating.getItemId();
 				final Integer integer = this.userMap.get(userid);

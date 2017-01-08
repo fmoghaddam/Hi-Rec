@@ -19,7 +19,7 @@ class Wizard extends StackPane {
 	private Stack<Integer> history = new Stack<>();
 	private int curPageIdx = UNDEFINED;
 
-	Wizard(WizardPage... nodes) {
+	Wizard(final WizardPage... nodes) {
 		pages.addAll(nodes);
 		navTo(0);
 		setStyle("-fx-padding: 10; -fx-background-color: cornsilk;");

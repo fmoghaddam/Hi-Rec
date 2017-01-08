@@ -1,5 +1,9 @@
 package gui;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -18,15 +22,19 @@ public abstract class WizardPage extends VBox {
 	public Button nextButton = new Button("N_ext");
 	public Button cancelButton = new Button("Cancel");
 
-	public WizardPage(String title) {
+	protected List<Button> extraButtons = new ArrayList<>();
+	public WizardPage(final String title){
+		this(title,Collections.emptyList());
+	}
+	
+	public WizardPage(final String title, List<Button> list) {
+		extraButtons = list;
 		final Label label = new Label();
 		label.setText(title);
 		label.setStyle("-fx-font-weight: bold; -fx-padding: 0 0 5 0;");
 		getChildren().add(label);
 		setId(title);
 		setSpacing(5);
-		//setStyle(
-		//		"-fx-padding:10; -fx-background-color: honeydew; -fx-border-color: derive(honeydew, -30%); -fx-border-width: 3;");
 		this.setAlignment(Pos.CENTER);
 		final Region spring = new Region();
 		VBox.setVgrow(spring, Priority.ALWAYS);
@@ -73,10 +81,14 @@ public abstract class WizardPage extends VBox {
 		HBox buttonBar = new HBox(5);
 		cancelButton.setCancelButton(true);
 		buttonBar.getChildren().addAll(spring, priorButton, nextButton, cancelButton);
+		for(final Button btn: extraButtons){
+			buttonBar.getChildren().add(btn);
+		}
 		return buttonBar;
 	}
 
 	protected abstract void fillWithSampleData();
+	protected abstract void reset();
 	
 	protected abstract Parent getContent();
 
@@ -180,6 +192,10 @@ public abstract class WizardPage extends VBox {
 			priorButton.setDisable(true);
 		}
 
+	}
+
+	public void setExtraButtons(List<Button> extraButtons) {
+		this.extraButtons = extraButtons;
 	}
 
 }

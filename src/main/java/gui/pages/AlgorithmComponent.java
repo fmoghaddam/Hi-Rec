@@ -92,8 +92,8 @@ public class AlgorithmComponent {
 
 		options.selectedToggleProperty().addListener((ChangeListener<Toggle>) (observable, oldValue, newValue) -> {
 			if (options.getSelectedToggle() != null) {
-				ConfigData.instance.ALGORITHM_PARAMETERS.get(key1)
-				.bind(new SimpleStringProperty(algorithmCombobox.getValue().getText().get()));
+				ConfigData.instance.ALGORITHM_PARAMETERS.get(key2)
+				.bind(new SimpleStringProperty(String.valueOf(useLowLevel.selectedProperty().get())));
 				ConfigData.instance.ALGORITHM_PARAMETERS.get(key3)
 				.bind(new SimpleStringProperty(String.valueOf(useGenre.selectedProperty().get())));
 				ConfigData.instance.ALGORITHM_PARAMETERS.get(key4)

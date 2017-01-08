@@ -81,6 +81,11 @@ public class ConfigGeneratorGui extends Application {
 		final Menu menuFile = new Menu("File");
 		final Menu menuHelp = new Menu("Help");
 
+		final MenuItem reset = new MenuItem("Reset");
+		reset.setOnAction(e -> {
+			wizardMaker.reset();
+		});
+		
 		final MenuItem exit = new MenuItem("Exit");
 		exit.setOnAction(e -> {
 			Platform.exit();
@@ -91,6 +96,7 @@ public class ConfigGeneratorGui extends Application {
 		});
 
 		menuFile.getItems().add(fillWithSampleDate);
+		menuFile.getItems().add(reset);
 		exit.setAccelerator(new KeyCodeCombination(KeyCode.X, KeyCombination.ALT_DOWN));
 		menuFile.getItems().add(exit);
 

@@ -89,7 +89,7 @@ public class DataSetWizard extends WizardPage {
 	}
 
 	@Override
-	public void fillWithSampleData(){
+	protected void fillWithSampleData(){
 		final String home = System.getProperty("user.dir");
 		lowLevelFileText.setText(home+"\\data\\LLVisualFeatures13K_QuantileLog.csv");
 		genreFileText.setText(home+"\\data\\Genre.csv");
@@ -517,5 +517,17 @@ public class DataSetWizard extends WizardPage {
 	@Override
 	protected String getErrorMessage() {
 		return errorMessage.getText();
+	}
+
+	@Override
+	protected void reset() {
+		lowLevelFileText.setText("");
+		genreFileText.setText("");
+		tagFileText.setText("");
+		ratingFileText.setText("");
+		runAlgorithmNumberOfThreadTextField.setText("");
+		runAlgorithmParallelCheckBox.setSelected(false);
+		runFoldsNumberOfThreadTextField.setText("");
+		runFoldsParallelCheckBox.setSelected(false);
 	}
 }

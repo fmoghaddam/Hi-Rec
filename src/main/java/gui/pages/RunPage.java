@@ -1,5 +1,8 @@
 package gui.pages;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
@@ -7,10 +10,14 @@ import org.apache.log4j.spi.LoggingEvent;
 import com.google.common.eventbus.Subscribe;
 
 import gui.WizardPage;
+import gui.messages.AlgorithmLevelUpdateMessage;
+import gui.messages.CalculationDoneMessage;
+import gui.messages.EnableStopButtonMessage;
+import gui.messages.StopAllRequestMessage;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
@@ -27,15 +34,46 @@ public class RunPage extends WizardPage{
 	private StatusMessageAppender outputTextArea;
 	private ScrollPane algorithmsScrollPane;
 	private GridPane algorithmsGrid;
+	
+	private static Button stopBtn;
+	private static Button goToFirstPage;
 	/**
 	 * @param title
 	 */
 	public RunPage() {
-		super("Run");
+		super("Run",createExtraButtons());
 		MessageBus.getInstance().register(this);
 		Logger.getRootLogger().addAppender(outputTextArea);
+		//This line should be inside createExtraButtons
+		//Just for simplicity I added it here
+		goToFirstPage.setOnAction(event->{
+			navTo(0);
+		});
 	}
 
+	private static List<Button> createExtraButtons() {
+		stopBtn = new Button("Stop");
+		stopBtn.setOnAction(event -> {
+			MessageBus.getInstance().getBus().post(new StopAllRequestMessage());
+		});
+		stopBtn.setDisable(true);
+		
+		goToFirstPage = new Button("Go to first page");
+		goToFirstPage.setDisable(true);
+		return Arrays.asList(goToFirstPage,stopBtn) ;
+	}
+	
+	@Subscribe
+	private void enableGoToFirstPgaeButton(final CalculationDoneMessage message){
+		goToFirstPage.setDisable(false);
+	}
+	
+	@Subscribe
+	private void enableStopButton(final EnableStopButtonMessage message){
+		stopBtn.setDisable(false);
+	}
+	
+	
 	@Subscribe
 	private void addAlgorithmComponent(final AlgorithmLevelUpdateMessage message) {
 		final Parent component = new AlgorithmVisualComponent(message.getId(), message.getAlgorithmName(), message.getNumberOfFold()).getLayout();
@@ -76,7 +114,7 @@ public class RunPage extends WizardPage{
 	 */
 	@Override
 	protected boolean shouldHideCancel() {
-		return false;
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -92,6 +130,7 @@ public class RunPage extends WizardPage{
 	 */
 	@Override
 	protected void reloadIfNeeded() {
+		reset();
 		HiRec.execute();
 	}
 
@@ -100,8 +139,12 @@ public class RunPage extends WizardPage{
 	 */
 	@Override
 	protected void fillWithSampleData() {
-		// TODO Auto-generated method stub
-		
+	}
+
+	@Override
+	protected void reset() {
+		outputTextArea.getArea().clear();
+		algorithmsGrid.getChildren().clear();
 	}
 }
 
@@ -115,13 +158,14 @@ class StatusMessageAppender extends AppenderSkeleton {
 		this.textArea.setEditable(false);
 		this.textArea.clear();
 	}
+	
     public void close() {
     }
     
     /**
 	 * @return
 	 */
-	public Node getArea() {
+	public TextArea getArea() {
 		return textArea;
 	}
 
@@ -135,6 +179,9 @@ class StatusMessageAppender extends AppenderSkeleton {
 	@Override
 	protected void append(LoggingEvent event) {
 		Platform.runLater(()->{
+			if(event==null || event.getMessage()==null){
+				return;
+			}
 			final String prevText = textArea.getText();
 			textArea.clear();
 			textArea.setText(prevText+"\n"+event.getMessage().toString());

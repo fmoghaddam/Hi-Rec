@@ -16,10 +16,15 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.log4j.Logger;
 
+import com.google.common.eventbus.Subscribe;
+
 import controller.DataSplitter;
 import controller.similarity.SimilarityRepository;
-import gui.pages.AlgorithmLevelUpdateMessage;
-import gui.pages.FoldLevelUpdateMessage;
+import gui.messages.AlgorithmLevelUpdateMessage;
+import gui.messages.CalculationDoneMessage;
+import gui.messages.EnableStopButtonMessage;
+import gui.messages.FoldLevelUpdateMessage;
+import gui.messages.StopAllRequestMessage;
 import gui.pages.FoldStatus;
 import interfaces.AbstractRecommender;
 import interfaces.AccuracyEvaluation;
@@ -52,10 +57,20 @@ public final class ParallelEvaluator {
 	private final Map<Configuration, Map<Metric, List<Float>>> tTestValues = new LinkedHashMap<>();
 	private Object LOCK = new Object();
 
+	private ExecutorService algorithmExecutor;
+	private List<ExecutorService> foldExecutors = new ArrayList<>();;
+	
 	public ParallelEvaluator(final DataModel data) {
 		this.dataModel = data;
 		this.dataSpliter = new DataSplitter(this.dataModel.getCopy());
 		this.dataSpliter.shuffle();
+		MessageBus.getInstance().register(this);
+	}
+	
+	@Subscribe
+	private void stopRequestReceived(final StopAllRequestMessage message){
+		foldExecutors.forEach(p->p.shutdownNow());
+		algorithmExecutor.shutdownNow();
 	}
 
 	/**
@@ -98,18 +113,17 @@ public final class ParallelEvaluator {
 	 */
 	public void evaluate() {
 		final List<Configuration> configurations = readConfigurations();
-		final ExecutorService executor;
 		if(Globals.RUN_ALGORITHMS_PARALLEL){
 			if(Globals.RUN_ALGORITHMS_NUMBER_OF_THREAD==null){
-			executor= Executors
+			algorithmExecutor= Executors
 					.newFixedThreadPool(Runtime.getRuntime().availableProcessors() > configurations.size()
 							? configurations.size() : Runtime.getRuntime().availableProcessors());
 			}else{
-				executor= Executors
+				algorithmExecutor = Executors
 						.newFixedThreadPool(Globals.RUN_ALGORITHMS_NUMBER_OF_THREAD);
 			}
 		}else{
-			executor= Executors
+			algorithmExecutor= Executors
 					.newFixedThreadPool(1);
 		}
 		final List<Runnable> tasks = new ArrayList<>();
@@ -123,12 +137,12 @@ public final class ParallelEvaluator {
 				tasks.add(task);
 			}
 			for (final Runnable task : tasks) {
-				executor.execute(task);
+				algorithmExecutor.execute(task);
 			}
-			executor.shutdown();
-			executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+			algorithmExecutor.shutdown();
+			algorithmExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 		} catch (final Exception exception) {
-			LOG.error(exception.getMessage());
+			LOG.error("Excecution interupted");
 		}
 		if (Globals.CALCULATE_TTEST) {
 			StatisticFunctions.runTTestAndPrettyPrint(tTestValues);
@@ -157,6 +171,7 @@ public final class ParallelEvaluator {
 			executor = Executors
 					.newFixedThreadPool(1);
 		}
+		foldExecutors.add(executor);
 		final List<Runnable> tasks = new ArrayList<>();
 		for (int i = 1; i <= Globals.NUMBER_OF_FOLDS; i++) {
 			final DataModel trainData = dataSpliter.getTrainData(i);
@@ -189,20 +204,20 @@ public final class ParallelEvaluator {
 					LOG.debug("Fold " + foldNumber + " is done.");
 					MessageBus.getInstance().getBus().post(new FoldLevelUpdateMessage(configuration.getId(),foldNumber,FoldStatus.FINISHED));
 				} catch (final Exception exception) {
-					LOG.error("Fold " + foldNumber + " is done with error. Error is " + exception.getMessage());
-					exception.printStackTrace();
+					LOG.error("Fold " + foldNumber + " is done with error. Error is " + exception.getMessage());					
 				}
 			};
 			tasks.add(task);
 		}
 		for (final Runnable task : tasks) {
 			executor.execute(task);
-		}		
+		}
 		executor.shutdown();
 		try {
+			MessageBus.getInstance().getBus().post(new EnableStopButtonMessage());
 			executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 		} catch (final InterruptedException exception) {
-			LOG.error(exception.getMessage(),exception);
+			LOG.error("Execution interupted.");
 		}
 		synchronized (LOCK) {
 			LOG.info(configuration + " result is:");
@@ -214,6 +229,7 @@ public final class ParallelEvaluator {
 			this.googleDocPrintResult(printResult);
 			this.tTestValues.put(configuration, printResult);
 		}
+		MessageBus.getInstance().getBus().post(new CalculationDoneMessage());
 	}
 
 	/**
@@ -229,6 +245,9 @@ public final class ParallelEvaluator {
 				.orElse(null);
 		if (hasListEvaluator != null) {
 			for (final Integer userId : testData.getUsers().keySet()) {
+				if(Thread.interrupted()){
+					return;
+				}
 				final User user = testData.getUser(userId);
 				if (Globals.USE_ONLY_POSITIVE_RATING_IN_TEST) {
 					final long numberOfPositiveItems = user.getItemRating().values().stream()
@@ -266,6 +285,9 @@ public final class ParallelEvaluator {
 				.orElse(null);
 		if (hasRatingEvaluator != null) {
 			for (final Rating rating : testData.getRatings()) {
+				if(Thread.interrupted()){
+					return;
+				}
 				final User testUser = testData.getUser(rating.getUserId());
 				final long numberOfPositiveItems = testUser.getItemRating().values().stream()
 						.filter(p2 -> p2 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.common.eventbus.Subscribe;
 
+import gui.messages.FoldLevelUpdateMessage;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -13,7 +14,7 @@ import javafx.scene.paint.Color;
 import util.MessageBus;
 
 /**
- * @author Farshad Moghaddam
+ * @author FBM
  *
  */
 public class AlgorithmVisualComponent {

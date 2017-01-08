@@ -157,4 +157,9 @@ public class FirstPage extends WizardPage {
 	protected void fillWithSampleData() {
 		
 	}
+
+	@Override
+	protected void reset() {
+		
+	}
 }

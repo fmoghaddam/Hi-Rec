@@ -1,7 +1,9 @@
 /**
  * 
  */
-package gui.pages;
+package gui.messages;
+
+import gui.pages.FoldStatus;
 
 /**
  * @author Farshad Moghaddam

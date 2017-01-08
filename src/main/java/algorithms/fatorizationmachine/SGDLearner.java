@@ -51,6 +51,9 @@ public final class SGDLearner {
         for (int iterate = 0; iterate < numberOfIteration; iterate++) {
             final int dataSize = this.trainDataModel.getRatings().size();
             for (int dataIndex = 0; dataIndex < dataSize; dataIndex++) {
+            	if(Thread.interrupted()){
+					return;
+				}
                 final Rating rating = this.trainDataModel.getRatings().get(dataIndex);
                 final float prediction = FMModel.calculate(rating);
                 final float error = rating.getRating() - prediction;

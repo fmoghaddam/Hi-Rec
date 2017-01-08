@@ -182,5 +182,12 @@ public class AlgorithmWizard extends WizardPage {
 		algorithmComponent.fillWithSampleData();
 	}
 
-	
+	/*
+	 * (non-Javadoc)
+	 * @see gui.WizardPage#reset()
+	 */
+	@Override
+	protected void reset() {
+		slider.setValue(0);
+	}
 }

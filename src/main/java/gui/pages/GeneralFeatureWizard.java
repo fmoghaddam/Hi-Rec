@@ -87,6 +87,9 @@ public class GeneralFeatureWizard extends WizardPage {
 		metrics.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		metrics.getSelectionModel().getSelectedItems().addListener((ListChangeListener<Metrics>) c -> {
 			final ObservableList<Metrics> selectedItems = metrics.getSelectionModel().getSelectedItems();
+			if(selectedItems.size()<1){
+				return;
+			}
 			StringBuilder result = new StringBuilder();
 			for (final Metrics metrics : selectedItems) {
 				result.append(metrics.getText().get()).append(",");
@@ -260,5 +263,15 @@ public class GeneralFeatureWizard extends WizardPage {
 		metrics.getSelectionModel().select(Metrics.RMSE);
 		metrics.getSelectionModel().select(Metrics.NDCG);
 		
+	}
+
+	@Override
+	protected void reset() {
+		topN.setText("");
+		minimumRatingForPositiveRatingTextField.setText("");
+		atN.setText("");
+		dropMostPopularItemsCheckBox.setSelected(false);
+		dropMostPopularItemsTextField.setText("");
+		metrics.getSelectionModel().clearSelection();
 	}
 }

@@ -89,6 +89,7 @@ public class ReviewWizard extends WizardPage {
 			fw.write(textArea.getText());
 			fw.close();
 		} catch (IOException ioe) {
+			LOG.error(ioe);
 		}
 	}
 
@@ -195,4 +196,8 @@ public class ReviewWizard extends WizardPage {
 		
 	}
 
+	@Override
+	protected void reset() {
+		textArea.setText("");
+	}
 }
