@@ -51,17 +51,17 @@ public final class Globals {
 
     public static
             void readData() {
-        RATING_FILE_PATH = Config.getString("RATING_FILE_PATH", "");
+        RATING_FILE_PATH = Config.getString("RATING_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n","\\n").replace("\r", "\\r");
         RATING_FILE_SEPERATOR = Config.getString("RATING_FILE_SEPARATOR", " ");
 
-        LOW_LEVEL_FILE_PATH = Config.getString("LOW_LEVEL_FILE_PATH", "");
+        LOW_LEVEL_FILE_PATH = Config.getString("LOW_LEVEL_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n","\\n").replace("\r", "\\r");
         LOW_LEVEL_FILE_SEPERATOR = Config.getString("LOW_LEVEL_FILE_SEPARATOR",
                 " ");
 
-        GENRE_FILE_PATH = Config.getString("GENRE_FILE_PATH", "");
+        GENRE_FILE_PATH = Config.getString("GENRE_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n","\\n").replace("\r", "\\r");
         GENRE_FILE_SEPERATOR = Config.getString("GENRE_FILE_SEPARATOR", " ");
 
-        TAG_FILE_PATH = Config.getString("TAG_FILE_PATH", "");
+        TAG_FILE_PATH = Config.getString("TAG_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n","\\n").replace("\r", "\\r");
         TAG_FILE_SEPERATOR = Config.getString("TAG_FILE_SEPARATOR", " ");
 
         SIMILAIRTY_FUNCTION = SimilarityFunction
