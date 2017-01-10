@@ -22,6 +22,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -156,12 +157,16 @@ public class ConfigGeneratorGui extends Application {
 			final Stage newStage = new Stage();
 			currentStage = newStage;
 			final BorderPane borderPane = new BorderPane();
-			final ScrollPane scrollPane = new ScrollPane(borderPane);
-			scrollPane.setFitToWidth(true);
-			scrollPane.setFitToHeight(true);
 			borderPane.setTop(menu);
 			wizardMaker = new WizardMaker(stage);
 			borderPane.setCenter(wizardMaker);
+			
+			final ScrollPane scrollPane = new ScrollPane(borderPane);
+			scrollPane.setFitToWidth(true);
+			scrollPane.setFitToHeight(true);
+			scrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+			scrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+
 			final Scene scence = new Scene(scrollPane, WIDTH, HEIGHT);
 			newStage.setScene(scence);
 			newStage.setResizable(true);
