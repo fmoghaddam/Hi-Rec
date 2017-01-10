@@ -44,7 +44,7 @@ import run.HiRec;
  */
 public class ConfigGeneratorGui extends Application {
 
-	private static final String APP_VERSION = "v2.1.1";
+	private static final String APP_VERSION = "v2.1.2";
 	private static final String LEATEST_RELEASE_URL = "https://github.com/fmoghaddam/Hi-Rec/releases/latest";
 	private static final String LATEST_RELEASE_JSON_URL = "https://api.github.com/repos/fmoghaddam/Hi-Rec/releases/latest";
 
