@@ -3,6 +3,9 @@ language: java
 jdk:
 - oraclejdk8
 
+env:
+secure: "gFGh/uz7Ug6gYj7maDHV62bHFmYNc/SZST6O+XwOSqc+p//RvWgCCXEU+IyllvzbumsocvKnQAOwRzfdKM+0gCKMdH/bHqtaqh96QNAkweqVuN6o5h89SFMV8AR10JzcVqgwun/2r4CTr/LyTQPYpYb+TQs8SkMhLwp3skOnvsLBErKlHEnET96XhTd9Xg9Y45LWo/Jbslo5dVU/pbjlx3xzwn8BTzhUJ6tX3I3kIjzgcwNHyG6blm3xQ1wGUoSiuX9rEwYPpmwnmbheqvLJW2qei3nari8zt5O4dTN9vNCsdm4ZreLbhK80QHkaYq7VFAVcYvmLfVxnGp9QUvcvFqRQ7YAb/6IjpSxq/z+sqSWVTiK64TkN4vr9sMxXe1DKbNJy+a7Q9OHR4IuYf1bVBevwzhz4ia6JxIMbT3yf04ZOqpEXApNLYGheQ0p1YtUNPdJn2lMDprn6K5O9PfLPDBuQLWrsfixdgT4FjiUO7SEaUh4c9sEobJbRucrEAW/vrLHJhC/wOF3RHl7aBr73Tkz5kQmT7t6kylHsHFW1P4Q+M6zVyXW8A/PLypl3bFKlSrt+2Ur5ZeFp34USGkjGm8mZ8wqMUaFCxUQO/rQg1a030/9biHLVLvaKljPM5RgwsoFMyknO4LzMfWapPiT7VfWfwgWmWagUfx0jBNbDtX4="
+
 addons:
   apt:
     packages:
@@ -19,4 +22,4 @@ before_install:
  - chmod +x gradlew
  
 after_success:
-- ./gradlew build
+- ./gradlew build sonarqube -Dsonar.host.url=https:/sonarqube.com -Dsonar.login=4843c866fff19296031f3ebf191db7cc0c8a825b
