@@ -1,7 +1,10 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'application'
-apply plugin: 'distribution'
+plugins {
+  id "org.sonarqube" version "2.2"
+  id "java"
+  id "eclipse"
+  id "application"
+  id "distribution"
+}
 
 applicationDistribution.from("src/main/resources/config.properties") {
     into "bin"
