@@ -56,12 +56,12 @@ public class FirstPage extends WizardPage {
 				+ "just run the application.");
 		generateConfigText.setTextAlignment(TextAlignment.JUSTIFY);
 
-		generateConfigText.setWrappingWidth(ConfigGeneratorGui.WIDTH - 100);
+		generateConfigText.setWrappingWidth(ConfigGeneratorGui.WIDTH - 60);
 		runText = new Text(
 				"If you already have a configuration file "
 				+ "and want to run the application based "
 				+ "on that, select this option.");
-		runText.setWrappingWidth(ConfigGeneratorGui.WIDTH - 100);
+		runText.setWrappingWidth(ConfigGeneratorGui.WIDTH - 60);
 		runText.setTextAlignment(TextAlignment.JUSTIFY);
 		
 		generateConfigVBox = new VBox(10.0, generateConfigText, generateConfigFileBtn);
