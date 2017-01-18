@@ -7,5 +7,6 @@ package algorithms.fatorizationmachine;
  *
  */
 public enum LearningMethod {
-    SGD;
+    SGD,
+    ALS;
 }

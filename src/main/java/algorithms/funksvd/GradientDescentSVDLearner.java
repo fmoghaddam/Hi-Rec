@@ -9,7 +9,7 @@ import util.StatisticFunctions;
  * from Recommneder101:
  * http://ls13-www.cs.tu-dortmund.de/homepage/recommender101/index.shtml
  */
-public final class GradientDescentSVD {
+public final class GradientDescentSVDLearner implements Learner{
 
 	private final Random random = StatisticFunctions.random;
 	private final double learningRate;
@@ -36,11 +36,11 @@ public final class GradientDescentSVD {
 	 * @param defaultValue
 	 *            default starting values for the SVD vectors
 	 */
-	public GradientDescentSVD(final int m, final int n, final int k, final double defaultValue, double learningRate) {
+	public GradientDescentSVDLearner(final int m, final int n, final int k, final double defaultValue, double learningRate) {
 		this(m, n, k, defaultValue, r, learningRate);
 	}
 
-	private GradientDescentSVD(final int m, final int n, final int k, final double defaultValue, final double noise,
+	private GradientDescentSVDLearner(final int m, final int n, final int k, final double defaultValue, final double noise,
 			final double learningRate) {
 		this.k = k;
 		this.learningRate = learningRate;
@@ -66,7 +66,8 @@ public final class GradientDescentSVD {
 	 *            index for the item vector
 	 * @return the dot product
 	 */
-	public double getDotProduct(final int i, final int j) {
+	@Override
+	public double getResult(final int i, final int j) {
 		double result = 0.0;
 		double[] leftVectorI = leftVector[i];
 		double[] rightVectorJ = rightVector[j];
@@ -84,10 +85,11 @@ public final class GradientDescentSVD {
 	 * @param k
 	 * @param value
 	 */
+	@Override
 	public void train(final int i, final int j, final int k, final double value) {
-		double err = value - getDotProduct(i, j);
-		double[] leftVectorI = leftVector[i];
-		double[] rightVectorJ = rightVector[j];
+		final double err = value - getResult(i, j);
+		final double[] leftVectorI = leftVector[i];
+		final double[] rightVectorJ = rightVector[j];
 		leftVectorI[k] += learningRate * (err * rightVectorJ[k] - K * leftVectorI[k]);
 		rightVectorJ[k] += learningRate * (err * leftVectorI[k] - K * rightVectorJ[k]);
 	}
