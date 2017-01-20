@@ -150,7 +150,7 @@ public class ConfigGeneratorGui extends Application {
 				Thread.sleep(2000);
 				stage.close();
 			} catch (final Exception exception) {
-				// Not important
+				LOG.error(exception.getMessage());
 			}
 
 			showConfirmation();

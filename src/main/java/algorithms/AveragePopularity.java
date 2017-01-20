@@ -32,7 +32,7 @@ public final class AveragePopularity extends AbstractRecommender {
 	/**
 	 * Train data
 	 */
-	private DataModel trainData;
+	private transient DataModel trainData;
 
 	/*
 	 * (non-Javadoc)

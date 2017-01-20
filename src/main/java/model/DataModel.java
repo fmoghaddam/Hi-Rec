@@ -206,6 +206,7 @@ public final class DataModel {
     public
             void writeRatingsToFile(final String path) {
         BufferedWriter bw = null;
+        FileWriter fw  = null;
         try {
             final File file = new File(path);
 
@@ -213,25 +214,28 @@ public final class DataModel {
                 file.createNewFile();
             }
 
-            final StringBuffer content = new StringBuffer();
-            for (Rating rating: ratings) {
+            final StringBuilder content = new StringBuilder();
+            for (final Rating rating: ratings) {
                 String line = String.valueOf(rating.getUserId()) + ","
                         + String.valueOf(rating.getItemId()) + ","
                         + String.valueOf(rating.getRating()) + "\n";
                 content.append(line);
             }
-            final FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+            fw = new FileWriter(file.getAbsoluteFile(), true);
             bw = new BufferedWriter(fw);
             bw.write(content.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (final IOException e) {
+            LOG.error(e.getMessage());
         } finally {
             try {
                 if (bw != null) {
                     bw.close();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                if(fw!=null){
+                    fw.close();
+                }
+            } catch (final IOException e) {
+                LOG.error(e.getMessage());
             }
         }
     }

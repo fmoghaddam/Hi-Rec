@@ -60,9 +60,6 @@ public class StatisticFunctions {
                 if(configuration2.equals(configuration1)){
                     continue;
                 }
-//                if(!configuration1.getAlgorithm().toString().equals(configuration2.getAlgorithm().toString())){
-//                    continue;
-//                }
 
                 final String[][] resultTable = new String[2][configuration1Value.keySet().size()+1];
                 int c = 1;

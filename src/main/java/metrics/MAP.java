@@ -16,19 +16,19 @@ import model.User;
  *
  */
 public class MAP
-        implements ListEvaluation
+implements ListEvaluation
 {
 
     private float n = 0;
     private float sumOfAPs = 0;
-    
+
     /* (non-Javadoc)
      * @see interfaces.ListEvaluation#addRecommendations(model.User, java.util.Map)
      */
     @Override
     public
-            void addRecommendations(
-                    User user, Map<Integer, Float> list)
+    void addRecommendations(
+            User user, Map<Integer, Float> list)
     {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
@@ -39,7 +39,7 @@ public class MAP
         if (list.size() == 0) {
             return;
         }
-        
+
         float truePositive = 0;
         int listLengthThreshold = 0;
         float sum = 0;
@@ -68,13 +68,13 @@ public class MAP
      */
     @Override
     public
-            float getEvaluationResult() {
+    float getEvaluationResult() {
         return sumOfAPs/n;
     }
-    
+
     @Override
     public
-            String toString() {
+    String toString() {
         return "MAP";
     }
 
@@ -83,18 +83,21 @@ public class MAP
      */
     @Override
     public
-            int hashCode() {
+    int hashCode() {
         return 5;
     }
-    
+
     /*
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public
-            boolean equals(
-                    Object obj)
+    boolean equals(
+            Object obj)
     {
+        if(obj==null){
+            throw new IllegalArgumentException("Obj is null");
+        }
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {
@@ -102,9 +105,9 @@ public class MAP
         }
     }
 
-	@Override
-	public void setTrainData(DataModel trainData) {
-		//Empty function
-	}
+    @Override
+    public void setTrainData(DataModel trainData) {
+        //Empty function
+    }
 
 }

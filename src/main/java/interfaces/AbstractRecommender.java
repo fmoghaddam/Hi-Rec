@@ -15,7 +15,7 @@ import model.User;
 public class AbstractRecommender implements Recommender,Serializable {
 
 	private static final long serialVersionUID = -7339073808310101731L;
-	protected DataModel trainDataModel;
+	protected transient DataModel trainDataModel;
 	/**
 	 * A map which contains information about the fields name in the class
 	 * and the related key in config file.
@@ -23,11 +23,11 @@ public class AbstractRecommender implements Recommender,Serializable {
 	 * Value = Map<config file key,pretty name>
 	 * pretty name used in GUI
 	 */
-	protected final Map<String,Map<String,String>> configurableParametersMap = new HashMap<>();
+	protected transient final Map<String,Map<String,String>> configurableParametersMap = new HashMap<>();
 	/**
 	 * Repository used for calculating similarities
 	 */
-	protected SimilarityInterface similarityRepository;
+	protected transient SimilarityInterface similarityRepository;
 	
 	/* (non-Javadoc)
 	 * @see interfaces.Recommender#predictRating(model.User, model.Item)

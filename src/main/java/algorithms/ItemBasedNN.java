@@ -96,6 +96,9 @@ public final class ItemBasedNN extends AbstractRecommender {
 				denominator += similarity;
 			}
 		}
+		if(denominator==0){
+		    return Float.NaN;
+		}
 		final float rating = (float) (nominator / denominator);
 		if (rating > Globals.MAX_RATING) {
 			return Globals.MAX_RATING;

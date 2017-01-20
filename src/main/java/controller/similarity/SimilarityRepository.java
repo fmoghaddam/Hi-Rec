@@ -23,7 +23,7 @@ public final class SimilarityRepository implements SimilarityInterface,Serializa
      * Logger for this class
      */
     private static final Logger LOG = Logger.getLogger(SimilarityRepository.class.getCanonicalName());
-    private final SimilarityInterface similairtyRepository;
+    private transient final SimilarityInterface similairtyRepository;
     private final Configuration configuration;
 
     /**

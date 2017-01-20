@@ -58,7 +58,7 @@ public final class ParallelEvaluator {
 	private Object LOCK = new Object();
 
 	private ExecutorService algorithmExecutor;
-	private List<ExecutorService> foldExecutors = new ArrayList<>();;
+	private List<ExecutorService> foldExecutors = new ArrayList<>();
 	
 	public ParallelEvaluator(final DataModel data) {
 		this.dataModel = data;

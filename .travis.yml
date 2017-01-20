@@ -13,7 +13,7 @@ addons:
       
 branches:
   only:
-  - master
+  - development
   
 before_script:
  - chmod +x gradlew

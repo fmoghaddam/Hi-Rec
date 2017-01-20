@@ -15,16 +15,16 @@ import util.TimeUtil;
 public final class Configuration implements Serializable {
 
     /**
-	 * Unique id used for serialization
-	 */
-	private static final long serialVersionUID = -8054655100563267008L;
-	private final int id;
+     * Unique id used for serialization
+     */
+    private static final long serialVersionUID = -8054655100563267008L;
+    private final int id;
     private final AbstractRecommender algorithm;
     private final boolean useLowLevel;
     private final boolean useGenre;
     private final boolean useTag;
     private final boolean useRating;
-    private final TimeUtil timeUtil= new TimeUtil();
+    private transient final TimeUtil timeUtil= new TimeUtil();
 
     /**
      * @param algorithm 
@@ -57,7 +57,7 @@ public final class Configuration implements Serializable {
      * Do the basic evaluation which is needed for all the algorithms
      */
     private
-            void basicEvaluate() {
+    void basicEvaluate() {
         if(!this.useLowLevel && !this.useGenre && !this.useTag && !this.useRating){
             throw new IllegalArgumentException(
                     "At least one of the lowlevel, genre, tag or rating should be true in config file");
@@ -68,7 +68,7 @@ public final class Configuration implements Serializable {
      * Evaluate this configuration
      */
     private
-            void evaluate() {
+    void evaluate() {
         if (this.useLowLevel && (Globals.LOW_LEVEL_FILE_PATH == null
                 || Globals.LOW_LEVEL_FILE_PATH.isEmpty()))
         {
@@ -107,7 +107,7 @@ public final class Configuration implements Serializable {
      * @return the algorithm
      */
     public final
-    	AbstractRecommender getAlgorithm() {
+    AbstractRecommender getAlgorithm() {
         return algorithm;
     }
 
@@ -115,7 +115,7 @@ public final class Configuration implements Serializable {
      * @return the useLowLevel
      */
     public final
-            boolean isUseLowLevel() {
+    boolean isUseLowLevel() {
         return useLowLevel;
     }
 
@@ -123,7 +123,7 @@ public final class Configuration implements Serializable {
      * @return the useGenre
      */
     public final
-            boolean isUseGenre() {
+    boolean isUseGenre() {
         return useGenre;
     }
 
@@ -131,7 +131,7 @@ public final class Configuration implements Serializable {
      * @return the useTag
      */
     public final
-            boolean isUseTag() {
+    boolean isUseTag() {
         return useTag;
     }
 
@@ -139,7 +139,7 @@ public final class Configuration implements Serializable {
      * @return the useRating
      */
     public final
-            boolean isUseRating() {
+    boolean isUseRating() {
         return useRating;
     }
 
@@ -147,7 +147,7 @@ public final class Configuration implements Serializable {
      * @return the id
      */
     public final
-            int getId() {
+    int getId() {
         return id;
     }
 
@@ -155,17 +155,17 @@ public final class Configuration implements Serializable {
      * @return the timeUtil
      */
     public TimeUtil getTimeUtil() {
-		return timeUtil;
-	}
+        return timeUtil;
+    }
 
-	/*
+    /*
      * (non-Javadoc)
      * 
      * @see java.lang.Object#hashCode()
      */
     @Override
     public
-            int hashCode() {
+    int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result
@@ -185,8 +185,8 @@ public final class Configuration implements Serializable {
      */
     @Override
     public
-            boolean equals(
-                    Object obj)
+    boolean equals(
+            Object obj)
     {
         if (this == obj) {
             return true;
@@ -205,9 +205,9 @@ public final class Configuration implements Serializable {
         } else if (!algorithm.equals(other.algorithm)) {
             return false;
         }
-//        if (id != other.id) {
-//            return false;
-//        }
+        //        if (id != other.id) {
+        //            return false;
+        //        }
         if (useGenre != other.useGenre) {
             return false;
         }
@@ -228,7 +228,7 @@ public final class Configuration implements Serializable {
      */
     @Override
     public
-            String toString() {
+    String toString() {
         return "Configuration [id=" + id + ", algorithm=" + algorithm
                 + ", useLowLevel=" + useLowLevel + ", useGenre="
                 + useGenre + ", useTag=" + useTag + ", useRating=" + useRating

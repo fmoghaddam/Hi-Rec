@@ -82,6 +82,9 @@ public final class Precision
             boolean equals(
                     Object obj)
     {
+        if(obj==null){
+            throw new IllegalArgumentException("Obj is null");
+        }
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {

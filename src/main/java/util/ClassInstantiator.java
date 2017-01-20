@@ -37,7 +37,6 @@ final public class ClassInstantiator {
             return instance;
         } catch (final Exception exception) {
             LOG.fatal("Can not load class:  " + className);
-            System.exit(1);
             return null;
         }
     }

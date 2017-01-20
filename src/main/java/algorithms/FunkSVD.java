@@ -54,9 +54,9 @@ public final class FunkSVD
     private double learningRate;
     private Map<Integer, Integer> userMap = new LinkedHashMap<>();
     private Map<Integer, Integer> itemMap = new LinkedHashMap<>();
-    private Learner learner = null;
+    private transient Learner learner = null;
     private LearningMethod learningMethod = LearningMethod.SGD;
-    private List<Rating> cachedPreferences = null;
+    private transient List<Rating> cachedPreferences = null;
 
     /**
      * Calculate the user averages
@@ -217,7 +217,7 @@ public final class FunkSVD
                 userid = rating.getUserId();
                 itemid = rating.getItemId();
                 final int useridx = this.userMap.get(userid);
-                final int itemidx = this.itemMap.get(itemid);;
+                final int itemidx = this.itemMap.get(itemid);
                 learner.train(useridx, itemidx, iteration, rating.getRating());
             }
         }
@@ -225,19 +225,19 @@ public final class FunkSVD
     }
 
     private
-            void cachePreferences() {
+            void cachePreferences() throws Exception {
         cachedPreferences.clear();
         for (final User user: trainDataModel.getUsers().values()) {
             if (userMap.get(user.getId()) == null) {
                 LOG.error("User: " + user.getId());
-                System.exit(1);
+                throw new Exception("Could not find user "+user.getId());
             }
             for (final Entry<Integer, Float> rating: user.getItemRating()
                     .entrySet())
             {
                 if (itemMap.get(rating.getKey()) == null) {
                     LOG.error("Item: " + rating.getKey());
-                    System.exit(1);
+                    throw new Exception("Could not find item "+rating.getKey());
                 }
                 cachedPreferences.add(new Rating(user.getId(), rating.getKey(),
                         rating.getValue()));
@@ -282,12 +282,18 @@ public final class FunkSVD
             break;
         case ALS:
             learner = new AlternatingLeastSquareLearner();
+            break;
         default:
             break;
         }
         
         cachedPreferences = new ArrayList<Rating>();
-        cachePreferences();
+        try {
+            cachePreferences();
+        } catch (final Exception e) {
+            LOG.error(e.getMessage());
+            return;
+        }
 
         this.runTrain(numberOfIteration);
 
