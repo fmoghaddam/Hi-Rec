@@ -91,10 +91,10 @@ public class DataSetWizard extends WizardPage {
 	@Override
 	protected void fillWithSampleData(){
 		final String home = System.getProperty("user.dir");
-		lowLevelFileText.setText(home+"\\data\\LLVisualFeatures13K_QuantileLog.csv");
-		genreFileText.setText(home+"\\data\\Genre.csv");
-		tagFileText.setText(home+"\\data\\Tag.csv");
-		ratingFileText.setText(home+"\\data\\5%RatingsSampledByRating.csv");
+		lowLevelFileText.setText(home+File.separator+"data"+File.separator+"LLVisualFeatures13K_QuantileLog.csv");
+		genreFileText.setText(home+File.separator+"data"+File.separator+"Genre.csv");
+		tagFileText.setText(home+File.separator+"data"+File.separator+"Tag.csv");
+		ratingFileText.setText(home+File.separator+"data"+File.separator+"5%RatingsSampledByRating.csv");
 	}
 
 	/**
