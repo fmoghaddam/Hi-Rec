@@ -10,11 +10,11 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
-import algorithms.fatorizationmachine.LearningMethod;
-import algorithms.funksvd.AlternatingLeastSquareLearner;
 import algorithms.funksvd.GradientDescentSVDLearner;
-import algorithms.funksvd.Learner;
+import algorithms.implicitdatamatrixfactorization.AlternatingLeastSquareLearner;
+import gui.model.LearningMethod;
 import interfaces.AbstractRecommender;
+import interfaces.Learner;
 import model.DataModel;
 import model.Item;
 import model.Rating;
@@ -281,7 +281,7 @@ public final class FunkSVD
                     defaultValue, learningRate);
             break;
         case ALS:
-            learner = new AlternatingLeastSquareLearner();
+            learner = new AlternatingLeastSquareLearner(trainData, learningRate, numberOfFeatures, numberOfIteration);
             break;
         default:
             break;

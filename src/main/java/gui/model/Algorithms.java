@@ -9,7 +9,7 @@ import javafx.beans.property.StringProperty;
  */
 public enum Algorithms {
 	ItemBasedNN("ItemBasedNN"), FactorizationMachine("FactorizationMachine"), AveragePopularity(
-			"AveragePopularity"), FunkSVD("FunkSVD"), HybridTagLowLevel("HybridTagLowLevel");
+			"AveragePopularity"), FunkSVD("FunkSVD"), HybridTagLowLevel("HybridTagLowLevel"), ImplicitDataMatrixFactorization("ImplicitDataMatrixFactorization");
 
 	private StringProperty text;
 

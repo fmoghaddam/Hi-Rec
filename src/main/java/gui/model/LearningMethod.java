@@ -1,4 +1,4 @@
-package algorithms.fatorizationmachine;
+package gui.model;
 
 /**
  * This enum contains all the learning methods

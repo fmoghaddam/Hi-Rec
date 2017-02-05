@@ -1,7 +1,7 @@
 /**
  * 
  */
-package algorithms.funksvd;
+package interfaces;
 
 /**
  * @author Farshad Moghaddam
@@ -24,7 +24,7 @@ public interface Learner {
      * @param j
      * @return
      */
-    double
+    Float
             getResult(
                     int i, int j);
     

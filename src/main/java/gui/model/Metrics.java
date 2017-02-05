@@ -10,6 +10,7 @@ import javafx.beans.property.StringProperty;
 public enum Metrics {
 	RMSE("RMSE"),
 	MAE("MAE"),
+	ImplicitMAE("ImplicitMAE"),
 	Precision("Precision"),
 	Recall("Recall"),
 	PrecisionCoverage("PredictionCoverage"),

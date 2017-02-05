@@ -31,6 +31,10 @@ public class StatisticFunctions {
 	}
     }
 
+    public static double generateRandomNumber(){
+        return random.nextDouble();
+    }
+    
     private static double ran_gaussian() {
 	return randomness.nextGaussian();
     }

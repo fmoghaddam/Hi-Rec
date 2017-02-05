@@ -204,7 +204,8 @@ public final class ParallelEvaluator {
 					LOG.debug("Fold " + foldNumber + " is done.");
 					MessageBus.getInstance().getBus().post(new FoldLevelUpdateMessage(configuration.getId(),foldNumber,FoldStatus.FINISHED));
 				} catch (final Exception exception) {
-					LOG.error("Fold " + foldNumber + " is done with error. Error is " + exception.getMessage());					
+					LOG.error("Fold " + foldNumber + " is done with error. Error is " + exception.getMessage());
+					exception.printStackTrace();
 				}
 			};
 			tasks.add(task);
@@ -249,15 +250,13 @@ public final class ParallelEvaluator {
 					return;
 				}
 				final User user = testData.getUser(userId);
+				final long numberOfPositiveItems = user.getItemRating().values().stream()
+                                        .filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
 				if (Globals.USE_ONLY_POSITIVE_RATING_IN_TEST) {
-					final long numberOfPositiveItems = user.getItemRating().values().stream()
-							.filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
 					if (numberOfPositiveItems < Globals.TOP_N) {
 						continue;
 					}
 				} else {
-					final long numberOfPositiveItems = user.getItemRating().values().stream()
-							.filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
 					if (numberOfPositiveItems == 0) {
 						continue;
 					}
