@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import org.apache.log4j.Logger;
 
 import controller.DataLoader;
+import interfaces.DataLoaderInterface;
 import model.DataModel;
 import model.Globals;
 
@@ -36,7 +37,7 @@ public final class HiRec {
     {
         try{
             CleanLogFile();
-            final DataLoader loader = new DataLoader();
+            final DataLoaderInterface loader = new DataLoader();
             final DataModel dataModel = loader.readData();
             dataModel.printStatistic();
             final ParallelEvaluator evaluator = new ParallelEvaluator(dataModel);
@@ -67,7 +68,7 @@ public final class HiRec {
             try{
                 CleanLogFile();
                 Globals.readData();
-                final DataLoader loader = new DataLoader();
+                final DataLoaderInterface loader = new DataLoader();
                 final DataModel dataModel = loader.readData();
                 dataModel.printStatistic();
                 final ParallelEvaluator evaluator = new ParallelEvaluator(dataModel);

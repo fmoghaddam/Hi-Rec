@@ -11,7 +11,9 @@ import util.Config;
  *
  */
 public final class Globals {
-    public static float MAX_RATING;
+    public static String PERSONALITY_FILE_PATH;
+	public static String PERSONALITY_FILE_SEPERATOR;
+	public static float MAX_RATING;
     public static float MIN_RATING;
     public static long MAX_ID_OF_UESRS;
     public static long MAX_ID_OF_ITEMS;
@@ -63,6 +65,9 @@ public final class Globals {
 
         TAG_FILE_PATH = Config.getString("TAG_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n","\\n").replace("\r", "\\r");
         TAG_FILE_SEPERATOR = Config.getString("TAG_FILE_SEPARATOR", " ");
+        
+        PERSONALITY_FILE_PATH = Config.getString("PERSONALITY_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n","\\n").replace("\r", "\\r");
+        PERSONALITY_FILE_SEPERATOR = Config.getString("PERSONALITY_FILE_SEPARATOR", " ");
 
         SIMILAIRTY_FUNCTION = SimilarityFunction
                 .reolve(Config.getString("SIMILARITY_FUNCTION"));

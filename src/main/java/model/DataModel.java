@@ -259,7 +259,7 @@ public final class DataModel {
                 testData.getUser(rating.getUserId())
                         .addItemRating(rating.getItemId(), rating.getRating());
             } else {
-                final User user = new User(rating.getUserId());
+                final User user = new User(this.getUser(rating.getUserId()));
                 user.addItemRating(rating.getItemId(), rating.getRating());
                 testData.addUser(user);
             }
@@ -298,7 +298,7 @@ public final class DataModel {
                 trainData.getUser(rating.getUserId())
                         .addItemRating(rating.getItemId(), rating.getRating());
             } else {
-                final User user = new User(rating.getUserId());
+                final User user = new User(this.getUser(rating.getUserId()));
                 user.addItemRating(rating.getItemId(), rating.getRating());
                 trainData.addUser(user);
             }

@@ -70,7 +70,8 @@ public final class Configuration implements Serializable {
     private
     void evaluate() {
         if (this.useLowLevel && (Globals.LOW_LEVEL_FILE_PATH == null
-                || Globals.LOW_LEVEL_FILE_PATH.isEmpty()))
+                || Globals.LOW_LEVEL_FILE_PATH.isEmpty()) && (Globals.PERSONALITY_FILE_PATH == null
+                || Globals.PERSONALITY_FILE_PATH.isEmpty()))
         {
             throw new IllegalArgumentException(
                     "You want to use LowLevel feature but have not set LowLevel file path");
