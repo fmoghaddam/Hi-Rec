@@ -36,6 +36,13 @@ import javafx.stage.FileChooser;
 public class DataSetWizard extends WizardPage {
 	private ErrorMessage errorMessage;
 
+	private FileChooser personalityFileChooser;
+	private Button personalityFileBtn;
+	private TextField personalityFileText;
+	private Label personalityFileLabel;
+	private ComboBox<Separator> personalityFileSeparator;
+	private Label personalityFileSeparatorLabel;
+	
 	private FileChooser lowLevelFileChooser;
 	private Button lowLevelFileBtn;
 	private TextField lowLevelFileText;
@@ -115,6 +122,7 @@ public class DataSetWizard extends WizardPage {
 		handleGenreAttributes();
 		handleTagAttributes();
 		handleRatingAttributes();
+		handlePersonalityAttributes();
 		initErrorLabel();
 		initDescription();
 		initFoldNumberAttributes();
@@ -122,6 +130,41 @@ public class DataSetWizard extends WizardPage {
 		initAlgorithmParallelAttributes();
 		initFoldParallelAttributes();
 		return initLayout();
+	}
+
+	private void handlePersonalityAttributes() {
+		personalityFileChooser = new FileChooser();
+		personalityFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Files", "*.*"),
+				new FileChooser.ExtensionFilter("CSV", "*.csv"), new FileChooser.ExtensionFilter("TXT", "*.txt"));
+
+		personalityFileBtn = new Button("Browse");
+		personalityFileBtn.setOnAction(event -> {
+			final File file = personalityFileChooser.showOpenDialog(ConfigGeneratorGui.getCurrentStage());
+			if (file != null) {
+				personalityFileText.setText(file.getAbsolutePath());
+				ratingFileChooser.setInitialDirectory(file.getParentFile());
+				genreFileChooser.setInitialDirectory(file.getParentFile());
+				lowLevelFileChooser.setInitialDirectory(file.getParentFile());
+				tagFileChooser.setInitialDirectory(file.getParentFile());				
+				lowLevelFileChooser.setInitialDirectory(file.getParentFile());
+			}
+		});
+
+		personalityFileText = new TextField();
+		personalityFileText.setPrefWidth(TEXT_FIELD_WIDTH);
+		personalityFileText.setEditable(false);
+
+		personalityFileLabel = new Label("Personality file");
+
+		personalityFileSeparator = new ComboBox<>(FXCollections.observableArrayList(Separator.values()));
+		personalityFileSeparator.getSelectionModel().selectFirst();
+		ConfigData.instance.PERSONALITY_FILE_SEPARATOR.bind(personalityFileSeparator.getValue().getText());
+		personalityFileSeparator.setOnAction(event -> {
+			ConfigData.instance.PERSONALITY_FILE_SEPARATOR.bind(personalityFileSeparator.getValue().getText());
+		});
+		personalityFileSeparatorLabel = new Label("Personality file separator");
+
+		ConfigData.instance.PERSONALITY_FILE_PATH.bind(personalityFileText.textProperty());
 	}
 
 	/**
@@ -284,6 +327,12 @@ public class DataSetWizard extends WizardPage {
 		gridpane.add(ratingFileSeparatorLabel, 3, 3);
 		gridpane.add(ratingFileSeparator, 4, 3);
 
+		gridpane.add(personalityFileLabel, 0, 4);
+		gridpane.add(personalityFileBtn, 1, 4);
+		gridpane.add(personalityFileText, 2, 4);
+		gridpane.add(personalityFileSeparatorLabel, 3, 4);
+		gridpane.add(personalityFileSeparator, 4, 4);
+		
 		gridpane.setHgap(10);
 		gridpane.setVgap(10);
 		gridpane.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
@@ -403,6 +452,7 @@ public class DataSetWizard extends WizardPage {
 				genreFileChooser.setInitialDirectory(file.getParentFile());
 				lowLevelFileChooser.setInitialDirectory(file.getParentFile());
 				tagFileChooser.setInitialDirectory(file.getParentFile());
+				personalityFileChooser.setInitialDirectory(file.getParentFile());
 			}
 		});
 

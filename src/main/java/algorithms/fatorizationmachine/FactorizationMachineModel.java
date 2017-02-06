@@ -49,21 +49,29 @@ public final class FactorizationMachineModel {
 	}
 
 	private void initialize() {
-		if (configuration.isUseLowLevel() && configuration.isUseGenre()) {
+		switch (configuration.getDataType()) {
+		case LowLevelFeatureGenre:
 			numberOfFeatures = this.trainDataModel.getItems().entrySet().iterator().next().getValue()
-					.getLowLevelFeature().size()
-					+ this.trainDataModel.getItems().entrySet().iterator().next().getValue().getGenres().size();
-		} else if (configuration.isUseLowLevel()) {
+			.getLowLevelFeature().size()
+			+ this.trainDataModel.getItems().entrySet().iterator().next().getValue().getGenres().size();
+			break;
+		case LowLevelFeature:
 			numberOfFeatures = this.trainDataModel.getItems().entrySet().iterator().next().getValue()
-					.getLowLevelFeature().size();
-		} else if (configuration.isUseGenre()) {
+			.getLowLevelFeature().size();
+			break;
+		case Genre:
 			numberOfFeatures = this.trainDataModel.getItems().entrySet().iterator().next().getValue().getGenres()
-					.size();
-		} else if (configuration.isUseRating()) {
+			.size();
+			break;
+		case Rating:
 			numberOfFeatures = 0;
-		} else if (configuration.isUseTag()) {
+			break;
+		case Tag:
 			throw new UnsupportedOperationException("Factorization machine for tag still not implemented");
+		default:
+			break;
 		}
+			
 		this.w0 = 0;
 		this.w = generateWVector();
 		this.v = generateVMatrix();
@@ -200,14 +208,19 @@ public final class FactorizationMachineModel {
 
 	public double[] getFatureArray(final Item item) {
 		final double[] featureAsArray;
-		if (configuration.isUseLowLevel() && configuration.isUseGenre()) {
+		switch (configuration.getDataType()) {
+		case LowLevelFeatureGenre:
 			featureAsArray = ArrayUtil.concatAll(item.getLowLevelFeatureAsArray(), item.getGenresAsArray());
-		} else if (configuration.isUseLowLevel()) {
+			break;
+		case LowLevelFeature:
 			featureAsArray = item.getLowLevelFeatureAsArray();
-		} else if (configuration.isUseGenre()) {
+			break;
+		case Genre:
 			featureAsArray = item.getGenresAsArray();
-		} else {
+			break;
+		default:
 			featureAsArray = new double[0];
+			break;
 		}
 		return featureAsArray;
 	}

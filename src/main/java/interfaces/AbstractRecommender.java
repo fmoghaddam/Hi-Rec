@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.DataModel;
+import model.DataType;
 import model.Item;
 import model.User;
 
@@ -16,6 +17,7 @@ public class AbstractRecommender implements Recommender,Serializable {
 
 	private static final long serialVersionUID = -7339073808310101731L;
 	protected transient DataModel trainDataModel;
+	private DataType dataType;
 	/**
 	 * A map which contains information about the fields name in the class
 	 * and the related key in config file.
@@ -87,6 +89,14 @@ public class AbstractRecommender implements Recommender,Serializable {
 	@Override
 	public Map<String,Map<String,String>> getConfigurabaleParameters() {
 		return this.configurableParametersMap;
+	}
+
+	public DataType getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(DataType dataType) {
+		this.dataType = dataType;
 	}
 
 }

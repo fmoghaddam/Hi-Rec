@@ -39,20 +39,29 @@ public final class SimilarityRepository implements SimilarityInterface,Serializa
 			throw new IllegalArgumentException("Configuration is null");
 		}
 		this.configuration = configuration;
-
-		if (configuration.isUseLowLevel() && configuration.isUseGenre()) {
-			similairtyRepository = new LowLevelGenreSimilarityRepository(trainData);
-		} else if (configuration.isUseTag()) {
-			similairtyRepository = new TagSimilarityRepository(trainData);
-		} else if (configuration.isUseLowLevel()) {
+		switch (configuration.getDataType()) {
+		case LowLevelFeature:
 			similairtyRepository = new LowLevelSimilarityRepository(trainData);
-		} else if (configuration.isUseGenre()) {
+			break;
+		case Genre:
 			similairtyRepository = new GenreSimilarityRepository(trainData);
-		} else if (configuration.isUseRating()) {
+			break;
+		case Tag:
+			similairtyRepository = new TagSimilarityRepository(trainData);
+			break;
+		case Rating:
 			similairtyRepository = new RatingSimilarityRepository(trainData);
-		} else {
+			break;
+		case Personality:
+			similairtyRepository = new PersonalitySimilarityRepository(trainData);
+			break;
+		case LowLevelFeatureGenre:
+			similairtyRepository = new LowLevelGenreSimilarityRepository(trainData);
+			break;
+		default:
 			LOG.warn("Default similairty repository is selected");
 			similairtyRepository = new RatingSimilarityRepository(trainData);
+			break;
 		}
 	}
 

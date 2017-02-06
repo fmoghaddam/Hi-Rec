@@ -32,6 +32,7 @@ import interfaces.ListEvaluation;
 import interfaces.Metric;
 import interfaces.Recommender;
 import model.DataModel;
+import model.DataType;
 import model.Globals;
 import model.Item;
 import model.Rating;
@@ -85,10 +86,7 @@ public final class ParallelEvaluator {
 			throw new IllegalArgumentException("Number of configuarion in config file is " + numberOfConfiguration);
 		}
 		AbstractRecommender algorithm = null;
-		boolean useTag;
-		boolean useRating;
-		boolean useLowLevel;
-		boolean useGenre;
+		DataType dataType;		
 		for (int i = 1; i <= numberOfConfiguration; i++) {
 			final String algorithmName = Config.getString("ALGORITHM_" + i + "_NAME", "");
 			try {
@@ -98,11 +96,8 @@ public final class ParallelEvaluator {
 				LOG.error("Can not load algorithm " + algorithmName, e);
 				System.exit(1);
 			}
-			useLowLevel = Config.getBoolean("ALGORITHM_" + i + "_USE_LOW_LEVEL", false);
-			useRating = Config.getBoolean("ALGORITHM_" + i + "_USE_RATING", false);
-			useTag = Config.getBoolean("ALGORITHM_" + i + "_USE_TAG", false);
-			useGenre = Config.getBoolean("ALGORITHM_" + i + "_USE_GENRE", false);
-			configurations.add(new Configuration(i, algorithm, useLowLevel, useGenre, useTag, useRating));
+			dataType = DataType.valueOf(Config.getString("ALGORITHM_" + i + "_DATA_TYPE"));
+			configurations.add(new Configuration(i, algorithm, dataType));
 			MessageBus.getInstance().getBus().post(new AlgorithmLevelUpdateMessage(i, algorithmName, Globals.NUMBER_OF_FOLDS));
 		}
 		return configurations;

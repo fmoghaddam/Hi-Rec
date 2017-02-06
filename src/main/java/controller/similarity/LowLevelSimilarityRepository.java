@@ -125,63 +125,8 @@ implements SimilarityInterface
 
 	@Override
 	public Float getUserSimilarity(int userId1, int userId2) {
-		switch (Globals.SIMILAIRTY_FUNCTION) {
-		case COSINE:
-			return calculateUserCosineSimilarity(userId1, userId2);
-		case PEARSON:
-			return calculateUserPearsonSimilarity(userId1, userId2);
-		default:
-			return calculateUserCosineSimilarity(userId1, userId2);
-		}
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	private
-	Float calculateUserPearsonSimilarity(
-			int userId1, int userId2)
-	{
-		if (this.dataModel.getUser(userId1) != null
-				&& this.dataModel.getUser(userId2) != null)
-		{
-			final double[] user1Array = this.dataModel.getUser(userId1)
-					.getPersonalityAsArray();
-			final double[] user2Array = this.dataModel.getUser(userId2)
-					.getPersonalityAsArray();
-
-			return (float)new PearsonsCorrelation().correlation(user1Array,
-					user2Array);
-
-		} else {
-			return Float.NaN;
-		}
-	}
-	
-	private
-	Float calculateUserCosineSimilarity(
-			final int userId1, final int userId2)
-	{
-		if (this.dataModel.getUser(userId1) != null
-				&& this.dataModel.getUser(userId2) != null)
-		{
-			final double[] user1Array = this.dataModel.getUser(userId1)
-					.getPersonalityAsArray();
-			final double[] user2Array = this.dataModel.getUser(userId2)
-					.getPersonalityAsArray();
-
-			float dotProduct = 0;
-			float normA = 0;
-			float normB = 0;
-			for (int i = 0; i < user1Array.length; i++) {
-				dotProduct += user1Array[i] * user2Array[i];
-				normA += user1Array[i] * user1Array[i];
-				normB += user2Array[i] * user2Array[i];
-			}
-			if (dotProduct == 0) {
-				return Float.NaN;
-			}
-			return (float)(dotProduct / (Math.sqrt(normA) * Math.sqrt(normB)));
-
-		} else {
-			return Float.NaN;
-		}
-	}
 }
