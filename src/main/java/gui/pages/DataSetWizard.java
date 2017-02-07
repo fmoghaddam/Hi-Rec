@@ -378,6 +378,7 @@ public class DataSetWizard extends WizardPage {
 				genreFileChooser.setInitialDirectory(file.getParentFile());
 				lowLevelFileChooser.setInitialDirectory(file.getParentFile());
 				tagFileChooser.setInitialDirectory(file.getParentFile());
+				personalityFileChooser.setInitialDirectory(file.getParentFile());
 			}
 		});
 
@@ -415,6 +416,7 @@ public class DataSetWizard extends WizardPage {
 				genreFileChooser.setInitialDirectory(file.getParentFile());
 				lowLevelFileChooser.setInitialDirectory(file.getParentFile());
 				tagFileChooser.setInitialDirectory(file.getParentFile());
+				personalityFileChooser.setInitialDirectory(file.getParentFile());
 			}
 		});
 
@@ -490,6 +492,7 @@ public class DataSetWizard extends WizardPage {
 				genreFileChooser.setInitialDirectory(file.getParentFile());
 				lowLevelFileChooser.setInitialDirectory(file.getParentFile());
 				tagFileChooser.setInitialDirectory(file.getParentFile());
+				personalityFileChooser.setInitialDirectory(file.getParentFile());
 			}
 		});
 
