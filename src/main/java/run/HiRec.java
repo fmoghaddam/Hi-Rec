@@ -56,7 +56,6 @@ public final class HiRec {
         try {
             Files.deleteIfExists(Paths.get("log/Recommender.log"));
         } catch (final IOException exception) {
-            LOG.error(exception.getMessage());
         }
     }
 
