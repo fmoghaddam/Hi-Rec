@@ -129,14 +129,10 @@ public final class User {
 		this.personalityValues = personalityValues;
 	}
 
-	/*
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
-	public
-	String toString() {
-		return "User [id=" + id + ", itemRating=" + itemRating
-				+ ", meanOfRatings=" + meanOfRatings + "]";
+	public String toString() {
+		return "User [id=" + id + ", itemRating=" + itemRating + ", meanOfRatings=" + meanOfRatings
+				+ ", personalityValues=" + personalityValues + "]";
 	}
 
 }

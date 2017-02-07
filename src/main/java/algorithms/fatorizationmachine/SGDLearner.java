@@ -65,7 +65,7 @@ public final class SGDLearner {
                 FMModel.w[userValue] = FMModel.w[userValue] + firstPart;
                 FMModel.w[itemValue] = FMModel.w[userValue + itemValue+1] + firstPart;
                 for (int i = (FMModel.numberOfUsers + FMModel.numberOfItems); i < FMModel.w.length; i++) {
-                    FMModel.w[i] += (float) (firstPart * FMModel.getFatureArray(this.trainDataModel.getItem(rating.getItemId()))
+                    FMModel.w[i] += (float) (firstPart * FMModel.getFeatureArray(this.trainDataModel.getItem(rating.getItemId()),this.trainDataModel.getUser(rating.getUserId()))
                             [(int) (i - (FMModel.numberOfUsers + FMModel.numberOfItems))]);
                 }
 
@@ -76,7 +76,7 @@ public final class SGDLearner {
                     FMModel.v[userValue][f] += firstPart * (fixedPart - FMModel.v[userValue][f]);
                     FMModel.v[userValue+itemValue+1][f] += firstPart * (fixedPart - FMModel.v[userValue+itemValue+1][f]);
                     for (int i = (FMModel.numberOfUsers + FMModel.numberOfItems); i < FMModel.v.length; i++) {
-                        final float xValue = (float) FMModel.getFatureArray(this.trainDataModel.getItem(rating.getItemId()))[(int) (i
+                        final float xValue = (float) FMModel.getFeatureArray(this.trainDataModel.getItem(rating.getItemId()),this.trainDataModel.getUser(rating.getUserId()))[(int) (i
                                         - (FMModel.numberOfUsers + FMModel.numberOfItems))];
                         FMModel.v[i][f] += firstPart * (xValue * fixedPart - FMModel.v[i][f] * (xValue * xValue));
                     }
@@ -118,7 +118,7 @@ public final class SGDLearner {
         sum += FMModel.v[userValue][f];
         sum += FMModel.v[userValue + itemValue + 1][f];
 
-        final double[] featureArray = FMModel.getFatureArray(this.trainDataModel.getItem(rating.getItemId()));
+        final double[] featureArray = FMModel.getFeatureArray(this.trainDataModel.getItem(rating.getItemId()),this.trainDataModel.getUser(rating.getUserId()));
         for (int j = (FMModel.numberOfUsers + FMModel.numberOfItems); j < FMModel.v.length; j++) {
             sum += FMModel.v[j][f] * featureArray[(int) (j - (FMModel.numberOfUsers + FMModel.numberOfItems))];
         }

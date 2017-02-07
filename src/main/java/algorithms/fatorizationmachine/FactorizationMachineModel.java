@@ -4,6 +4,7 @@ import model.DataModel;
 import model.Globals;
 import model.Item;
 import model.Rating;
+import model.User;
 import run.Configuration;
 import util.ArrayUtil;
 
@@ -68,6 +69,9 @@ public final class FactorizationMachineModel {
 			break;
 		case Tag:
 			throw new UnsupportedOperationException("Factorization machine for tag still not implemented");
+		case Personality:
+			numberOfFeatures = 5;
+			break;
 		default:
 			break;
 		}
@@ -121,6 +125,11 @@ public final class FactorizationMachineModel {
 		 * If item does not exist in train dataset then return NaN
 		 */
 		final Item item = this.trainDataModel.getItem(rating.getItemId());
+		final User user = this.trainDataModel.getUser(rating.getUserId());
+		if(user == null){
+			System.err.println(rating);
+			System.err.println("22222222222222222222222");
+		}
 		if (item == null) {
 			return Float.NaN;
 		}
@@ -134,7 +143,7 @@ public final class FactorizationMachineModel {
 			firstSum += v[userValue][f];
 			firstSum += v[userValue + itemValue + 1][f];
 
-			final double[] featureAsArray = getFatureArray(item);
+			final double[] featureAsArray = getFeatureArray(item,user);
 			for (int i = (this.numberOfUsers + this.numberOfItems); i < v.length; i++) {
 				final int j = (int) (i - (this.numberOfUsers + this.numberOfItems));
 				firstSum += v[i][f] * featureAsArray[j];
@@ -165,6 +174,11 @@ public final class FactorizationMachineModel {
 		 * If item does not exist in train set then return NaN
 		 */
 		final Item item = this.trainDataModel.getItem(rating.getItemId());
+		final User user = this.trainDataModel.getUser(rating.getUserId());
+		if(user == null){
+			System.err.println("1111111111111111");
+			System.err.println(rating);
+		}
 		if (item == null) {
 			return Float.NaN;
 		}
@@ -174,7 +188,7 @@ public final class FactorizationMachineModel {
 
 		float sum = userValue + itemValue;
 
-		final double[] featureAsArray = getFatureArray(item);
+		final double[] featureAsArray = getFeatureArray(item,user);
 		for (int i = (this.numberOfUsers + this.numberOfItems); i < w.length; i++) {
 			final int j = (int) (i - (this.numberOfUsers + this.numberOfItems));
 			sum += w[i] * featureAsArray[j];
@@ -206,7 +220,7 @@ public final class FactorizationMachineModel {
 		return this.trainDataModel;
 	}
 
-	public double[] getFatureArray(final Item item) {
+	public double[] getFeatureArray(final Item item,final User user) {
 		final double[] featureAsArray;
 		switch (configuration.getDataType()) {
 		case LowLevelFeatureGenre:
@@ -218,10 +232,13 @@ public final class FactorizationMachineModel {
 		case Genre:
 			featureAsArray = item.getGenresAsArray();
 			break;
+		case Personality:
+			featureAsArray = user.getPersonalityAsArray();
+			break;
 		default:
 			featureAsArray = new double[0];
 			break;
-		}
+		}		
 		return featureAsArray;
 	}
 
