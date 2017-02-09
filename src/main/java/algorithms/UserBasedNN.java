@@ -66,7 +66,7 @@ public final class UserBasedNN extends AbstractRecommender {
 		}
 		
 		for(final User neighbourUser: this.trainDataModel.getUsers().values()){
-			if(neighbourUser.getItemRating().containsKey(testItem.getId())){
+			if(neighbourUser.getItemRating().containsKey(testItem.getId()) && neighbourUser.getId()!=testUser.getId()){
 				final Float userSimilairty = this.similarityRepository.getUserSimilarity(testUser.getId(), neighbourUser.getId());
 				if (userSimilairty != null && !Float.isNaN(userSimilairty)) {
 					similarities.put((int) neighbourUser.getId(), (float) userSimilairty);

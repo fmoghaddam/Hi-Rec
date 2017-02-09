@@ -259,7 +259,9 @@ public final class DataModel {
                 testData.getUser(rating.getUserId())
                         .addItemRating(rating.getItemId(), rating.getRating());
             } else {
-                final User user = new User(this.getUser(rating.getUserId()));
+            	final User oldUser = this.getUser(rating.getUserId());  
+                final User user = new User(oldUser.getId());
+                user.setPersonalityValues(oldUser.getPersonalityValues());
                 user.addItemRating(rating.getItemId(), rating.getRating());
                 testData.addUser(user);
             }
@@ -267,7 +269,11 @@ public final class DataModel {
                 testData.getItem(rating.getItemId())
                         .addUserRating(rating.getUserId(), rating.getRating());
             } else {
-                final Item item = new Item(this.getItem(rating.getItemId()));
+            	final Item oldItem = this.getItem(rating.getItemId());
+                final Item item = new Item(oldItem.getId());
+                item.setGenres(oldItem.getGenres());
+                item.setLowLevelFeature(oldItem.getLowLevelFeature());
+                item.setTags(oldItem.getTags());                
                 item.addUserRating(rating.getUserId(), rating.getRating());
                 testData.addItem(item);
             }
@@ -298,7 +304,9 @@ public final class DataModel {
                 trainData.getUser(rating.getUserId())
                         .addItemRating(rating.getItemId(), rating.getRating());
             } else {
-                final User user = new User(this.getUser(rating.getUserId()));
+            	final User oldUser = this.getUser(rating.getUserId());  
+                final User user = new User(oldUser.getId());
+                user.setPersonalityValues(oldUser.getPersonalityValues());
                 user.addItemRating(rating.getItemId(), rating.getRating());
                 trainData.addUser(user);
             }
@@ -306,7 +314,11 @@ public final class DataModel {
                 trainData.getItem(rating.getItemId())
                         .addUserRating(rating.getUserId(), rating.getRating());
             } else {
-                final Item item = new Item(this.getItem(rating.getItemId()));
+            	final Item oldItem = this.getItem(rating.getItemId());
+                final Item item = new Item(oldItem.getId());
+                item.setGenres(oldItem.getGenres());
+                item.setLowLevelFeature(oldItem.getLowLevelFeature());
+                item.setTags(oldItem.getTags());                
                 item.addUserRating(rating.getUserId(), rating.getRating());
                 trainData.addItem(item);
             }

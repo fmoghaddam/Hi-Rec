@@ -318,7 +318,7 @@ public final class ParallelEvaluator {
 		for (final Metric evalType : printResult.keySet()) {
 			result.append("=SPLIT(\"").append(evalType).append(",");
 			for (float accuracy : printResult.get(evalType)) {
-				result.append(accuracy).append(",");
+				//result.append(accuracy).append(",");
 			}
 			result.append(String.valueOf(mean(printResult.get(evalType)))).append("\",\",\")\n");
 		}

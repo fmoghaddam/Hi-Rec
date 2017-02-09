@@ -70,7 +70,8 @@ public final class FactorizationMachineModel {
 		case Tag:
 			throw new UnsupportedOperationException("Factorization machine for tag still not implemented");
 		case Personality:
-			numberOfFeatures = 5;
+			numberOfFeatures = this.trainDataModel.getUsers().entrySet().iterator().next().getValue().getPersonalityValues()
+					.size();
 			break;
 		default:
 			break;
