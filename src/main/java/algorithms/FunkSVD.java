@@ -262,6 +262,9 @@ public final class FunkSVD
         int numUsers = this.trainDataModel.getUsers().size();
         int index = 0;
         for (final Integer user: trainDataModel.getUsers().keySet()) {
+        	if(user==202){
+            	System.err.println("SSSSSSSSSSSZZZZZZZ");
+            }
             userMap.put(user, index++);
         }
 
@@ -269,6 +272,9 @@ public final class FunkSVD
         index = 0;
         for (final Integer item: trainDataModel.getItems().keySet()) {
             itemMap.put(item, index++);
+            if(item==147){
+            	System.err.println("SSSSSSSSSSS");
+            }
         }
 
         final double average = 2.5;

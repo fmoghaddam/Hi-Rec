@@ -45,9 +45,9 @@ public final class SGDLearner {
             throw new IllegalArgumentException("FactorizationMachineModel is null");
         }
         this.trainDataModel = FMModel.getDataModel();
-//        final DataSplitter dataSplitter = new DataSplitter(FMModel.getDataModel());
-//        trainDataModel = dataSplitter.getTrainData(1);
-//        final DataModel evalutaionData = dataSplitter.getTestData(1);
+        //final DataSplitter dataSplitter = new DataSplitter(FMModel.getDataModel());
+        //trainDataModel = dataSplitter.getTrainData(1);
+        //final DataModel evalutaionData = dataSplitter.getTestData(1);
         for (int iterate = 0; iterate < numberOfIteration; iterate++) {
             final int dataSize = this.trainDataModel.getRatings().size();
             for (int dataIndex = 0; dataIndex < dataSize; dataIndex++) {

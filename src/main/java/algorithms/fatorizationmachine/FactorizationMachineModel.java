@@ -127,11 +127,10 @@ public final class FactorizationMachineModel {
 		final Item item = this.trainDataModel.getItem(rating.getItemId());
 		final User user = this.trainDataModel.getUser(rating.getUserId());
 		if(user == null){
-			System.err.println(rating);
-			System.err.println("22222222222222222222222");
+			return 0;
 		}
-		if (item == null) {
-			return Float.NaN;
+		if (item == null) {			
+			return 0;
 		}
 
 		float sum = 0;
@@ -176,8 +175,7 @@ public final class FactorizationMachineModel {
 		final Item item = this.trainDataModel.getItem(rating.getItemId());
 		final User user = this.trainDataModel.getUser(rating.getUserId());
 		if(user == null){
-			System.err.println("1111111111111111");
-			System.err.println(rating);
+			return Float.NaN;
 		}
 		if (item == null) {
 			return Float.NaN;

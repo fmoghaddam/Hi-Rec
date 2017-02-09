@@ -89,7 +89,7 @@ public final class UserBasedNN extends AbstractRecommender {
 			}
 			numberOfSelectedItem++;
 			final Float similarity = mapData.getValue();
-			final Float rating = user.getItemRating().get((int) mapData.getKey());
+			final Float rating = trainDataModel.getUser((int) mapData.getKey()).getItemRating().get(testItem.getId());
 
 			if (!Float.isNaN(rating)) {
 				nominator += similarity * rating;
