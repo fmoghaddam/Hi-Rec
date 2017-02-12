@@ -152,14 +152,6 @@ public final class UserBasedNN extends AbstractRecommender {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see interfaces.AbstractRecommender#getConfigurabaleParameters()
-	 */
-	@Override
-	public Map<String,Map<String,String>> getConfigurabaleParameters() {
-		return configurableParametersMap;
-	}
-
 	@Override
 	public String toString() {
 		return "UserBasedNN";

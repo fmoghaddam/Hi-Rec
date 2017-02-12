@@ -8,5 +8,6 @@ package gui.model;
  */
 public enum LearningMethod {
     SGD,
+    MCMC,
     ALS;
 }
