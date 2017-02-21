@@ -3,6 +3,7 @@ package util;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.Map.Entry;
 
 import org.apache.commons.math3.stat.inference.TTest;
@@ -99,5 +100,9 @@ public class StatisticFunctions {
             }
         }
         
+    }
+    
+    public static int generateRandomInt(final int min, final int max){
+    	return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 }
