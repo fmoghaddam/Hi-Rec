@@ -2,12 +2,14 @@ package interfaces;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import model.DataModel;
 import model.DataType;
 import model.Item;
 import model.User;
+import util.MapUtil;
 
 /**
  * @author FBM
@@ -44,7 +46,17 @@ public class AbstractRecommender implements Recommender,Serializable {
 	 */
 	@Override
 	public Map<Integer, Float> recommendItems(User user) {
-		return null;
+		final Map<Integer, Float> predictions = new LinkedHashMap<Integer, Float>();
+
+		for (final Item item : trainDataModel.getItems().values()) {
+			final int itemId = item.getId();
+			final float predictRating = predictRating(user, item);
+			if (!Float.isNaN(predictRating)) {
+				predictions.put(itemId, predictRating);
+			}
+		}
+		final Map<Integer, Float> sortByComparator = MapUtil.sortByValueDescending(predictions);
+		return sortByComparator;
 	}
 
 	/* (non-Javadoc)

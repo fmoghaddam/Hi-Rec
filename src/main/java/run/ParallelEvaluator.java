@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.SerializationUtils;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.log4j.Logger;
 
 import com.google.common.eventbus.Subscribe;
@@ -63,8 +64,7 @@ public final class ParallelEvaluator {
 	
 	public ParallelEvaluator(final DataModel data) {
 		this.dataModel = data;
-		this.dataSpliter = new DataSplitter(this.dataModel.getCopy());
-		this.dataSpliter.shuffle();
+		this.dataSpliter = new DataSplitter(this.dataModel.getCopy());		
 		MessageBus.getInstance().register(this);
 	}
 	
@@ -151,6 +151,7 @@ public final class ParallelEvaluator {
 	 *            Given {@link Configuration}
 	 */
 	private void execute(final Configuration configuration) {
+		this.dataSpliter.shuffle();
 		final Map<Metric, List<Float>> printResult = new ConcurrentHashMap<>();
 		final ExecutorService executor;
 		if(Globals.RUN_FOLDS_PARALLEL){
@@ -191,7 +192,7 @@ public final class ParallelEvaluator {
 
 					MessageBus.getInstance().getBus().post(new FoldLevelUpdateMessage(configuration.getId(),foldNumber,FoldStatus.TESTING));
 					configuration.getTimeUtil().setTestTimeStart(foldNumber);
-					handleRatingEvaluation(testData, evalTypes, algorithm);
+					handleRatingEvaluation(testData, trainData,evalTypes, algorithm);
 					handleListEvaluation(trainData, testData, evalTypes, algorithm);
 					configuration.getTimeUtil().setTestTimeEnd(foldNumber);
 
@@ -245,6 +246,9 @@ public final class ParallelEvaluator {
 					return;
 				}
 				final User user = testData.getUser(userId);
+//				if(user.getItemRating().size()>=5){
+//					continue;
+//				}
 				final long numberOfPositiveItems = user.getItemRating().values().stream()
                                         .filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
 				if (Globals.USE_ONLY_POSITIVE_RATING_IN_TEST) {
@@ -274,7 +278,7 @@ public final class ParallelEvaluator {
 	 * @param evalTypes
 	 * @param algorithm
 	 */
-	private void handleRatingEvaluation(final DataModel testData, final List<Metric> evalTypes, Recommender algorithm) {
+	private void handleRatingEvaluation(final DataModel testData,final DataModel trainData, final List<Metric> evalTypes, Recommender algorithm) {
 		final Metric hasRatingEvaluator = evalTypes.stream().filter(p1 -> p1 instanceof AccuracyEvaluation).findAny()
 				.orElse(null);
 		if (hasRatingEvaluator != null) {
@@ -283,6 +287,9 @@ public final class ParallelEvaluator {
 					return;
 				}
 				final User testUser = testData.getUser(rating.getUserId());
+//				if(testUser.getItemRating().size()>=5){
+//					continue;
+//				}
 				final long numberOfPositiveItems = testUser.getItemRating().values().stream()
 						.filter(p2 -> p2 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
 				if (Globals.USE_ONLY_POSITIVE_RATING_IN_TEST) {

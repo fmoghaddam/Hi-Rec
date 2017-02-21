@@ -47,12 +47,15 @@ public class NDCG
             if (listLengthThreshold >= Globals.AT_N) {
                 break;
             }
-            listLengthThreshold++;
+            if(entry.getValue()<Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
+            	break;
+            }
             if (user.getItemRating().containsKey(entry.getKey())) {
+            	listLengthThreshold++;
                 if (user.getItemRating().get((int)entry
                         .getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
                 {
-                    dcg += (1.0 / (Math.log(listLengthThreshold + 1) / log2));
+                    dcg += (1.0 / (Math.log(listLengthThreshold+ 1) / log2));
                 }
             }
         }

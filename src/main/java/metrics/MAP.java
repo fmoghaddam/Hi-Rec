@@ -46,9 +46,12 @@ implements ListEvaluation
         for (final Entry<Integer, Float> entry: list.entrySet()) {
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
+            }     
+            if(entry.getValue()<Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
+            	break;
             }
-            listLengthThreshold++;
             if (user.getItemRating().containsKey(entry.getKey())) {
+            	listLengthThreshold++;
                 if(user.getItemRating().get((int)entry.getKey())>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
                     truePositive++;
                     sum+=(truePositive/listLengthThreshold)*1.0;

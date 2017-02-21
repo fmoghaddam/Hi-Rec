@@ -45,12 +45,15 @@ public final class Precision
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
+            if(entry.getValue()<Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
+            	break;
+            }
             if (user.getItemRating().containsKey(entry.getKey())) {
                 if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
                     truePositive++;
                 }
+                listLengthThreshold++;
             }
-            listLengthThreshold++;
         }
         precision = (precision + truePositive / Globals.AT_N);
         counter++;

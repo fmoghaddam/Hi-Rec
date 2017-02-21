@@ -46,13 +46,16 @@ public class DiversityRating
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
+            if(entry.getValue()<Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
+            	break;
+            }
             hitList.add(entry.getKey());
             listLengthThreshold++;
         }
         float sum = 0;
         for(int i=0;i<hitList.size();i++){
+        	int itemId1 = hitList.get(i);
             for(int j=i+1;j<hitList.size();j++){
-                int itemId1 = hitList.get(i);
                 int itemId2 = hitList.get(j);
                 final Float itemSimilairty = similarityRepository.getItemSimilairty(itemId1, itemId2);
                 if(!Float.isNaN(itemSimilairty)){

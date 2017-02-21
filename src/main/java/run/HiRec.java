@@ -42,8 +42,8 @@ public final class HiRec {
             dataModel.printStatistic();
             final ParallelEvaluator evaluator = new ParallelEvaluator(dataModel);
             evaluator.evaluate();
-            Toolkit.getDefaultToolkit().beep();
-            waitTillKeyPress();
+            //Toolkit.getDefaultToolkit().beep();
+            //waitTillKeyPress();
         }catch(final Exception exception){
             LOG.error(exception.getMessage());
         }
