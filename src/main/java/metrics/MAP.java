@@ -47,12 +47,13 @@ implements ListEvaluation
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }     
-            if(entry.getValue()<Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
-            	break;
-            }
+//            if(entry.getValue()<Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
+//            	break;
+//            }
             if (user.getItemRating().containsKey(entry.getKey())) {
             	listLengthThreshold++;
-                if(user.getItemRating().get((int)entry.getKey())>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
+                if(user.getItemRating().get((int)entry.getKey())>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING &&
+                		entry.getValue()>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING ) {
                     truePositive++;
                     sum+=(truePositive/listLengthThreshold)*1.0;
                 }

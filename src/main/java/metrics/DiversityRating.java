@@ -46,9 +46,9 @@ public class DiversityRating
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
-            if(entry.getValue()<Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
-            	break;
-            }
+//            if(entry.getValue()<Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
+//            	break;
+//            }
             hitList.add(entry.getKey());
             listLengthThreshold++;
         }

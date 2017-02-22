@@ -26,7 +26,7 @@ public class LibFmRecommender extends AbstractRecommender {
 
 	private static final long serialVersionUID = -6385294423366379817L;
 	private NewFactorizationMachine _fm;
-	private LearningMethod _method = LearningMethod.MCMC;
+	private LearningMethod _method = LearningMethod.ALS;
 	private double _initStdev = 0.1;
 	private int numberOfFeatures;
 	private int[] _dim = new int[] { 1, 1, 8};
@@ -35,7 +35,7 @@ public class LibFmRecommender extends AbstractRecommender {
 	private int numberOfIteration = 100;
 	private int _numEvalCases = 100;
 	private TaskType _taskType = TaskType.Regression;
-	private double[] _regular = new double[] {0, 0, 0};
+	private double[] _regular = new double[] {0, 0, 0.0025};
 	private double learningRate;
 	private boolean _verbose = false;
 	private boolean _contextEnabled = true;
