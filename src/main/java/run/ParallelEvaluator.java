@@ -14,12 +14,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.SerializationUtils;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.log4j.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
-import controller.DataSplitter;
+import controller.DefaultDataSplitter;
+import controller.GraphLabDataSplitter;
 import controller.similarity.SimilarityRepository;
 import gui.messages.AlgorithmLevelUpdateMessage;
 import gui.messages.CalculationDoneMessage;
@@ -29,6 +29,7 @@ import gui.messages.StopAllRequestMessage;
 import gui.pages.FoldStatus;
 import interfaces.AbstractRecommender;
 import interfaces.AccuracyEvaluation;
+import interfaces.DataSplitterInterface;
 import interfaces.ListEvaluation;
 import interfaces.Metric;
 import interfaces.Recommender;
@@ -55,7 +56,7 @@ public final class ParallelEvaluator {
 
 	private static final Logger LOG = Logger.getLogger(ParallelEvaluator.class.getCanonicalName());
 	private final DataModel dataModel;
-	private final DataSplitter dataSpliter;
+	private final DataSplitterInterface dataSpliter;
 	private final Map<Configuration, Map<Metric, List<Float>>> tTestValues = new LinkedHashMap<>();
 	private Object LOCK = new Object();
 
@@ -64,7 +65,8 @@ public final class ParallelEvaluator {
 	
 	public ParallelEvaluator(final DataModel data) {
 		this.dataModel = data;
-		this.dataSpliter = new DataSplitter(this.dataModel.getCopy());		
+		this.dataSpliter = new DefaultDataSplitter(this.dataModel.getCopy());		
+		//this.dataSpliter = new GraphLabDataSplitter();
 		MessageBus.getInstance().register(this);
 	}
 	
