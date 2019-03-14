@@ -224,7 +224,10 @@ If you need to implement another metric, you only need to create a class in `met
 To acknowledge the use of this recommendation engine in your work, please cite the following paper:
 
 ```
-Mehdi Elahi, Yashar Deldjoo, Farshad Bakhshandegan Moghaddam, LeonardoCella, Stefano Cereda, and Paolo Cremonesi. ”Exploring the Semantic Gapfor Movie Recommendations”. In Proceedings of the Eleventh ACM Conference onRecommender Systems. ACM, 326–330, 2017
+Mehdi Elahi, Yashar Deldjoo, Farshad Bakhshandegan Moghaddam, LeonardoCella, 
+Stefano Cereda, and Paolo Cremonesi. ”Exploring the Semantic Gap 
+for Movie Recommendations”. In Proceedings of the 
+Eleventh ACM Conference onRecommender Systems. ACM, 326–330, 2017
 ```
 
 ### 8. How can I obtain your dataset?
