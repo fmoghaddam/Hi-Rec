@@ -224,10 +224,7 @@ If you need to implement another metric, you only need to create a class in `met
 To acknowledge the use of this recommendation engine in your work, please cite the following paper:
 
 ```
-Yashar  Deldjoo,  Mehdi  Elahi,  Paolo  Cremonesi, Farshad Bakhshandegan Moghaddam, and Andrea Luigi Edoardo Caielli,
-“How to Combine Visual Features with Tags to Improve the Movie  Recommendation  Accuracy”,  
-Springer  –  Proceedings  of  the  17h  International  conference  on Electronic Commerce and Web Technologies (Ec-Web 2016), 
-Porto, Portugal, September 5-8, 2016
+Mehdi Elahi, Yashar Deldjoo, Farshad Bakhshandegan Moghaddam, LeonardoCella, Stefano Cereda, and Paolo Cremonesi. ”Exploring the Semantic Gapfor Movie Recommendations”. In Proceedings of the Eleventh ACM Conference onRecommender Systems. ACM, 326–330, 2017
 ```
 
 ### 8. How can I obtain your dataset?
