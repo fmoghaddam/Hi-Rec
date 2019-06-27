@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="200.0" minWidth="600.0" prefHeight="200.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8.0.202" fx:controller="gui.views.AboutUsController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="536.0" spacing="15.0" styleClass="box-style-1"
+              stylesheets="@../styles/stylesheet.css" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0"
+              AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+            <children>
+                <Label text="For more infomration about this software you can visit following GitHub page:"
+                       textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="System Bold" size="24.0"/>
+                    </font>
+                </Label>
+                <Hyperlink alignment="CENTER" onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
+                           text="https://fmoghaddam.github.io/Hi-Rec/" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Hyperlink>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
