@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Test extends Application {
+public class GUI extends Application {
 
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
