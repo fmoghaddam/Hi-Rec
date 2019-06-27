@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="214.0" prefWidth="655.0" spacing="15.0"
+      styleClass="box-style-1" stylesheets="@../styles/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.202"
+      fx:controller="gui.views.DataSourceWizardController">
+    <children>
+        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#fileDragDropped" onDragOver="#fileDragOver"
+              prefHeight="140.0" prefWidth="590.0" styleClass="dashed-border" stylesheets="@../styles/stylesheet.css">
+            <children>
+                <Button mnemonicParsing="false" onAction="#onFileChooserAction" text="Drop or Choose"/>
+            </children>
+        </VBox>
+        <HBox alignment="CENTER" spacing="25.0">
+            <children>
+                <Label fx:id="fileLabel" prefHeight="17.0" prefWidth="105.0" text="File Path:"/>
+                <TextField fx:id="filePathField" prefHeight="25.0" prefWidth="401.0" HBox.hgrow="SOMETIMES"/>
+                <ComboBox fx:id="seperatorComboSelector" prefHeight="25.0" prefWidth="122.0" promptText="Seperator"
+                          visibleRowCount="5"/>
+            </children>
+        </HBox>
+    </children>
+</VBox>

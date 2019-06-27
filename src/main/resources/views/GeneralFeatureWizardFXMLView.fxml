@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" hgap="10.0" prefHeight="503.0" prefWidth="622.0"
+          vgap="10.0" xmlns="http://javafx.com/javafx/8.0.202" fx:controller="gui.views.GeneralFeatureWizardController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <children>
+        <Label text="Similarity Function:"/>
+        <Label text="Top N:" GridPane.rowIndex="1"/>
+        <Label text="Minimum value for positive ratings:" GridPane.rowIndex="2"/>
+        <Label text="\@N" GridPane.rowIndex="3"/>
+        <CheckBox fx:id="dropMostPopularItemsCheckBox" mnemonicParsing="false" text="Drop most popular items:"
+                  GridPane.rowIndex="4"/>
+        <CheckBox fx:id="tTestCheckbox" mnemonicParsing="false" text="Calculate T-Test:" GridPane.rowIndex="5"/>
+        <Label text="Metrics:" GridPane.rowIndex="6"/>
+        <ListView fx:id="metricsList" prefHeight="109.0" prefWidth="259.0" GridPane.columnIndex="1"
+                  GridPane.rowIndex="6" GridPane.vgrow="ALWAYS"/>
+        <ChoiceBox fx:id="similarityChoice" prefWidth="150.0" GridPane.columnIndex="1"/>
+        <TextField fx:id="topNTextField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <TextField fx:id="minimumRatingForPositiveRatingTextField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <TextField fx:id="atNTextField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <TextField fx:id="dropMostPopularItemsTextField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    </children>
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+    </padding>
+</GridPane>
