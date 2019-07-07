@@ -1,4 +1,4 @@
-package gui.views;
+package gui.controller;
 
 import gui.WizardControllerInterface;
 import gui.model.ConfigData;

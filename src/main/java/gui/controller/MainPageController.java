@@ -1,4 +1,4 @@
-package gui.views;
+package gui.controller;
 
 import gui.Navigator;
 import gui.Resetable;
