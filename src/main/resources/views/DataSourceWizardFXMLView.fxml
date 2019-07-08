@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="214.0" prefWidth="655.0" spacing="15.0"
       styleClass="box-style-1" stylesheets="@../styles/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.202"
-      fx:controller="gui.views.DataSourceWizardController">
+      fx:controller="gui.controller.DataSourceWizardController">
     <children>
         <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
               minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#fileDragDropped" onDragOver="#fileDragOver"
