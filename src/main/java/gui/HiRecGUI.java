@@ -61,7 +61,7 @@ public class HiRecGUI extends Application {
         stage.centerOnScreen();
         stage.setAlwaysOnTop(true);
         stage.initStyle(StageStyle.TRANSPARENT);
-
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/icon.png")));
         stage.showAndWait();
     }
 
@@ -79,6 +79,7 @@ public class HiRecGUI extends Application {
         stage.setMinHeight(600);
         stage.setMinWidth(600);
         stage.setTitle("Hi-Rec");
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/icon.png")));
         stage.setScene(scene);
         stage.show();
     }
