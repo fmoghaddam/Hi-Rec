@@ -1,46 +1,18 @@
 package run;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang.SerializationUtils;
-import org.apache.log4j.Logger;
-
 import com.google.common.eventbus.Subscribe;
-
 import controller.DataSplitter;
 import controller.similarity.SimilarityRepository;
-import gui.messages.AlgorithmLevelUpdateMessage;
-import gui.messages.CalculationDoneMessage;
-import gui.messages.EnableStopButtonMessage;
-import gui.messages.FoldLevelUpdateMessage;
-import gui.messages.StopAllRequestMessage;
-import gui.pages.FoldStatus;
-import interfaces.AbstractRecommender;
-import interfaces.AccuracyEvaluation;
-import interfaces.ListEvaluation;
-import interfaces.Metric;
-import interfaces.Recommender;
-import model.DataModel;
-import model.Globals;
-import model.Item;
-import model.Rating;
-import model.User;
-import util.ClassInstantiator;
-import util.Config;
-import util.MessageBus;
-import util.PrettyPrinter;
-import util.StatisticFunctions;
+import gui.messages.*;
+import gui.model.FoldStatus;
+import interfaces.*;
+import model.*;
+import org.apache.commons.lang.SerializationUtils;
+import org.apache.log4j.Logger;
+import util.*;
+
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * This is the main executor of all the algorithms. This class read the config
@@ -58,7 +30,7 @@ public final class ParallelEvaluator {
 	private Object LOCK = new Object();
 
 	private ExecutorService algorithmExecutor;
-	private List<ExecutorService> foldExecutors = new ArrayList<>();;
+	private List<ExecutorService> foldExecutors = new ArrayList<>();
 	
 	public ParallelEvaluator(final DataModel data) {
 		this.dataModel = data;
@@ -111,7 +83,8 @@ public final class ParallelEvaluator {
 	/**
 	 * Iterate over all the {@link Configuration}s and run them one by one
 	 */
-	public void evaluate() {
+	public List<Future<ConfigRunResult>> evaluate() {
+		List<Future<ConfigRunResult>> runFutureList = new ArrayList<>();
 		final List<Configuration> configurations = readConfigurations();
 		if(Globals.RUN_ALGORITHMS_PARALLEL){
 			if(Globals.RUN_ALGORITHMS_NUMBER_OF_THREAD==null){
@@ -126,18 +99,20 @@ public final class ParallelEvaluator {
 			algorithmExecutor= Executors
 					.newFixedThreadPool(1);
 		}
-		final List<Runnable> tasks = new ArrayList<>();
+		final List<Callable<ConfigRunResult>> tasks = new ArrayList<>();
 		try {
 			for (Configuration configuration : configurations) {
-				final Runnable task = () -> {
+
+				final Callable<ConfigRunResult> task = () -> {
 					LOG.info("This process may take long time. Still running please wait....");
 					LOG.info(configuration + "...");
-					execute(configuration);
+					return execute(configuration);
 				};
 				tasks.add(task);
 			}
-			for (final Runnable task : tasks) {
-				algorithmExecutor.execute(task);
+			for (final Callable<ConfigRunResult> task : tasks) {
+				Future<ConfigRunResult> submit = algorithmExecutor.submit(task);
+				runFutureList.add(submit);
 			}
 			algorithmExecutor.shutdown();
 			algorithmExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
@@ -147,6 +122,7 @@ public final class ParallelEvaluator {
 		if (Globals.CALCULATE_TTEST) {
 			StatisticFunctions.runTTestAndPrettyPrint(tTestValues);
 		}
+		return runFutureList;
 	}
 
 	/**
@@ -155,14 +131,14 @@ public final class ParallelEvaluator {
 	 * @param configuration
 	 *            Given {@link Configuration}
 	 */
-	private void execute(final Configuration configuration) {
+	private ConfigRunResult execute(final Configuration configuration) {
 		final Map<Metric, List<Float>> printResult = new ConcurrentHashMap<>();
 		final ExecutorService executor;
 		if(Globals.RUN_FOLDS_PARALLEL){
 			if(Globals.RUN_FOLDS_NUMBER_OF_THREAD==null){
 				executor = Executors
 						.newFixedThreadPool(Runtime.getRuntime().availableProcessors() > Globals.NUMBER_OF_FOLDS
-								? (int) Globals.NUMBER_OF_FOLDS : Runtime.getRuntime().availableProcessors());
+								? Globals.NUMBER_OF_FOLDS : Runtime.getRuntime().availableProcessors());
 			}else{
 				executor = Executors
 						.newFixedThreadPool(Globals.RUN_FOLDS_NUMBER_OF_THREAD);
@@ -220,6 +196,7 @@ public final class ParallelEvaluator {
 			LOG.error("Execution interupted.");
 		}
 		synchronized (LOCK) {
+
 			LOG.info(configuration + " result is:");
 			LOG.info("Average Train Time: " + configuration.getTimeUtil().getAverageTrainTime() + " seconds");
 			LOG.info("Total Train Time: " + configuration.getTimeUtil().getTotalTrainTime() + " seconds");
@@ -227,9 +204,17 @@ public final class ParallelEvaluator {
 			LOG.info("Total Test Time: " + configuration.getTimeUtil().getTotalTestTime() + " seconds");
 			this.addAverageAndPretyPrintResult(printResult);
 			this.googleDocPrintResult(printResult);
+
 			this.tTestValues.put(configuration, printResult);
 		}
 		MessageBus.getInstance().getBus().post(new CalculationDoneMessage());
+		ConfigRunResult configRunResult = new ConfigRunResult(configuration,
+				configuration.getTimeUtil().getAverageTrainTime(),
+				configuration.getTimeUtil().getTotalTrainTime(),
+				configuration.getTimeUtil().getAverageTestTime(),
+				configuration.getTimeUtil().getTotalTestTime(),
+				printResult);
+		return configRunResult;
 	}
 
 	/**
@@ -326,7 +311,7 @@ public final class ParallelEvaluator {
 			for (float accuracy : printResult.get(evalType)) {
 				result.append(accuracy).append(",");
 			}
-			result.append(String.valueOf(mean(printResult.get(evalType)))).append("\",\",\")\n");
+			result.append(mean(printResult.get(evalType))).append("\",\",\")\n");
 		}
 		LOG.info(result.toString());
 	}
@@ -368,9 +353,9 @@ public final class ParallelEvaluator {
 	 */
 	private synchronized void addAverageAndPretyPrintResult(Map<Metric, List<Float>> printResult) {
 
-		String[][] resultTable = new String[printResult.keySet().size() + 1][(int) (Globals.NUMBER_OF_FOLDS + 2)];
+		String[][] resultTable = new String[printResult.keySet().size() + 1][(Globals.NUMBER_OF_FOLDS + 2)];
 		resultTable[0][0] = "Fold number";
-		resultTable[0][(int) (Globals.NUMBER_OF_FOLDS + 1)] = "Average";
+		resultTable[0][Globals.NUMBER_OF_FOLDS + 1] = "Average";
 		for (int nFold = 1; nFold <= Globals.NUMBER_OF_FOLDS; nFold++) {
 			resultTable[0][nFold] = String.valueOf(nFold);
 		}
@@ -379,7 +364,7 @@ public final class ParallelEvaluator {
 		int nFold = 1;
 		for (final Metric evalType : printResult.keySet()) {
 			resultTable[i][0] = evalType.getClass().getName();
-			resultTable[i][(int) (Globals.NUMBER_OF_FOLDS + 1)] = String.valueOf(mean(printResult.get(evalType)));
+			resultTable[i][Globals.NUMBER_OF_FOLDS + 1] = String.valueOf(mean(printResult.get(evalType)));
 			for (float accuracy : printResult.get(evalType)) {
 				resultTable[i][nFold++] = String.valueOf(accuracy);
 			}
