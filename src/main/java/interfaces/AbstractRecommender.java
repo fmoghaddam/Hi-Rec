@@ -1,18 +1,18 @@
 package interfaces;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
 import model.DataModel;
 import model.Item;
 import model.User;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author FBM
  *
  */
-public class AbstractRecommender implements Recommender,Serializable {
+public abstract class AbstractRecommender implements Recommender, Serializable {
 
 	private static final long serialVersionUID = -7339073808310101731L;
 	protected DataModel trainDataModel;
