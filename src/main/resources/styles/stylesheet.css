@@ -1,6 +1,6 @@
 .dashed-border {
     -fx-border-color: gray;
-    -fx-border-width: 5;
+    -fx-border-width: 4;
     -fx-border-style: segments(10, 15, 15, 15) line-cap round;
 }
 
@@ -11,5 +11,4 @@
     -fx-border-insets: 5;
     -fx-border-radius: 5;
     -fx-border-color: gray;
-    -fx-background: rgb(255, 248, 220);
 }
