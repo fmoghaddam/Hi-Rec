@@ -13,11 +13,8 @@ public enum Separator {
 	Tab("\\t");
 	
 	private StringProperty text;
-	
-	/**
-	 * 
-	 */
-	private Separator(String text) {
+
+	Separator(String text) {
 		this.text = new SimpleStringProperty(text);
 	}
 	

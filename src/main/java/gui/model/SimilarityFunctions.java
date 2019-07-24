@@ -12,7 +12,7 @@ public enum SimilarityFunctions {
 
 	private StringProperty text;
 
-	private SimilarityFunctions(String text) {
+	SimilarityFunctions(String text) {
 		this.text = new SimpleStringProperty(text);
 	}
 
