@@ -1,5 +1,10 @@
 package model;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import org.apache.commons.math3.stat.Frequency;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -10,18 +15,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.commons.math3.stat.Frequency;
-import org.apache.log4j.Logger;
-
-import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-
 /**
  * Main data model which contains all the information about items,users,ratings,
  * genres,tags,lowlevel features,...
- * 
- * @author FBM
  *
+ * @author FBM
  */
 public final class DataModel {
 
@@ -56,25 +54,20 @@ public final class DataModel {
         ratings = new ObjectArrayList<>();
     }
 
-    public
-        Int2ObjectLinkedOpenHashMap<Item> getItems() {
+    public Int2ObjectLinkedOpenHashMap<Item> getItems() {
         return items;
     }
 
-    public
-        Int2ObjectLinkedOpenHashMap<User> getUsers() {
+    public Int2ObjectLinkedOpenHashMap<User> getUsers() {
         return users;
     }
 
-    public
-        ObjectArrayList<Rating> getRatings() {
+    public ObjectArrayList<Rating> getRatings() {
         return ratings;
     }
 
-    public
-            void addUser(
-                    final User user)
-    {
+    public void addUser(
+            final User user) {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
         }
@@ -82,10 +75,8 @@ public final class DataModel {
         this.numberOfUsers++;
     }
 
-    public
-            void addItem(
-                    final Item item)
-    {
+    public void addItem(
+            final Item item) {
         if (item == null) {
             throw new IllegalArgumentException("Item is null");
         }
@@ -93,10 +84,8 @@ public final class DataModel {
         this.numberOfItems++;
     }
 
-    public
-            Item getItem(
-                    final int Id)
-    {
+    public Item getItem(
+            final int Id) {
         if (items.containsKey(Id)) {
             return items.get(Id);
         } else {
@@ -104,10 +93,8 @@ public final class DataModel {
         }
     }
 
-    public
-            User getUser(
-                    final int Id)
-    {
+    public User getUser(
+            final int Id) {
         if (users.containsKey(Id)) {
             return users.get(Id);
         } else {
@@ -115,21 +102,24 @@ public final class DataModel {
         }
     }
 
-    public
-            void printStatistic() {
+    public Frequency getFreq() {
+        return freq;
+    }
+
+    public void printStatistic() {
         final DecimalFormat decimalFormat = new DecimalFormat("#.####");
         LOG.info("-----------------------------");
         LOG.info("#Users: \t\t" + this.numberOfUsers);
         LOG.info("#Items: \t\t" + this.numberOfItems);
         LOG.info("#Ratings: \t\t" + this.numberOfRatings);
         LOG.info("Density: \t\t"
-                + decimalFormat.format((double)this.numberOfRatings * 1.0
-                        / ((double)(this.numberOfItems * 1.0
-                                * this.numberOfUsers * 1.0))));
+                + decimalFormat.format((double) this.numberOfRatings * 1.0
+                / (this.numberOfItems * 1.0
+                * this.numberOfUsers * 1.0)));
         LOG.info("Avg. Ratings/user: \t" + decimalFormat
-                .format((double)this.numberOfRatings / this.numberOfUsers));
+                .format((double) this.numberOfRatings / this.numberOfUsers));
         LOG.info("Avg. Ratings/item: \t" + decimalFormat
-                .format((double)this.numberOfRatings / this.numberOfItems));
+                .format((double) this.numberOfRatings / this.numberOfItems));
         LOG.info("Max rating: \t\t" + Globals.MAX_RATING);
         LOG.info("Min rating: \t\t" + Globals.MIN_RATING);
         LOG.info("-----------------------------");
@@ -140,8 +130,7 @@ public final class DataModel {
     /**
      * Prints all the ratings
      */
-    public
-            void printAllRatings() {
+    public void printAllRatings() {
         LOG.info("-----------------------------");
         ratings.forEach(p -> LOG.info(p));
         LOG.info("-----------------------------");
@@ -149,11 +138,10 @@ public final class DataModel {
 
     /**
      * Generate a copy of this data model
-     * 
+     *
      * @return Generated copy of this data model
      */
-    public
-            DataModel getCopy() {
+    public DataModel getCopy() {
         final DataModel newDataModel = new DataModel();
         newDataModel.items = new Int2ObjectLinkedOpenHashMap<Item>(this.items);
         newDataModel.users = new Int2ObjectLinkedOpenHashMap<User>(this.users);
@@ -165,25 +153,20 @@ public final class DataModel {
         return newDataModel;
     }
 
-    public
-            int getNumberOfRatings() {
+    public int getNumberOfRatings() {
         return numberOfRatings;
     }
 
-    public
-            int getNumberOfUsers() {
+    public int getNumberOfUsers() {
         return numberOfUsers;
     }
 
-    public
-            int getNumberOfItems() {
+    public int getNumberOfItems() {
         return numberOfItems;
     }
 
-    public
-            void addRating(
-                    final Rating rating)
-    {
+    public void addRating(
+            final Rating rating) {
         if (rating == null) {
             throw new IllegalArgumentException("Rating is null");
         }
@@ -203,8 +186,7 @@ public final class DataModel {
     /**
      * Write all the ratings to a file
      */
-    public
-            void writeRatingsToFile(final String path) {
+    public void writeRatingsToFile(final String path) {
         BufferedWriter bw = null;
         try {
             final File file = new File(path);
@@ -214,10 +196,10 @@ public final class DataModel {
             }
 
             final StringBuffer content = new StringBuffer();
-            for (Rating rating: ratings) {
-                String line = String.valueOf(rating.getUserId()) + ","
-                        + String.valueOf(rating.getItemId()) + ","
-                        + String.valueOf(rating.getRating()) + "\n";
+            for (Rating rating : ratings) {
+                String line = rating.getUserId() + ","
+                        + rating.getItemId() + ","
+                        + rating.getRating() + "\n";
                 content.append(line);
             }
             final FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
@@ -239,15 +221,13 @@ public final class DataModel {
     /**
      * Filter all the ratings between startIndex and endIndex and create new
      * data model for test data based on them
-     * 
+     *
      * @param startIndex
      * @param endIndex
      * @return
      */
-    public
-            DataModel getTestData(
-                    int startIndex, int endIndex)
-    {
+    public DataModel getTestData(
+            int startIndex, int endIndex) {
         final DataModel testData = new DataModel();
         for (int i = startIndex; i < endIndex; i++) {
             final Rating rating = this.ratings.get(i);
@@ -275,15 +255,13 @@ public final class DataModel {
     /**
      * Filter all the ratings which are not between startIndex and endIndex and
      * create new data model for train data based on them
-     * 
+     *
      * @param startIndex
      * @param endIndex
      * @return
      */
-    public
-            DataModel getTrainData(
-                    int startIndex, int endIndex)
-    {
+    public DataModel getTrainData(
+            int startIndex, int endIndex) {
         final DataModel trainData = new DataModel();
         for (int i = 0; i < numberOfRatings; i++) {
             if (i >= startIndex && i < endIndex) {
@@ -313,13 +291,11 @@ public final class DataModel {
 
     /**
      * Samples data and only keeps {@code percentage} of it.
-     * 
+     *
      * @param percentage
      */
-    public
-            DataModel sampleRatings(
-                    int percentage)
-    {
+    public DataModel sampleRatings(
+            int percentage) {
         Collections.shuffle(ratings);
         final DataModel sampleData = new DataModel();
         for (int i = 0; i < numberOfRatings * (percentage / 100.0); i++) {
@@ -344,17 +320,16 @@ public final class DataModel {
         }
         return sampleData;
     }
-    
-    public 
-        DataModel sampleUsers(
-            int percentage){
+
+    public DataModel sampleUsers(
+            int percentage) {
         final DataModel sampledDataModel = new DataModel();
         final List<User> allUsers = new ArrayList<>(users.values());
         Collections.shuffle(allUsers);
         for (int i = 0; i < numberOfUsers * (percentage / 100.0); i++) {
             final User user = allUsers.get(i);
             final int userId = user.getId();
-            for(Entry<Integer, Float> entry: user.getItemRating().entrySet()){
+            for (Entry<Integer, Float> entry : user.getItemRating().entrySet()) {
                 int itemId = entry.getKey();
                 float rating = entry.getValue();
                 if (sampledDataModel.getUser(userId) != null) {
@@ -382,8 +357,7 @@ public final class DataModel {
     /**
      * Clear every collection in this data model
      */
-    public
-            void clearAll() {
+    public void clearAll() {
         this.ratings.clear();
         this.items.clear();
         this.users.clear();
