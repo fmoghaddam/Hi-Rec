@@ -1,4 +1,4 @@
 package gui;
 
-public interface WizardControllerInterface extends Fillable, Resetable {
+public interface WizardControllerInterface extends Fillable, Validable {
 }
