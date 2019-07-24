@@ -87,7 +87,7 @@ public final class ParallelEvaluator {
 		List<Future<ConfigRunResult>> runFutureList = new ArrayList<>();
 		final List<Configuration> configurations = readConfigurations();
 		if(Globals.RUN_ALGORITHMS_PARALLEL){
-			if(Globals.RUN_ALGORITHMS_NUMBER_OF_THREAD==null){
+            if (Globals.RUN_ALGORITHMS_NUMBER_OF_THREAD == -1) {
 			algorithmExecutor= Executors
 					.newFixedThreadPool(Runtime.getRuntime().availableProcessors() > configurations.size()
 							? configurations.size() : Runtime.getRuntime().availableProcessors());
@@ -135,7 +135,7 @@ public final class ParallelEvaluator {
 		final Map<Metric, List<Float>> printResult = new ConcurrentHashMap<>();
 		final ExecutorService executor;
 		if(Globals.RUN_FOLDS_PARALLEL){
-			if(Globals.RUN_FOLDS_NUMBER_OF_THREAD==null){
+            if (Globals.RUN_FOLDS_NUMBER_OF_THREAD == -1) {
 				executor = Executors
 						.newFixedThreadPool(Runtime.getRuntime().availableProcessors() > Globals.NUMBER_OF_FOLDS
 								? Globals.NUMBER_OF_FOLDS : Runtime.getRuntime().availableProcessors());
