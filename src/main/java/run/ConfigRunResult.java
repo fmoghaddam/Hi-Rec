@@ -96,7 +96,16 @@ public class ConfigRunResult {
         return stringBuilder.toString();
     }
 
-    public String toGoogleDocTable() {
-        return "TODO";
+    public String toTabSeperatedTable() {
+        String[][] table = asTable();
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < table.length; i++) {
+            for (int j = 0; j < table[i].length; j++) {
+                stringBuilder.append(String.join("\t", table[i]));
+            }
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 }

@@ -43,6 +43,7 @@ public final class ParallelEvaluator {
 	private void stopRequestReceived(final StopAllRequestMessage message){
 		foldExecutors.forEach(p->p.shutdownNow());
 		algorithmExecutor.shutdownNow();
+        MessageBus.getInstance().getBus().post(new ShutdownFinishedMessage());
 	}
 
 	/**
@@ -190,7 +191,7 @@ public final class ParallelEvaluator {
 		}
 		executor.shutdown();
 		try {
-			MessageBus.getInstance().getBus().post(new EnableStopButtonMessage());
+            MessageBus.getInstance().getBus().post(new ShutdownFinishedMessage());
 			executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 		} catch (final InterruptedException exception) {
 			LOG.error("Execution interupted.");
