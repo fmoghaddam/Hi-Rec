@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="482.0" prefWidth="673.0"
-      styleClass="box-style-1" stylesheets="@../styles/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.202">
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="527.0" prefWidth="673.0"
+      styleClass="box-style-1" stylesheets="@../styles/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.202"
+      fx:controller="gui.controller.configurator.AlgorithmConfigurationWizardController">
     <children>
         <Label fx:id="algorithmName" text="Algorithm Name Configuration">
             <font>
@@ -31,23 +31,25 @@
                         <RowConstraints/>
                     </rowConstraints>
                     <children>
-                        <RadioButton mnemonicParsing="false" text="Use Low-Level Visual Features">
+                        <RadioButton fx:id="useVisualFeaturesRadioButton" mnemonicParsing="false"
+                                     text="Use Low-Level Visual Features">
                             <toggleGroup>
                                 <ToggleGroup fx:id="similarityToggleGroup"/>
                             </toggleGroup>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" text="Use Genre" toggleGroup="$similarityToggleGroup"
-                                     GridPane.columnIndex="1"/>
-                        <RadioButton mnemonicParsing="false" text="Use Tag" toggleGroup="$similarityToggleGroup"
+                        <RadioButton fx:id="useGenreRadioButton" mnemonicParsing="false" text="Use Genre"
+                                     toggleGroup="$similarityToggleGroup" GridPane.columnIndex="1"/>
+                        <RadioButton fx:id="useTagRadioButton" mnemonicParsing="false" text="Use Tag"
+                                     toggleGroup="$similarityToggleGroup" GridPane.rowIndex="1"/>
+                        <RadioButton fx:id="useRatingsRadioButton" mnemonicParsing="false" text="Use Ratings"
+                                     toggleGroup="$similarityToggleGroup" GridPane.columnIndex="1"
                                      GridPane.rowIndex="1"/>
-                        <RadioButton mnemonicParsing="false" text="Use Ratings" toggleGroup="$similarityToggleGroup"
-                                     GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                     </children>
                 </GridPane>
             </children>
         </VBox>
-        <VBox alignment="TOP_CENTER" prefHeight="198.0" prefWidth="639.0" spacing="15.0" styleClass="box-style-1"
-              stylesheets="@../styles/stylesheet.css" VBox.vgrow="SOMETIMES">
+        <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="198.0" prefWidth="639.0"
+              spacing="15.0" styleClass="box-style-1" stylesheets="@../styles/stylesheet.css" VBox.vgrow="SOMETIMES">
             <children>
                 <Label text="Parameters:">
                     <font>
@@ -55,7 +57,7 @@
                     </font>
                 </Label>
                 <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0"
-                            VBox.vgrow="SOMETIMES">
+                            style="-fx-background-color: transparent;" VBox.vgrow="SOMETIMES">
                     <content>
                         <GridPane fx:id="parametersGridPane" alignment="CENTER" hgap="10.0" vgap="10.0">
                             <columnConstraints>

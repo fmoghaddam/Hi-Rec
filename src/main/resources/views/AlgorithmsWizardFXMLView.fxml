@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
-      minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="762.0" spacing="15.0"
-      xmlns="http://javafx.com/javafx/8.0.202">
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="700.0" prefWidth="800.0" spacing="15.0" xmlns="http://javafx.com/javafx/8.0.202"
+      fx:controller="gui.controller.configurator.AlgorithmsWizardController">
     <children>
         <Label text="Algorithms Configuration">
             <font>
                 <Font name="System Bold" size="18.0"/>
             </font>
         </Label>
-        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="SOMETIMES">
+        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0"
+                    stylesheets="@../styles/stylesheet.css" VBox.vgrow="SOMETIMES">
             <content>
-                <VBox fx:id="algorithmsVbox" alignment="CENTER" prefHeight="130.0" prefWidth="673.0"
-                      styleClass="box-style-1" stylesheets="@../styles/stylesheet.css"/>
+                <Accordion fx:id="algorithmsHolderBox" style="-fx-font-family: Calibri; -fx-font-size: 18;"/>
             </content>
         </ScrollPane>
         <HBox alignment="CENTER" prefHeight="43.0" prefWidth="729.0" spacing="15.0" styleClass="box-style-1"
               stylesheets="@../styles/stylesheet.css">
             <children>
-                <ChoiceBox fx:id="availableAlgorithmsChoiceBox" prefWidth="150.0"/>
-                <Button mnemonicParsing="false" onAction="#onNewAlgorithmAction" prefHeight="25.0" prefWidth="173.0"
-                        text="Add New Algorithm"/>
-                <Button mnemonicParsing="false" onAction="#onRemoveAction" prefHeight="25.0" prefWidth="173.0"
-                        text="Remove"/>
+                <ChoiceBox fx:id="availableAlgorithmsChoiceBox" prefHeight="34.0" prefWidth="295.0"
+                           style="-fx-font-family: Calibri; -fx-font-size: 18;"/>
+                <Button mnemonicParsing="false" onAction="#onNewAlgorithmAction" prefWidth="173.0"
+                        style="-fx-font-family: Calibri; -fx-font-size: 18;" text="Add New Algorithm"/>
+                <Button mnemonicParsing="false" onAction="#onRemoveAction" prefWidth="173.0"
+                        style="-fx-font-family: Calibri; -fx-font-size: 18;" text="Remove"/>
             </children>
         </HBox>
     </children>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane" maxHeight="1.7976931348623157E308"
+            maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.202"
+            fx:controller="gui.controller.configurator.ConfiguratorMainPageController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Close"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#resetThisPageMenuOnAction" text="Reset This Page"/>
+                        <MenuItem mnemonicParsing="false" onAction="#resetAllPagesMenuOnAction" text="Reset All Pages"/>
+                        <MenuItem mnemonicParsing="false" onAction="#fillThisPageMenuOnAction" text="Fill This Page"/>
+                        <MenuItem mnemonicParsing="false" onAction="#fillAllPagesMenuOnAction" text="Fill All Pages"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <bottom>
+        <BorderPane BorderPane.alignment="CENTER">
+            <left>
+                <Button fx:id="previousPageButton" mnemonicParsing="false" onAction="#onPreviousButtonAction"
+                        text="Previous" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font name="Calibri" size="16.0"/>
+                    </font>
+                    <graphic>
+                        <Group>
+                            <children>
+                                <SVGPath
+                                        content="M20.914 9.914l-2.829-2.829-8.914 8.914 8.914 8.914 2.828-2.828-6.086-6.086z"/>
+                            </children>
+                        </Group>
+                    </graphic>
+                    <BorderPane.margin>
+                        <Insets right="15.0"/>
+                    </BorderPane.margin>
+                </Button>
+            </left>
+            <right>
+                <Button fx:id="nextPageButton" contentDisplay="RIGHT" mnemonicParsing="false"
+                        onAction="#onNextButtonAction" text="Next" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font name="Calibri" size="16.0"/>
+                    </font>
+                    <graphic>
+                        <Group>
+                            <children>
+                                <SVGPath
+                                        content="M11.086 22.086l2.829 2.829 8.914-8.914-8.914-8.914-2.828 2.828 6.086 6.086z"/>
+                            </children>
+                        </Group>
+                    </graphic>
+                    <BorderPane.margin>
+                        <Insets left="15.0"/>
+                    </BorderPane.margin>
+                </Button>
+            </right>
+            <center>
+                <HBox alignment="CENTER" spacing="15.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button fx:id="runButton" mnemonicParsing="false" onAction="#onRunButtonAction" text="Run">
+                            <font>
+                                <Font name="Calibri" size="16.0"/>
+                            </font>
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath content="M6 4l20 12-20 12z" scaleX="0.75" scaleY="0.75"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#homePageButtonOnAction"
+                                text="Home Page">
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath content="M32 19l-6-6v-9h-4v5l-6-6-16 16v1h4v10h10v-6h4v6h10v-10h4z"
+                                                 scaleX="0.6" scaleY="0.6"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                            <font>
+                                <Font name="Calibri" size="16.0"/>
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </center>
+            <padding>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+            </padding>
+        </BorderPane>
+    </bottom>
+    <opaqueInsets>
+        <Insets/>
+    </opaqueInsets>
+    <left>
+        <TreeView fx:id="treeView" prefHeight="200.0" prefWidth="194.0" showRoot="false"
+                  stylesheets="@../styles/tree_view.css" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="20.0" top="20.0"/>
+            </BorderPane.margin>
+        </TreeView>
+    </left>
+</BorderPane>
