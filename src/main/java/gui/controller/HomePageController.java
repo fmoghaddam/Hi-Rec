@@ -46,6 +46,20 @@ public class HomePageController implements Initializable {
 
     public void goToExecutorPage() {
         setStageContent(executorHomePage.getFirst());
+        executorHomePage.getSecond().execute();
+    }
+
+    public void initializeExecutorPage() {
+        FXMLLoader fxmlLoaderExecutor =
+                new FXMLLoader(getClass().getResource("/views/ExecutorMainPageFXMLView.fxml"));
+        try {
+            Parent root = fxmlLoaderExecutor.load();
+            ExecutorMainPageController controller = fxmlLoaderExecutor.getController();
+            controller.setHomePage(homePage);
+            executorHomePage = new Pair<>(root, controller);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void goToConfiguratorPage() {
@@ -69,24 +83,25 @@ public class HomePageController implements Initializable {
         }
     }
 
+
     @FXML
     void generateConfigButtonOnAction(ActionEvent event) {
-        setStageContent(configuratorHomePage.getFirst());
+        goToConfiguratorPage();
     }
 
     @FXML
     void generateConfigMenuOnAction(ActionEvent event) {
-        setStageContent(configuratorHomePage.getFirst());
+        goToConfiguratorPage();
     }
 
     @FXML
     void runConfigButtonOnAction(ActionEvent event) {
-        setStageContent(executorHomePage.getFirst());
+        goToExecutorPage();
     }
 
     @FXML
     void runConfigMenuOnAction(ActionEvent event) {
-        setStageContent(executorHomePage.getFirst());
+        goToExecutorPage();
     }
 
 
@@ -103,14 +118,7 @@ public class HomePageController implements Initializable {
             e.printStackTrace();
         }
 
-        FXMLLoader fxmlLoaderExecutor = new FXMLLoader(getClass().getResource("/views/ExecutorMainPageFXMLView.fxml"));
-        try {
-            Parent root = fxmlLoaderExecutor.load();
-            ExecutorMainPageController controller = fxmlLoaderExecutor.getController();
-            executorHomePage = new Pair<>(root, controller);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        initializeExecutorPage();
 
 
     }

@@ -15,6 +15,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import util.Pair;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class HiRecGUI extends Application {
 
@@ -34,17 +40,19 @@ public class HiRecGUI extends Application {
     private void showSplashScreen() {
         Stage stage = new Stage();
         StackPane root = new StackPane();
+        root.setStyle("-fx-background-color: transparent");
         root.getChildren().add(new Circle(200, Color.RED));
-        for (int i = 0; i < 180; i += 10) {
+        for (int i = 0; i < 180; i += 50) {
             Rectangle a = new Rectangle(450, 450);
             a.setFill(Color.rgb(i + 70, i + 20, i + 60));
-            RotateTransition transition = new RotateTransition(Duration.seconds(10), a);
-            transition.setFromAngle(360);
-            transition.setToAngle(i);
+            RotateTransition transition = new RotateTransition(Duration.seconds(6), a);
+            transition.setFromAngle(0);
+            transition.setToAngle(i / 5);
 
             transition.setDelay(Duration.seconds(0.5));
             transition.setCycleCount(1);
             transition.play();
+
             transition.setOnFinished(event -> {
 
                 stage.close();
@@ -59,6 +67,7 @@ public class HiRecGUI extends Application {
 
         stage.setScene(scene);
         stage.centerOnScreen();
+        stage.requestFocus();
         stage.setAlwaysOnTop(true);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/icon.png")));
@@ -67,13 +76,28 @@ public class HiRecGUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        showSplashScreen();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/HomePageFXMLView.fxml"));
-        Parent root = fxmlLoader.load();
-        HomePageController controller = fxmlLoader.getController();
-        controller.setStage(stage);
 
-        Scene scene = new Scene(root);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<Pair<Parent, HomePageController>> callable = new Callable<Pair<Parent, HomePageController>>() {
+            @Override
+            public Pair<Parent, HomePageController> call() throws Exception {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/HomePageFXMLView.fxml"));
+                Parent root = fxmlLoader.load();
+                HomePageController controller = fxmlLoader.getController();
+                return new Pair<>(root, controller);
+            }
+        };
+
+        Future<Pair<Parent, HomePageController>> submit = executor.submit(callable);
+        showSplashScreen();
+
+        System.out.println("submit = " + submit);
+        Pair<Parent, HomePageController> parentHomePageControllerPair = submit.get();
+
+
+        parentHomePageControllerPair.getSecond().setStage(stage);
+
+        Scene scene = new Scene(parentHomePageControllerPair.getFirst());
 
         scene.getStylesheets().add("/styles/stylesheet.css");
         stage.setMinHeight(600);

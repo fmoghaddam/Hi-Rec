@@ -29,6 +29,10 @@ public class Navigator {
         return pages.get(currentPageIndex).getSecond();
     }
 
+    public int getCurrentPageIndex() {
+        return currentPageIndex;
+    }
+
     public Parent getNextPage() {
         if (currentPageIndex + 1 < pages.size()) {
             currentPageIndex = currentPageIndex + 1;
@@ -43,6 +47,14 @@ public class Navigator {
         return pages.get(currentPageIndex).getFirst();
     }
 
+    public Parent navigateToIndex(int index) {
+        if (index < 0 || index >= pages.size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        this.currentPageIndex = index;
+        return pages.get(currentPageIndex).getFirst();
+
+    }
     public Parent goToFirstPage() {
         currentPageIndex = 0;
         return pages.get(currentPageIndex).getFirst();
