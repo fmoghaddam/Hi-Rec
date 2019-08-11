@@ -1,13 +1,5 @@
 package algorithms;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.apache.log4j.Logger;
-
 import controller.similarity.LowLevelSimilarityRepository;
 import controller.similarity.TagSimilarityRepository;
 import interfaces.AbstractRecommender;
@@ -15,7 +7,14 @@ import it.unimi.dsi.fastutil.ints.Int2FloatLinkedOpenHashMap;
 import model.DataModel;
 import model.Item;
 import model.User;
+import org.apache.log4j.Logger;
 import util.MapUtil;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * This algorithms is a combination of 2 ItemBased KNN which one of them uses
@@ -56,7 +55,7 @@ public final class HybridTagLowLevel extends AbstractRecommender {
 	 */
 	public HybridTagLowLevel() {
 		final HashMap<String,String> h1 = new HashMap<>();
-		h1.put("NUMBER_OF_NEAREST_NEIGHBOUR","Numbre of nearset neighbor");
+        h1.put("NUMBER_OF_NEAREST_NEIGHBOUR", "Number of nearest neighbor");
 		this.configurableParametersMap.put("numberOfNeighbours", h1);
 	}
 
