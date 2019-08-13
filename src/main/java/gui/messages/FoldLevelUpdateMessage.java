@@ -3,7 +3,7 @@
  */
 package gui.messages;
 
-import gui.model.FoldStatus;
+import gui.pages.FoldStatus;
 
 /**
  * @author Farshad Moghaddam

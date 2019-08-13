@@ -89,9 +89,9 @@ public final class Globals {
         RANDOMIZATION_SEED = Config.getLong("RANDOMIZATION_SEED", null);
         
         RUN_ALGORITHMS_PARALLEL= Config.getBoolean("RUN_ALGORITHMS_PARALLEL");
-        RUN_ALGORITHMS_NUMBER_OF_THREAD = Config.getInt("RUN_ALGORITHMS_NUMBER_OF_THREAD", -1);
+        RUN_ALGORITHMS_NUMBER_OF_THREAD= Config.getInt("RUN_ALGORITHMS_NUMBER_OF_THREAD",null);
         RUN_FOLDS_PARALLEL= Config.getBoolean("RUN_FOLDS_PARALLEL");
-        RUN_FOLDS_NUMBER_OF_THREAD = Config.getInt("RUN_FOLDS_NUMBER_OF_THREAD", -1);
+        RUN_FOLDS_NUMBER_OF_THREAD= Config.getInt("RUN_FOLDS_NUMBER_OF_THREAD",null);
     }
 
     public static

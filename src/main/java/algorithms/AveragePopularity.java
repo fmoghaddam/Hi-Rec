@@ -1,14 +1,15 @@
 package algorithms;
 
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+
 import interfaces.AbstractRecommender;
 import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
 import model.DataModel;
 import model.Item;
 import model.User;
-import org.apache.log4j.Logger;
 import util.MapUtil;
-
-import java.util.Map;
 
 /**
  * This is non-personalized average popularity algorithm which return item
@@ -98,5 +99,4 @@ public final class AveragePopularity extends AbstractRecommender {
 	public String toString() {
 		return "AveragePopularity";
 	}
-
 }

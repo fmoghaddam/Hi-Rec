@@ -1,18 +1,49 @@
 package run;
 
-import com.google.common.eventbus.Subscribe;
-import controller.DataSplitter;
-import controller.similarity.SimilarityRepository;
-import gui.messages.*;
-import gui.model.FoldStatus;
-import interfaces.*;
-import model.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.log4j.Logger;
-import util.*;
 
-import java.util.*;
-import java.util.concurrent.*;
+import com.google.common.eventbus.Subscribe;
+
+import controller.DefaultDataSplitter;
+import controller.GraphLabDataSplitter;
+import controller.similarity.SimilarityRepository;
+import gui.messages.AlgorithmLevelUpdateMessage;
+import gui.messages.CalculationDoneMessage;
+import gui.messages.EnableStopButtonMessage;
+import gui.messages.FoldLevelUpdateMessage;
+import gui.messages.StopAllRequestMessage;
+import gui.pages.FoldStatus;
+import interfaces.AbstractRecommender;
+import interfaces.AccuracyEvaluation;
+import interfaces.DataSplitterInterface;
+import interfaces.ListEvaluation;
+import interfaces.Metric;
+import interfaces.Recommender;
+import model.DataModel;
+import model.DataType;
+import model.Globals;
+import model.Item;
+import model.Rating;
+import model.User;
+import util.ClassInstantiator;
+import util.Config;
+import util.MessageBus;
+import util.PrettyPrinter;
+import util.StatisticFunctions;
 
 /**
  * This is the main executor of all the algorithms. This class read the config
@@ -25,7 +56,7 @@ public final class ParallelEvaluator {
 
 	private static final Logger LOG = Logger.getLogger(ParallelEvaluator.class.getCanonicalName());
 	private final DataModel dataModel;
-	private final DataSplitter dataSpliter;
+	private final DataSplitterInterface dataSpliter;
 	private final Map<Configuration, Map<Metric, List<Float>>> tTestValues = new LinkedHashMap<>();
 	private Object LOCK = new Object();
 
@@ -34,18 +65,15 @@ public final class ParallelEvaluator {
 	
 	public ParallelEvaluator(final DataModel data) {
 		this.dataModel = data;
-		this.dataSpliter = new DataSplitter(this.dataModel.getCopy());
-		this.dataSpliter.shuffle();
+		this.dataSpliter = new DefaultDataSplitter(this.dataModel.getCopy());		
+		//this.dataSpliter = new GraphLabDataSplitter();
 		MessageBus.getInstance().register(this);
 	}
 	
 	@Subscribe
 	private void stopRequestReceived(final StopAllRequestMessage message){
 		foldExecutors.forEach(p->p.shutdownNow());
-		if (algorithmExecutor != null) {
-			algorithmExecutor.shutdownNow();
-		}
-        MessageBus.getInstance().getBus().post(new ShutdownFinishedMessage());
+		algorithmExecutor.shutdownNow();
 	}
 
 	/**
@@ -57,31 +85,22 @@ public final class ParallelEvaluator {
 		final int numberOfConfiguration = Config.getInt("NUMBER_OF_CONFIGURATION", 0);
 		final List<Configuration> configurations = new ArrayList<>();
 		if (numberOfConfiguration <= 0) {
-			throw new IllegalArgumentException("Number of configuration in config file is " + numberOfConfiguration);
+			throw new IllegalArgumentException("Number of configuarion in config file is " + numberOfConfiguration);
 		}
-		LOG.info(numberOfConfiguration + " configurations detected.");
 		AbstractRecommender algorithm = null;
-		boolean useTag;
-		boolean useRating;
-		boolean useLowLevel;
-		boolean useGenre;
+		DataType dataType;		
 		for (int i = 1; i <= numberOfConfiguration; i++) {
 			final String algorithmName = Config.getString("ALGORITHM_" + i + "_NAME", "");
 			try {
-				algorithm = (AbstractRecommender) ClassInstantiator.instantiateClass(algorithmName);
+				algorithm = (AbstractRecommender)ClassInstantiator.instantiateClass("algorithms." + algorithmName);				
 				ClassInstantiator.setParametersDynamically(algorithm, i);
-				LOG.info("Algorithm in package " + algorithmName + " created.");
 			} catch (final Exception e) {
 				LOG.error("Can not load algorithm " + algorithmName, e);
 				System.exit(1);
 			}
-			useLowLevel = Config.getBoolean("ALGORITHM_" + i + "_USE_LOW_LEVEL", false);
-			useRating = Config.getBoolean("ALGORITHM_" + i + "_USE_RATING", false);
-			useTag = Config.getBoolean("ALGORITHM_" + i + "_USE_TAG", false);
-			useGenre = Config.getBoolean("ALGORITHM_" + i + "_USE_GENRE", false);
-			configurations.add(new Configuration(i, algorithm, useLowLevel, useGenre, useTag, useRating));
-			MessageBus.getInstance().getBus().post(
-					new AlgorithmLevelUpdateMessage(i, algorithm.getClass().getSimpleName(), Globals.NUMBER_OF_FOLDS));
+			dataType = DataType.valueOf(Config.getString("ALGORITHM_" + i + "_DATA_TYPE"));
+			configurations.add(new Configuration(i, algorithm, dataType));
+			MessageBus.getInstance().getBus().post(new AlgorithmLevelUpdateMessage(i, algorithmName, Globals.NUMBER_OF_FOLDS));
 		}
 		return configurations;
 	}
@@ -89,11 +108,10 @@ public final class ParallelEvaluator {
 	/**
 	 * Iterate over all the {@link Configuration}s and run them one by one
 	 */
-	public List<Future<ConfigRunResult>> evaluate() {
-		List<Future<ConfigRunResult>> runFutureList = new ArrayList<>();
+	public void evaluate() {
 		final List<Configuration> configurations = readConfigurations();
 		if(Globals.RUN_ALGORITHMS_PARALLEL){
-            if (Globals.RUN_ALGORITHMS_NUMBER_OF_THREAD == -1) {
+			if(Globals.RUN_ALGORITHMS_NUMBER_OF_THREAD==null){
 			algorithmExecutor= Executors
 					.newFixedThreadPool(Runtime.getRuntime().availableProcessors() > configurations.size()
 							? configurations.size() : Runtime.getRuntime().availableProcessors());
@@ -105,30 +123,27 @@ public final class ParallelEvaluator {
 			algorithmExecutor= Executors
 					.newFixedThreadPool(1);
 		}
-		final List<Callable<ConfigRunResult>> tasks = new ArrayList<>();
+		final List<Runnable> tasks = new ArrayList<>();
 		try {
 			for (Configuration configuration : configurations) {
-
-				final Callable<ConfigRunResult> task = () -> {
+				final Runnable task = () -> {
 					LOG.info("This process may take long time. Still running please wait....");
 					LOG.info(configuration + "...");
-					return execute(configuration);
+					execute(configuration);
 				};
 				tasks.add(task);
 			}
-			for (final Callable<ConfigRunResult> task : tasks) {
-				Future<ConfigRunResult> submit = algorithmExecutor.submit(task);
-				runFutureList.add(submit);
+			for (final Runnable task : tasks) {
+				algorithmExecutor.execute(task);
 			}
 			algorithmExecutor.shutdown();
 			algorithmExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 		} catch (final Exception exception) {
-			LOG.error("Execution interrupted");
+			LOG.error("Excecution interupted");
 		}
 		if (Globals.CALCULATE_TTEST) {
 			StatisticFunctions.runTTestAndPrettyPrint(tTestValues);
 		}
-		return runFutureList;
 	}
 
 	/**
@@ -137,14 +152,15 @@ public final class ParallelEvaluator {
 	 * @param configuration
 	 *            Given {@link Configuration}
 	 */
-	private ConfigRunResult execute(final Configuration configuration) {
+	private void execute(final Configuration configuration) {
+		this.dataSpliter.shuffle();
 		final Map<Metric, List<Float>> printResult = new ConcurrentHashMap<>();
 		final ExecutorService executor;
 		if(Globals.RUN_FOLDS_PARALLEL){
-            if (Globals.RUN_FOLDS_NUMBER_OF_THREAD == -1) {
+			if(Globals.RUN_FOLDS_NUMBER_OF_THREAD==null){
 				executor = Executors
 						.newFixedThreadPool(Runtime.getRuntime().availableProcessors() > Globals.NUMBER_OF_FOLDS
-								? Globals.NUMBER_OF_FOLDS : Runtime.getRuntime().availableProcessors());
+								? (int) Globals.NUMBER_OF_FOLDS : Runtime.getRuntime().availableProcessors());
 			}else{
 				executor = Executors
 						.newFixedThreadPool(Globals.RUN_FOLDS_NUMBER_OF_THREAD);
@@ -178,7 +194,7 @@ public final class ParallelEvaluator {
 
 					MessageBus.getInstance().getBus().post(new FoldLevelUpdateMessage(configuration.getId(),foldNumber,FoldStatus.TESTING));
 					configuration.getTimeUtil().setTestTimeStart(foldNumber);
-					handleRatingEvaluation(testData, evalTypes, algorithm);
+					handleRatingEvaluation(testData, trainData,evalTypes, algorithm);
 					handleListEvaluation(trainData, testData, evalTypes, algorithm);
 					configuration.getTimeUtil().setTestTimeEnd(foldNumber);
 
@@ -186,7 +202,8 @@ public final class ParallelEvaluator {
 					LOG.debug("Fold " + foldNumber + " is done.");
 					MessageBus.getInstance().getBus().post(new FoldLevelUpdateMessage(configuration.getId(),foldNumber,FoldStatus.FINISHED));
 				} catch (final Exception exception) {
-					LOG.error("Fold " + foldNumber + " is done with error. Error is " + exception.getMessage());					
+					LOG.error("Fold " + foldNumber + " is done with error. Error is " + exception.getMessage());
+					exception.printStackTrace();
 				}
 			};
 			tasks.add(task);
@@ -196,13 +213,12 @@ public final class ParallelEvaluator {
 		}
 		executor.shutdown();
 		try {
-            MessageBus.getInstance().getBus().post(new ShutdownFinishedMessage());
+			MessageBus.getInstance().getBus().post(new EnableStopButtonMessage());
 			executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 		} catch (final InterruptedException exception) {
 			LOG.error("Execution interupted.");
 		}
 		synchronized (LOCK) {
-
 			LOG.info(configuration + " result is:");
 			LOG.info("Average Train Time: " + configuration.getTimeUtil().getAverageTrainTime() + " seconds");
 			LOG.info("Total Train Time: " + configuration.getTimeUtil().getTotalTrainTime() + " seconds");
@@ -210,17 +226,9 @@ public final class ParallelEvaluator {
 			LOG.info("Total Test Time: " + configuration.getTimeUtil().getTotalTestTime() + " seconds");
 			this.addAverageAndPretyPrintResult(printResult);
 			this.googleDocPrintResult(printResult);
-
 			this.tTestValues.put(configuration, printResult);
 		}
 		MessageBus.getInstance().getBus().post(new CalculationDoneMessage());
-		ConfigRunResult configRunResult = new ConfigRunResult(configuration,
-				configuration.getTimeUtil().getAverageTrainTime(),
-				configuration.getTimeUtil().getTotalTrainTime(),
-				configuration.getTimeUtil().getAverageTestTime(),
-				configuration.getTimeUtil().getTotalTestTime(),
-				printResult);
-		return configRunResult;
 	}
 
 	/**
@@ -240,15 +248,16 @@ public final class ParallelEvaluator {
 					return;
 				}
 				final User user = testData.getUser(userId);
+//				if(user.getItemRating().size()>=5){
+//					continue;
+//				}
+				final long numberOfPositiveItems = user.getItemRating().values().stream()
+                                        .filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
 				if (Globals.USE_ONLY_POSITIVE_RATING_IN_TEST) {
-					final long numberOfPositiveItems = user.getItemRating().values().stream()
-							.filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
 					if (numberOfPositiveItems < Globals.TOP_N) {
 						continue;
 					}
 				} else {
-					final long numberOfPositiveItems = user.getItemRating().values().stream()
-							.filter(p4 -> p4 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
 					if (numberOfPositiveItems == 0) {
 						continue;
 					}
@@ -271,7 +280,7 @@ public final class ParallelEvaluator {
 	 * @param evalTypes
 	 * @param algorithm
 	 */
-	private void handleRatingEvaluation(final DataModel testData, final List<Metric> evalTypes, Recommender algorithm) {
+	private void handleRatingEvaluation(final DataModel testData,final DataModel trainData, final List<Metric> evalTypes, Recommender algorithm) {
 		final Metric hasRatingEvaluator = evalTypes.stream().filter(p1 -> p1 instanceof AccuracyEvaluation).findAny()
 				.orElse(null);
 		if (hasRatingEvaluator != null) {
@@ -280,6 +289,9 @@ public final class ParallelEvaluator {
 					return;
 				}
 				final User testUser = testData.getUser(rating.getUserId());
+//				if(testUser.getItemRating().size()>=5){
+//					continue;
+//				}
 				final long numberOfPositiveItems = testUser.getItemRating().values().stream()
 						.filter(p2 -> p2 >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING).count();
 				if (Globals.USE_ONLY_POSITIVE_RATING_IN_TEST) {
@@ -315,9 +327,9 @@ public final class ParallelEvaluator {
 		for (final Metric evalType : printResult.keySet()) {
 			result.append("=SPLIT(\"").append(evalType).append(",");
 			for (float accuracy : printResult.get(evalType)) {
-				result.append(accuracy).append(",");
+				//result.append(accuracy).append(",");
 			}
-			result.append(mean(printResult.get(evalType))).append("\",\",\")\n");
+			result.append(String.valueOf(mean(printResult.get(evalType)))).append("\",\",\")\n");
 		}
 		LOG.info(result.toString());
 	}
@@ -359,9 +371,9 @@ public final class ParallelEvaluator {
 	 */
 	private synchronized void addAverageAndPretyPrintResult(Map<Metric, List<Float>> printResult) {
 
-		String[][] resultTable = new String[printResult.keySet().size() + 1][(Globals.NUMBER_OF_FOLDS + 2)];
+		String[][] resultTable = new String[printResult.keySet().size() + 1][(int) (Globals.NUMBER_OF_FOLDS + 2)];
 		resultTable[0][0] = "Fold number";
-		resultTable[0][Globals.NUMBER_OF_FOLDS + 1] = "Average";
+		resultTable[0][(int) (Globals.NUMBER_OF_FOLDS + 1)] = "Average";
 		for (int nFold = 1; nFold <= Globals.NUMBER_OF_FOLDS; nFold++) {
 			resultTable[0][nFold] = String.valueOf(nFold);
 		}
@@ -370,7 +382,7 @@ public final class ParallelEvaluator {
 		int nFold = 1;
 		for (final Metric evalType : printResult.keySet()) {
 			resultTable[i][0] = evalType.getClass().getName();
-			resultTable[i][Globals.NUMBER_OF_FOLDS + 1] = String.valueOf(mean(printResult.get(evalType)));
+			resultTable[i][(int) (Globals.NUMBER_OF_FOLDS + 1)] = String.valueOf(mean(printResult.get(evalType)));
 			for (float accuracy : printResult.get(evalType)) {
 				resultTable[i][nFold++] = String.valueOf(accuracy);
 			}
@@ -440,7 +452,7 @@ public final class ParallelEvaluator {
 
 		for (final String algoName : tokens) {
 			try {
-				Object algo = ClassInstantiator.instantiateClass(algoName);
+				Object algo = ClassInstantiator.instantiateClass("algorithms." + algoName);
 				algoList.addAll((Collection<? extends Recommender>) algo);
 			} catch (final Exception exception) {
 				LOG.error("Can not load algorithm " + algoName);
