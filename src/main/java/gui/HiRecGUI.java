@@ -1,6 +1,8 @@
 package gui;
 
+import com.google.common.eventbus.Subscribe;
 import gui.controller.HomePageController;
+import gui.messages.WebPageOpeningRequestMessage;
 import javafx.animation.RotateTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import util.MessageBus;
 import util.Pair;
 
 import java.util.concurrent.Callable;
@@ -33,6 +36,8 @@ public class HiRecGUI extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+
         launch(args);
     }
 
@@ -74,9 +79,14 @@ public class HiRecGUI extends Application {
         stage.showAndWait();
     }
 
+    @Subscribe
+    public void openWebPageRequest(WebPageOpeningRequestMessage webPageOpeningRequestMessage) {
+        getHostServices().showDocument(webPageOpeningRequestMessage.getWebpageURL());
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
-
+        MessageBus.getInstance().register(this);
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Pair<Parent, HomePageController>> callable = new Callable<Pair<Parent, HomePageController>>() {
             @Override
@@ -90,8 +100,6 @@ public class HiRecGUI extends Application {
 
         Future<Pair<Parent, HomePageController>> submit = executor.submit(callable);
         showSplashScreen();
-
-        System.out.println("submit = " + submit);
         Pair<Parent, HomePageController> parentHomePageControllerPair = submit.get();
 
 
