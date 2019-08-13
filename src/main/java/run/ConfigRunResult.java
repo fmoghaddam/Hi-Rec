@@ -83,11 +83,8 @@ public class ConfigRunResult {
             stringBuilder.append(" l");
         }
         stringBuilder.append("}").append("\n");
-        for (int i = 0; i < table.length; i++) {
-
-            for (int j = 0; j < table[i].length; j++) {
-                stringBuilder.append(String.join(" & ", table[i]));
-            }
+        for (int i = 1; i < table.length; i++) {
+            stringBuilder.append(String.join(" & ", table[i]));
             stringBuilder.append("\\\\").append("\n");
         }
 
@@ -101,9 +98,7 @@ public class ConfigRunResult {
 
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < table.length; i++) {
-            for (int j = 0; j < table[i].length; j++) {
-                stringBuilder.append(String.join("\t", table[i]));
-            }
+            stringBuilder.append(String.join("\t", table[i]));
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
