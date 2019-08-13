@@ -4,6 +4,7 @@ import model.DataModel;
 import model.Globals;
 import model.Item;
 import model.Rating;
+import model.User;
 import run.Configuration;
 import util.ArrayUtil;
 
@@ -49,21 +50,33 @@ public final class FactorizationMachineModel {
 	}
 
 	private void initialize() {
-		if (configuration.isUseLowLevel() && configuration.isUseGenre()) {
+		switch (configuration.getDataType()) {
+		case LowLevelFeatureGenre:
 			numberOfFeatures = this.trainDataModel.getItems().entrySet().iterator().next().getValue()
-					.getLowLevelFeature().size()
-					+ this.trainDataModel.getItems().entrySet().iterator().next().getValue().getGenres().size();
-		} else if (configuration.isUseLowLevel()) {
+			.getLowLevelFeature().size()
+			+ this.trainDataModel.getItems().entrySet().iterator().next().getValue().getGenres().size();
+			break;
+		case LowLevelFeature:
 			numberOfFeatures = this.trainDataModel.getItems().entrySet().iterator().next().getValue()
-					.getLowLevelFeature().size();
-		} else if (configuration.isUseGenre()) {
+			.getLowLevelFeature().size();
+			break;
+		case Genre:
 			numberOfFeatures = this.trainDataModel.getItems().entrySet().iterator().next().getValue().getGenres()
-					.size();
-		} else if (configuration.isUseRating()) {
+			.size();
+			break;
+		case Rating:
 			numberOfFeatures = 0;
-		} else if (configuration.isUseTag()) {
+			break;
+		case Tag:
 			throw new UnsupportedOperationException("Factorization machine for tag still not implemented");
+		case Personality:
+			numberOfFeatures = this.trainDataModel.getUsers().entrySet().iterator().next().getValue().getPersonalityValues()
+					.size();
+			break;
+		default:
+			break;
 		}
+			
 		this.w0 = 0;
 		this.w = generateWVector();
 		this.v = generateVMatrix();
@@ -113,8 +126,12 @@ public final class FactorizationMachineModel {
 		 * If item does not exist in train dataset then return NaN
 		 */
 		final Item item = this.trainDataModel.getItem(rating.getItemId());
-		if (item == null) {
-			return Float.NaN;
+		final User user = this.trainDataModel.getUser(rating.getUserId());
+		if(user == null){
+			return 0;
+		}
+		if (item == null) {			
+			return 0;
 		}
 
 		float sum = 0;
@@ -126,7 +143,7 @@ public final class FactorizationMachineModel {
 			firstSum += v[userValue][f];
 			firstSum += v[userValue + itemValue + 1][f];
 
-			final double[] featureAsArray = getFatureArray(item);
+			final double[] featureAsArray = getFeatureArray(item,user);
 			for (int i = (this.numberOfUsers + this.numberOfItems); i < v.length; i++) {
 				final int j = (int) (i - (this.numberOfUsers + this.numberOfItems));
 				firstSum += v[i][f] * featureAsArray[j];
@@ -157,6 +174,10 @@ public final class FactorizationMachineModel {
 		 * If item does not exist in train set then return NaN
 		 */
 		final Item item = this.trainDataModel.getItem(rating.getItemId());
+		final User user = this.trainDataModel.getUser(rating.getUserId());
+		if(user == null){
+			return Float.NaN;
+		}
 		if (item == null) {
 			return Float.NaN;
 		}
@@ -166,7 +187,7 @@ public final class FactorizationMachineModel {
 
 		float sum = userValue + itemValue;
 
-		final double[] featureAsArray = getFatureArray(item);
+		final double[] featureAsArray = getFeatureArray(item,user);
 		for (int i = (this.numberOfUsers + this.numberOfItems); i < w.length; i++) {
 			final int j = (int) (i - (this.numberOfUsers + this.numberOfItems));
 			sum += w[i] * featureAsArray[j];
@@ -198,17 +219,25 @@ public final class FactorizationMachineModel {
 		return this.trainDataModel;
 	}
 
-	public double[] getFatureArray(final Item item) {
+	public double[] getFeatureArray(final Item item,final User user) {
 		final double[] featureAsArray;
-		if (configuration.isUseLowLevel() && configuration.isUseGenre()) {
+		switch (configuration.getDataType()) {
+		case LowLevelFeatureGenre:
 			featureAsArray = ArrayUtil.concatAll(item.getLowLevelFeatureAsArray(), item.getGenresAsArray());
-		} else if (configuration.isUseLowLevel()) {
+			break;
+		case LowLevelFeature:
 			featureAsArray = item.getLowLevelFeatureAsArray();
-		} else if (configuration.isUseGenre()) {
+			break;
+		case Genre:
 			featureAsArray = item.getGenresAsArray();
-		} else {
+			break;
+		case Personality:
+			featureAsArray = user.getPersonalityAsArray();
+			break;
+		default:
 			featureAsArray = new double[0];
-		}
+			break;
+		}		
 		return featureAsArray;
 	}
 

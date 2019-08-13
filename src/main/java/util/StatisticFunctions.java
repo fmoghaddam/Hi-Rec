@@ -3,6 +3,7 @@ package util;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.Map.Entry;
 
 import org.apache.commons.math3.stat.inference.TTest;
@@ -31,6 +32,10 @@ public class StatisticFunctions {
 	}
     }
 
+    public static double generateRandomNumber(){
+        return random.nextDouble();
+    }
+    
     private static double ran_gaussian() {
 	return randomness.nextGaussian();
     }
@@ -60,9 +65,6 @@ public class StatisticFunctions {
                 if(configuration2.equals(configuration1)){
                     continue;
                 }
-//                if(!configuration1.getAlgorithm().toString().equals(configuration2.getAlgorithm().toString())){
-//                    continue;
-//                }
 
                 final String[][] resultTable = new String[2][configuration1Value.keySet().size()+1];
                 int c = 1;
@@ -98,5 +100,9 @@ public class StatisticFunctions {
             }
         }
         
+    }
+    
+    public static int generateRandomInt(final int min, final int max){
+    	return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 }

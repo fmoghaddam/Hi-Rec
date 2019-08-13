@@ -72,6 +72,9 @@ public final class PredictionCoverage
             boolean equals(
                     Object obj)
     {
+        if(obj==null){
+            throw new IllegalArgumentException("Obj is null");
+        }
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {

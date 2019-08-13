@@ -1,4 +1,4 @@
-package algorithms.fatorizationmachine;
+package gui.model;
 
 /**
  * This enum contains all the learning methods
@@ -8,5 +8,6 @@ package algorithms.fatorizationmachine;
  */
 public enum LearningMethod {
     SGD,
+    MCMC,
     ALS;
 }

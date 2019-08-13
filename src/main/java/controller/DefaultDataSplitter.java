@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 
+import interfaces.DataSplitterInterface;
 import model.DataModel;
 import model.Globals;
 
@@ -14,17 +15,17 @@ import model.Globals;
  * @author FBM
  *
  */
-public final class DataSplitter {
+public final class DefaultDataSplitter implements DataSplitterInterface{
 
     /**
      * Logger for this class
      */
     private Logger LOG = Logger
-            .getLogger(DataSplitter.class.getCanonicalName());
+            .getLogger(DefaultDataSplitter.class.getCanonicalName());
 
     private final DataModel dataModel;
 
-    public DataSplitter(
+    public DefaultDataSplitter(
             final DataModel dataModel)
     {
         this.dataModel = dataModel;

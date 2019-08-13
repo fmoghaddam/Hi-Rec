@@ -35,7 +35,7 @@ public final class FactorizationMachine extends AbstractRecommender {
 	 */
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(FactorizationMachine.class.getCanonicalName());
-	private FactorizationMachineModel model;
+	private transient FactorizationMachineModel model;
 	private Configuration configuration;
 	/**
 	 * Number of features

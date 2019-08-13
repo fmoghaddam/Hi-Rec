@@ -48,12 +48,16 @@ public final class Recall
             if (listLengthThreshold>=Globals.AT_N) {
                 break;
             }
+//            if(entry.getValue()<Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
+//            	break;
+//            }
             if (user.getItemRating().containsKey(entry.getKey())) {
-                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
+                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING &&
+                		entry.getValue()>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING ) {
                     truePositive++;
                 }
+                listLengthThreshold++;
             }
-            listLengthThreshold++;
         }
         
         recall = (recall + truePositive / userOriginalList.size());
@@ -97,6 +101,9 @@ public final class Recall
             boolean equals(
                     Object obj)
     {
+        if(obj==null){
+            throw new IllegalArgumentException("Obj is null");
+        }
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {

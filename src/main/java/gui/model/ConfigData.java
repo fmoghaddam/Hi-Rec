@@ -26,6 +26,9 @@ public class ConfigData {
 
 	public StringProperty RATING_FILE_PATH = new SimpleStringProperty();
 	public StringProperty RATING_FILE_SEPARATOR = new SimpleStringProperty();
+	
+	public StringProperty PERSONALITY_FILE_PATH = new SimpleStringProperty();
+	public StringProperty PERSONALITY_FILE_SEPARATOR = new SimpleStringProperty();
 
 	public StringProperty NUMBER_OF_FOLDS = new SimpleStringProperty();
 	public StringProperty RANDOMIZATION_SEED = new SimpleStringProperty();

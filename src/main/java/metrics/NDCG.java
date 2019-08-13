@@ -47,12 +47,14 @@ public class NDCG
             if (listLengthThreshold >= Globals.AT_N) {
                 break;
             }
-            listLengthThreshold++;
+//            if(entry.getValue()<Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
+//            	break;
+//            }
             if (user.getItemRating().containsKey(entry.getKey())) {
+            	listLengthThreshold++;
                 if (user.getItemRating().get((int)entry
-                        .getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
-                {
-                    dcg += (1.0 / (Math.log(listLengthThreshold + 1) / log2));
+                        .getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING && entry.getValue()>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING ) {
+                    dcg += (1.0 / (Math.log(listLengthThreshold+ 1) / log2));
                 }
             }
         }
@@ -105,6 +107,9 @@ public class NDCG
             boolean equals(
                     Object obj)
     {
+        if(obj==null){
+            throw new IllegalArgumentException("Obj is null");
+        }
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {

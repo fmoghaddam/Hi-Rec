@@ -104,4 +104,9 @@ public final class TagSimilarityRepository
         }
     }
 
+	@Override
+	public Float getUserSimilarity(int userId1, int userId2) {
+		throw new UnsupportedOperationException("TagSimilarity dose not support userbasedNN");
+	}
+
 }

@@ -119,4 +119,9 @@ public final class GenreSimilarityRepository
             return Float.NaN;
         }
     }
+
+	@Override
+	public Float getUserSimilarity(int userId1, int userId2) {
+		throw new UnsupportedOperationException("GenreSimilarity dose not support userbasedNN");
+	}
 }

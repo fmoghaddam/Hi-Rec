@@ -2,6 +2,7 @@ package algorithms.funksvd;
 
 import java.util.Random;
 
+import interfaces.Learner;
 import util.StatisticFunctions;
 
 /**
@@ -67,14 +68,14 @@ public final class GradientDescentSVDLearner implements Learner{
 	 * @return the dot product
 	 */
 	@Override
-	public double getResult(final int i, final int j) {
+	public Float getResult(final int i, final int j) {
 		double result = 0.0;
 		double[] leftVectorI = leftVector[i];
 		double[] rightVectorJ = rightVector[j];
 		for (int k = 0; k < this.k; k++) {
 			result += leftVectorI[k] * rightVectorJ[k];
 		}
-		return result;
+		return (float) result;
 	}
 
 	/**

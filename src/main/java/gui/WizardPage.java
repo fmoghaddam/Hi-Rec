@@ -94,11 +94,11 @@ public abstract class WizardPage extends VBox {
 
 	protected boolean validate(){
 		return true;
-	};
+	}
 
 	protected void reloadIfNeeded(){
 		
-	};
+	}
 
 	protected boolean shouldHideNext() {
 		return false;

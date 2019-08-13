@@ -43,7 +43,7 @@ public class AlgorithmVisualComponent {
 		final VBox circles = new VBox(5.0);
 		for(CircleComponent c:circleMap.values()){
 			circles.getChildren().add(c.getLayout());
-		};
+		}
 
 		final VBox main = new VBox(5.0, algorithmName, circles);
 		main.setMinWidth(320);
@@ -76,6 +76,7 @@ public class AlgorithmVisualComponent {
 					circleComponent.setColor(Color.GREENYELLOW);
 					circleComponent.stopBlinking();
 					circleComponent.setStatusLabel(FoldStatus.FINISHED.getText());
+					break;
 				default:
 					break;
 				}

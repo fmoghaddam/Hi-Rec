@@ -132,4 +132,9 @@ public final class LowLevelGenreSimilarityRepository
         }
     }
 
+	@Override
+	public Float getUserSimilarity(int userId1, int userId2) {
+		throw new UnsupportedOperationException("LowLevelGenreSimilarity dose not support userbasedNN");
+	}
+
 }
