@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -53,7 +52,7 @@
                                 <Font name="Calibri Bold" size="22.0"/>
                             </font>
                         </Hyperlink>
-                        <Hyperlink onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
+                        <Hyperlink onAction="#clickOnUserProfileHyperlink" style="-fx-border-color: transparent;"
                                    text="Reza Hosseini" GridPane.rowIndex="3">
                             <font>
                                 <Font name="Calibri Bold" size="22.0"/>

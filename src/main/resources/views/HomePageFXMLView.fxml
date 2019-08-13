@@ -9,30 +9,12 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootAnchorPane" maxWidth="1.7976931348623157E308"
             xmlns="http://javafx.com/javafx/8.0.202" fx:controller="gui.controller.HomePageController">
     <children>
-        <MenuBar layoutX="110.0" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                 AnchorPane.topAnchor="0.0">
-            <menus>
-                <Menu mnemonicParsing="false" text="New">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#generateConfigMenuOnAction"
-                                  text="Create Configuration"/>
-                        <MenuItem mnemonicParsing="false" onAction="#runConfigMenuOnAction" text="Run Configuration"/>
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#aboutMenuOnAction" text="About"/>
-                        <MenuItem mnemonicParsing="false" text="Help"/>
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
         <VBox alignment="CENTER" layoutX="40.0" layoutY="72.0" prefHeight="533.0" prefWidth="706.0" spacing="20.0"
               AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0"
               AnchorPane.topAnchor="60.0">
             <children>
-                <Button graphicTextGap="10.0" mnemonicParsing="false" onAction="#runConfigButtonOnAction"
-                        prefHeight="55.0" text="Run Recommender">
+                <Button fx:id="runButton" graphicTextGap="10.0" mnemonicParsing="false"
+                        onAction="#runConfigButtonOnAction" prefHeight="55.0" text="Run Recommender">
                     <font>
                         <Font name="Calibri" size="20.0"/>
                     </font>
@@ -72,7 +54,8 @@
                         </Group>
                     </graphic>
                 </Button>
-                <Button graphicTextGap="10.0" mnemonicParsing="false" prefHeight="55.0" text="Help">
+                <Button graphicTextGap="10.0" mnemonicParsing="false" onAction="#onHelpButtonAction" prefHeight="55.0"
+                        text="Help">
                     <font>
                         <Font name="Calibri" size="20.0"/>
                     </font>
@@ -86,6 +69,27 @@
                     <VBox.margin>
                         <Insets top="50.0"/>
                     </VBox.margin>
+                    <graphic>
+                        <Group>
+                            <children>
+                                <SVGPath
+                                        content="M14 22h4v4h-4zM22 8c1.105 0 2 0.895 2 2v6l-6 4h-4v-2l6-4v-2h-10v-4h12zM16 3c-3.472 0-6.737 1.352-9.192 3.808s-3.808 5.72-3.808 9.192c0 3.472 1.352 6.737 3.808 9.192s5.72 3.808 9.192 3.808c3.472 0 6.737-1.352 9.192-3.808s3.808-5.72 3.808-9.192c0-3.472-1.352-6.737-3.808-9.192s-5.72-3.808-9.192-3.808zM16 0v0c8.837 0 16 7.163 16 16s-7.163 16-16 16c-8.837 0-16-7.163-16-16s7.163-16 16-16z"/>
+                            </children>
+                        </Group>
+                    </graphic>
+                </Button>
+                <Button graphicTextGap="10.0" mnemonicParsing="false" onAction="#onAboutUsButtonAction"
+                        prefHeight="55.0" text="About Us">
+                    <font>
+                        <Font name="Calibri" size="20.0"/>
+                    </font>
+                    <tooltip>
+                        <Tooltip text="Need help? Read the help section">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                        </Tooltip>
+                    </tooltip>
                     <graphic>
                         <Group>
                             <children>

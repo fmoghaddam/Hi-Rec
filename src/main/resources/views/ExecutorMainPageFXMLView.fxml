@@ -9,16 +9,8 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="764.0" prefWidth="831.0"
             xmlns="http://javafx.com/javafx/8.0.202" fx:controller="gui.controller.executor.ExecutorMainPageController">
     <children>
-        <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <menus>
-                <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#runConfigMenuOnAction" text="Run Config File"/>
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-        <VBox layoutY="25.0" spacing="15.0">
+        <VBox layoutY="25.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <SplitPane dividerPositions="0.75" orientation="VERTICAL" prefHeight="715.0" prefWidth="831.0">
                     <items>
