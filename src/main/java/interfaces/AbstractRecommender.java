@@ -1,21 +1,25 @@
 package interfaces;
 
-import model.DataModel;
-import model.Item;
-import model.User;
-
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
+import model.DataModel;
+import model.DataType;
+import model.Item;
+import model.User;
+import util.MapUtil;
 
 /**
  * @author FBM
  *
  */
-public abstract class AbstractRecommender implements Recommender, Serializable {
+public class AbstractRecommender implements Recommender,Serializable {
 
 	private static final long serialVersionUID = -7339073808310101731L;
-	protected DataModel trainDataModel;
+	protected transient DataModel trainDataModel;
+	private DataType dataType;
 	/**
 	 * A map which contains information about the fields name in the class
 	 * and the related key in config file.
@@ -23,11 +27,11 @@ public abstract class AbstractRecommender implements Recommender, Serializable {
 	 * Value = Map<config file key,pretty name>
 	 * pretty name used in GUI
 	 */
-	protected final Map<String,Map<String,String>> configurableParametersMap = new HashMap<>();
+	protected transient final Map<String,Map<String,String>> configurableParametersMap = new HashMap<>();
 	/**
 	 * Repository used for calculating similarities
 	 */
-	protected SimilarityInterface similarityRepository;
+	protected transient SimilarityInterface similarityRepository;
 	
 	/* (non-Javadoc)
 	 * @see interfaces.Recommender#predictRating(model.User, model.Item)
@@ -42,7 +46,17 @@ public abstract class AbstractRecommender implements Recommender, Serializable {
 	 */
 	@Override
 	public Map<Integer, Float> recommendItems(User user) {
-		return null;
+		final Map<Integer, Float> predictions = new LinkedHashMap<Integer, Float>();
+
+		for (final Item item : trainDataModel.getItems().values()) {
+			final int itemId = item.getId();
+			final float predictRating = predictRating(user, item);
+			if (!Float.isNaN(predictRating)) {
+				predictions.put(itemId, predictRating);
+			}
+		}
+		final Map<Integer, Float> sortByComparator = MapUtil.sortByValueDescending(predictions);
+		return sortByComparator;
 	}
 
 	/* (non-Javadoc)
@@ -87,6 +101,14 @@ public abstract class AbstractRecommender implements Recommender, Serializable {
 	@Override
 	public Map<String,Map<String,String>> getConfigurabaleParameters() {
 		return this.configurableParametersMap;
+	}
+
+	public DataType getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(DataType dataType) {
+		this.dataType = dataType;
 	}
 
 }
