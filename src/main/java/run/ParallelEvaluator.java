@@ -42,7 +42,9 @@ public final class ParallelEvaluator {
 	@Subscribe
 	private void stopRequestReceived(final StopAllRequestMessage message){
 		foldExecutors.forEach(p->p.shutdownNow());
-		algorithmExecutor.shutdownNow();
+		if (algorithmExecutor != null) {
+			algorithmExecutor.shutdownNow();
+		}
         MessageBus.getInstance().getBus().post(new ShutdownFinishedMessage());
 	}
 
@@ -55,8 +57,9 @@ public final class ParallelEvaluator {
 		final int numberOfConfiguration = Config.getInt("NUMBER_OF_CONFIGURATION", 0);
 		final List<Configuration> configurations = new ArrayList<>();
 		if (numberOfConfiguration <= 0) {
-			throw new IllegalArgumentException("Number of configuarion in config file is " + numberOfConfiguration);
+			throw new IllegalArgumentException("Number of configuration in config file is " + numberOfConfiguration);
 		}
+		LOG.info(numberOfConfiguration + " configurations detected.");
 		AbstractRecommender algorithm = null;
 		boolean useTag;
 		boolean useRating;
@@ -65,8 +68,9 @@ public final class ParallelEvaluator {
 		for (int i = 1; i <= numberOfConfiguration; i++) {
 			final String algorithmName = Config.getString("ALGORITHM_" + i + "_NAME", "");
 			try {
-				algorithm = (AbstractRecommender)ClassInstantiator.instantiateClass("algorithms." + algorithmName);				
+				algorithm = (AbstractRecommender) ClassInstantiator.instantiateClass(algorithmName);
 				ClassInstantiator.setParametersDynamically(algorithm, i);
+				LOG.info("Algorithm in package " + algorithmName + " created.");
 			} catch (final Exception e) {
 				LOG.error("Can not load algorithm " + algorithmName, e);
 				System.exit(1);
@@ -76,7 +80,8 @@ public final class ParallelEvaluator {
 			useTag = Config.getBoolean("ALGORITHM_" + i + "_USE_TAG", false);
 			useGenre = Config.getBoolean("ALGORITHM_" + i + "_USE_GENRE", false);
 			configurations.add(new Configuration(i, algorithm, useLowLevel, useGenre, useTag, useRating));
-			MessageBus.getInstance().getBus().post(new AlgorithmLevelUpdateMessage(i, algorithmName, Globals.NUMBER_OF_FOLDS));
+			MessageBus.getInstance().getBus().post(
+					new AlgorithmLevelUpdateMessage(i, algorithm.getClass().getSimpleName(), Globals.NUMBER_OF_FOLDS));
 		}
 		return configurations;
 	}
@@ -118,7 +123,7 @@ public final class ParallelEvaluator {
 			algorithmExecutor.shutdown();
 			algorithmExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 		} catch (final Exception exception) {
-			LOG.error("Excecution interupted");
+			LOG.error("Execution interrupted");
 		}
 		if (Globals.CALCULATE_TTEST) {
 			StatisticFunctions.runTTestAndPrettyPrint(tTestValues);
@@ -435,7 +440,7 @@ public final class ParallelEvaluator {
 
 		for (final String algoName : tokens) {
 			try {
-				Object algo = ClassInstantiator.instantiateClass("algorithms." + algoName);
+				Object algo = ClassInstantiator.instantiateClass(algoName);
 				algoList.addAll((Collection<? extends Recommender>) algo);
 			} catch (final Exception exception) {
 				LOG.error("Can not load algorithm " + algoName);
