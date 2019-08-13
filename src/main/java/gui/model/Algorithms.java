@@ -13,7 +13,7 @@ public enum Algorithms {
 
 	private StringProperty text;
 
-	private Algorithms(String text) {
+    Algorithms(String text) {
 		this.text = new SimpleStringProperty(text);
 	}
 

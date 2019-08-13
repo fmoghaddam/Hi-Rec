@@ -25,7 +25,7 @@ public enum Metrics {
 
 	private StringProperty text;
 
-	private Metrics(String text) {
+	Metrics(String text) {
 		this.text = new SimpleStringProperty(text);
 	}
 

@@ -1,11 +1,5 @@
 package algorithms;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-
 import algorithms.fatorizationmachine.FactorizationMachineModel;
 import algorithms.fatorizationmachine.SGDLearner;
 import controller.similarity.SimilarityRepository;
@@ -15,8 +9,13 @@ import model.DataModel;
 import model.Item;
 import model.Rating;
 import model.User;
+import org.apache.log4j.Logger;
 import run.Configuration;
 import util.MapUtil;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * This is Factorization Machine algorithm based on: "Factorization Machines",
@@ -53,7 +52,7 @@ public final class FactorizationMachine extends AbstractRecommender {
 
 	public FactorizationMachine() {
 		final HashMap<String, String> h1 = new HashMap<String, String>();
-		h1.put("NUMBER_OF_FEATURES_FOR_FM","Numbre of latent factor");
+        h1.put("NUMBER_OF_FEATURES_FOR_FM", "Number of latent factor");
 		this.configurableParametersMap.put("numberOfLatentFactors", h1);
 		
 		final HashMap<String, String> h2 = new HashMap<String, String>();

@@ -13,13 +13,21 @@ public enum Separator {
 	Tab("\\t");
 	
 	private StringProperty text;
-	
-	/**
-	 * 
-	 */
-	private Separator(String text) {
+
+	Separator(String text) {
 		this.text = new SimpleStringProperty(text);
 	}
+
+    public static Separator fromString(String separator) {
+        if (separator.equals(Comma.getText().getValue())) {
+            return Comma;
+        } else if (separator.equals(SemiColon.getText().getValue())) {
+            return SemiColon;
+        } else if (separator.equals(Tab.getText().getValue())) {
+            return Tab;
+        }
+        return null;
+    }
 	
 	public StringProperty getText(){
 		return text;

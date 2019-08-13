@@ -17,9 +17,11 @@ public class Config {
 	private static final Logger LOG = Logger.getLogger(Config.class.getSimpleName());
 	private static ReloadingFileBasedConfigurationBuilder<FileBasedConfiguration> builder;
 
+
 	static {
 		final Parameters params = new Parameters();
-		builder = new ReloadingFileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration.class).configure(params.fileBased().setFileName("config.properties"));
+        builder = new ReloadingFileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration.class)
+                .configure(params.fileBased().setFileName("config.properties"));
 		builder.setAutoSave(true);
 		builder.addEventListener(ConfigurationBuilderEvent.CONFIGURATION_REQUEST,
 				event -> builder.getReloadingController().checkForReloading(null));
@@ -77,17 +79,6 @@ public class Config {
 		}
 	}
 
-	public static Integer getInt(final String key, final Integer def) {
-		try {
-			final String value = builder.getConfiguration().getString(key);
-			return Integer.parseInt(value);
-		} catch (final NumberFormatException exception) {
-			return def;
-		} catch (final Exception exception) {
-			LOG.error(key + "-" + exception.getMessage() + ". " + def + " will be returned");
-			return def;
-		}
-	}
 
 	public static int getInt(final String key) {
 		try {
@@ -125,8 +116,8 @@ public class Config {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private static void add() {
+
+    private static void add() {
 		try {
 			FileHandler handler = new FileHandler(builder.getConfiguration());
 			builder.getConfiguration().addProperty("XXXXXXX", "XXXXXXXX");
@@ -136,11 +127,6 @@ public class Config {
 		}
 	}
 
-	/**
-	 * @param string
-	 * @param b
-	 * @return
-	 */
 	public static boolean getBoolean(final String key, final boolean def) {
 		try {
 			final String value = builder.getConfiguration().getString(key);

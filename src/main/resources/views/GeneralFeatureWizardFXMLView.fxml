@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxHeight="1.7976931348623157E308"
+      maxWidth="1.7976931348623157E308" prefHeight="704.0" prefWidth="549.0" spacing="15.0"
+      xmlns="http://javafx.com/javafx/8.0.202"
+      fx:controller="gui.controller.configurator.GeneralFeatureWizardController">
+    <children>
+        <Label text="Global Settings">
+            <font>
+                <Font name="Calibri Bold" size="24.0"/>
+            </font>
+        </Label>
+        <VBox alignment="CENTER" styleClass="box-style-1" stylesheets="@../styles/stylesheet.css"
+              VBox.vgrow="SOMETIMES">
+            <children>
+                <GridPane hgap="15.0" vgap="15.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+                                           prefWidth="180.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+                                           prefWidth="80.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+                                           prefWidth="250.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+                                           prefWidth="80.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints vgrow="SOMETIMES"/>
+                        <RowConstraints vgrow="SOMETIMES"/>
+                        <RowConstraints vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <Label text="Similarity Function:">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.301 0 9.6-4.298 9.6-9.601 0-5.301-4.299-9.599-9.6-9.599zM9.849 15.599h-0.051c-0.782-0.023-1.334-0.6-1.311-1.371 0.022-0.758 0.587-1.309 1.343-1.309l0.046 0.002c0.804 0.023 1.35 0.594 1.327 1.387-0.023 0.76-0.578 1.291-1.354 1.291zM13.14 9.068c-0.184 0.26-0.588 0.586-1.098 0.983l-0.562 0.387c-0.308 0.24-0.494 0.467-0.563 0.688-0.056 0.174-0.082 0.221-0.087 0.576v0.090h-2.145l0.006-0.182c0.027-0.744 0.045-1.184 0.354-1.547 0.485-0.568 1.555-1.258 1.6-1.287 0.154-0.115 0.283-0.246 0.379-0.387 0.225-0.311 0.324-0.555 0.324-0.793 0-0.334-0.098-0.643-0.293-0.916-0.188-0.266-0.545-0.398-1.061-0.398-0.512 0-0.863 0.162-1.072 0.496-0.216 0.341-0.325 0.7-0.325 1.067v0.092h-2.211l0.004-0.096c0.057-1.353 0.541-2.328 1.435-2.897 0.563-0.361 1.264-0.544 2.081-0.544 1.068 0 1.972 0.26 2.682 0.772 0.721 0.519 1.086 1.297 1.086 2.311-0.001 0.567-0.18 1.1-0.534 1.585z"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                        </Label>
+                        <Label text="Top N:" GridPane.rowIndex="1">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.301 0 9.6-4.298 9.6-9.601 0-5.301-4.299-9.599-9.6-9.599zM9.849 15.599h-0.051c-0.782-0.023-1.334-0.6-1.311-1.371 0.022-0.758 0.587-1.309 1.343-1.309l0.046 0.002c0.804 0.023 1.35 0.594 1.327 1.387-0.023 0.76-0.578 1.291-1.354 1.291zM13.14 9.068c-0.184 0.26-0.588 0.586-1.098 0.983l-0.562 0.387c-0.308 0.24-0.494 0.467-0.563 0.688-0.056 0.174-0.082 0.221-0.087 0.576v0.090h-2.145l0.006-0.182c0.027-0.744 0.045-1.184 0.354-1.547 0.485-0.568 1.555-1.258 1.6-1.287 0.154-0.115 0.283-0.246 0.379-0.387 0.225-0.311 0.324-0.555 0.324-0.793 0-0.334-0.098-0.643-0.293-0.916-0.188-0.266-0.545-0.398-1.061-0.398-0.512 0-0.863 0.162-1.072 0.496-0.216 0.341-0.325 0.7-0.325 1.067v0.092h-2.211l0.004-0.096c0.057-1.353 0.541-2.328 1.435-2.897 0.563-0.361 1.264-0.544 2.081-0.544 1.068 0 1.972 0.26 2.682 0.772 0.721 0.519 1.086 1.297 1.086 2.311-0.001 0.567-0.18 1.1-0.534 1.585z"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                        </Label>
+                        <Label text="Min value for positive ratings:" GridPane.columnIndex="2">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.301 0 9.6-4.298 9.6-9.601 0-5.301-4.299-9.599-9.6-9.599zM9.849 15.599h-0.051c-0.782-0.023-1.334-0.6-1.311-1.371 0.022-0.758 0.587-1.309 1.343-1.309l0.046 0.002c0.804 0.023 1.35 0.594 1.327 1.387-0.023 0.76-0.578 1.291-1.354 1.291zM13.14 9.068c-0.184 0.26-0.588 0.586-1.098 0.983l-0.562 0.387c-0.308 0.24-0.494 0.467-0.563 0.688-0.056 0.174-0.082 0.221-0.087 0.576v0.090h-2.145l0.006-0.182c0.027-0.744 0.045-1.184 0.354-1.547 0.485-0.568 1.555-1.258 1.6-1.287 0.154-0.115 0.283-0.246 0.379-0.387 0.225-0.311 0.324-0.555 0.324-0.793 0-0.334-0.098-0.643-0.293-0.916-0.188-0.266-0.545-0.398-1.061-0.398-0.512 0-0.863 0.162-1.072 0.496-0.216 0.341-0.325 0.7-0.325 1.067v0.092h-2.211l0.004-0.096c0.057-1.353 0.541-2.328 1.435-2.897 0.563-0.361 1.264-0.544 2.081-0.544 1.068 0 1.972 0.26 2.682 0.772 0.721 0.519 1.086 1.297 1.086 2.311-0.001 0.567-0.18 1.1-0.534 1.585z"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                        </Label>
+                        <CheckBox fx:id="dropMostPopularItemsCheckBox" mnemonicParsing="false"
+                                  text="Drop most popular items:" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.301 0 9.6-4.298 9.6-9.601 0-5.301-4.299-9.599-9.6-9.599zM9.849 15.599h-0.051c-0.782-0.023-1.334-0.6-1.311-1.371 0.022-0.758 0.587-1.309 1.343-1.309l0.046 0.002c0.804 0.023 1.35 0.594 1.327 1.387-0.023 0.76-0.578 1.291-1.354 1.291zM13.14 9.068c-0.184 0.26-0.588 0.586-1.098 0.983l-0.562 0.387c-0.308 0.24-0.494 0.467-0.563 0.688-0.056 0.174-0.082 0.221-0.087 0.576v0.090h-2.145l0.006-0.182c0.027-0.744 0.045-1.184 0.354-1.547 0.485-0.568 1.555-1.258 1.6-1.287 0.154-0.115 0.283-0.246 0.379-0.387 0.225-0.311 0.324-0.555 0.324-0.793 0-0.334-0.098-0.643-0.293-0.916-0.188-0.266-0.545-0.398-1.061-0.398-0.512 0-0.863 0.162-1.072 0.496-0.216 0.341-0.325 0.7-0.325 1.067v0.092h-2.211l0.004-0.096c0.057-1.353 0.541-2.328 1.435-2.897 0.563-0.361 1.264-0.544 2.081-0.544 1.068 0 1.972 0.26 2.682 0.772 0.721 0.519 1.086 1.297 1.086 2.311-0.001 0.567-0.18 1.1-0.534 1.585z"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                        </CheckBox>
+                        <CheckBox fx:id="tTestCheckbox" mnemonicParsing="false" text="Calculate T-Test:"
+                                  GridPane.columnIndex="2" GridPane.rowIndex="2">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.301 0 9.6-4.298 9.6-9.601 0-5.301-4.299-9.599-9.6-9.599zM9.849 15.599h-0.051c-0.782-0.023-1.334-0.6-1.311-1.371 0.022-0.758 0.587-1.309 1.343-1.309l0.046 0.002c0.804 0.023 1.35 0.594 1.327 1.387-0.023 0.76-0.578 1.291-1.354 1.291zM13.14 9.068c-0.184 0.26-0.588 0.586-1.098 0.983l-0.562 0.387c-0.308 0.24-0.494 0.467-0.563 0.688-0.056 0.174-0.082 0.221-0.087 0.576v0.090h-2.145l0.006-0.182c0.027-0.744 0.045-1.184 0.354-1.547 0.485-0.568 1.555-1.258 1.6-1.287 0.154-0.115 0.283-0.246 0.379-0.387 0.225-0.311 0.324-0.555 0.324-0.793 0-0.334-0.098-0.643-0.293-0.916-0.188-0.266-0.545-0.398-1.061-0.398-0.512 0-0.863 0.162-1.072 0.496-0.216 0.341-0.325 0.7-0.325 1.067v0.092h-2.211l0.004-0.096c0.057-1.353 0.541-2.328 1.435-2.897 0.563-0.361 1.264-0.544 2.081-0.544 1.068 0 1.972 0.26 2.682 0.772 0.721 0.519 1.086 1.297 1.086 2.311-0.001 0.567-0.18 1.1-0.534 1.585z"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                        </CheckBox>
+                        <ChoiceBox fx:id="similarityChoice" prefWidth="150.0"
+                                   style="-fx-font-family: Calibri; -fx-font-size: 16;" GridPane.columnIndex="1"/>
+                        <TextField fx:id="topNTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <font>
+                                <Font name="Calibri" size="16.0"/>
+                            </font>
+                        </TextField>
+                        <TextField fx:id="minimumRatingForPositiveRatingTextField" GridPane.columnIndex="3">
+                            <font>
+                                <Font name="Calibri" size="16.0"/>
+                            </font>
+                        </TextField>
+                        <TextField fx:id="dropMostPopularItemsTextField" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                            <font>
+                                <Font name="Calibri" size="16.0"/>
+                            </font>
+                        </TextField>
+                        <Label text="\@N" GridPane.rowIndex="2">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.301 0 9.6-4.298 9.6-9.601 0-5.301-4.299-9.599-9.6-9.599zM9.849 15.599h-0.051c-0.782-0.023-1.334-0.6-1.311-1.371 0.022-0.758 0.587-1.309 1.343-1.309l0.046 0.002c0.804 0.023 1.35 0.594 1.327 1.387-0.023 0.76-0.578 1.291-1.354 1.291zM13.14 9.068c-0.184 0.26-0.588 0.586-1.098 0.983l-0.562 0.387c-0.308 0.24-0.494 0.467-0.563 0.688-0.056 0.174-0.082 0.221-0.087 0.576v0.090h-2.145l0.006-0.182c0.027-0.744 0.045-1.184 0.354-1.547 0.485-0.568 1.555-1.258 1.6-1.287 0.154-0.115 0.283-0.246 0.379-0.387 0.225-0.311 0.324-0.555 0.324-0.793 0-0.334-0.098-0.643-0.293-0.916-0.188-0.266-0.545-0.398-1.061-0.398-0.512 0-0.863 0.162-1.072 0.496-0.216 0.341-0.325 0.7-0.325 1.067v0.092h-2.211l0.004-0.096c0.057-1.353 0.541-2.328 1.435-2.897 0.563-0.361 1.264-0.544 2.081-0.544 1.068 0 1.972 0.26 2.682 0.772 0.721 0.519 1.086 1.297 1.086 2.311-0.001 0.567-0.18 1.1-0.534 1.585z"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                        </Label>
+                        <TextField fx:id="atNTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <font>
+                                <Font name="Calibri" size="16.0"/>
+                            </font>
+                        </TextField>
+                    </children>
+                    <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+                    </padding>
+                </GridPane>
+                <GridPane alignment="CENTER" hgap="15.0" maxHeight="1.7976931348623157E308"
+                          maxWidth="1.7976931348623157E308" prefHeight="175.0" prefWidth="820.0" vgap="15.0"
+                          VBox.vgrow="ALWAYS">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <Label text="Metrics:">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.301 0 9.6-4.298 9.6-9.601 0-5.301-4.299-9.599-9.6-9.599zM9.849 15.599h-0.051c-0.782-0.023-1.334-0.6-1.311-1.371 0.022-0.758 0.587-1.309 1.343-1.309l0.046 0.002c0.804 0.023 1.35 0.594 1.327 1.387-0.023 0.76-0.578 1.291-1.354 1.291zM13.14 9.068c-0.184 0.26-0.588 0.586-1.098 0.983l-0.562 0.387c-0.308 0.24-0.494 0.467-0.563 0.688-0.056 0.174-0.082 0.221-0.087 0.576v0.090h-2.145l0.006-0.182c0.027-0.744 0.045-1.184 0.354-1.547 0.485-0.568 1.555-1.258 1.6-1.287 0.154-0.115 0.283-0.246 0.379-0.387 0.225-0.311 0.324-0.555 0.324-0.793 0-0.334-0.098-0.643-0.293-0.916-0.188-0.266-0.545-0.398-1.061-0.398-0.512 0-0.863 0.162-1.072 0.496-0.216 0.341-0.325 0.7-0.325 1.067v0.092h-2.211l0.004-0.096c0.057-1.353 0.541-2.328 1.435-2.897 0.563-0.361 1.264-0.544 2.081-0.544 1.068 0 1.972 0.26 2.682 0.772 0.721 0.519 1.086 1.297 1.086 2.311-0.001 0.567-0.18 1.1-0.534 1.585z"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                        </Label>
+                        <ListView fx:id="metricsList" prefHeight="601.0" prefWidth="390.0"
+                                  style="-fx-font-family: Calibri; -fx-font-size: 16;" GridPane.columnIndex="1"
+                                  GridPane.vgrow="ALWAYS"/>
+                    </children>
+                    <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+                    </padding>
+                </GridPane>
+            </children>
+        </VBox>
+        <Label text="Cross Validation Setting">
+            <font>
+                <Font name="Calibri Bold" size="24.0"/>
+            </font>
+        </Label>
+        <VBox alignment="CENTER" spacing="5.0" styleClass="box-style-1" stylesheets="@../styles/stylesheet.css">
+            <children>
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Label text="Number of Folds:">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets right="20.0"/>
+                            </HBox.margin>
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.301 0 9.6-4.298 9.6-9.601 0-5.301-4.299-9.599-9.6-9.599zM9.849 15.599h-0.051c-0.782-0.023-1.334-0.6-1.311-1.371 0.022-0.758 0.587-1.309 1.343-1.309l0.046 0.002c0.804 0.023 1.35 0.594 1.327 1.387-0.023 0.76-0.578 1.291-1.354 1.291zM13.14 9.068c-0.184 0.26-0.588 0.586-1.098 0.983l-0.562 0.387c-0.308 0.24-0.494 0.467-0.563 0.688-0.056 0.174-0.082 0.221-0.087 0.576v0.090h-2.145l0.006-0.182c0.027-0.744 0.045-1.184 0.354-1.547 0.485-0.568 1.555-1.258 1.6-1.287 0.154-0.115 0.283-0.246 0.379-0.387 0.225-0.311 0.324-0.555 0.324-0.793 0-0.334-0.098-0.643-0.293-0.916-0.188-0.266-0.545-0.398-1.061-0.398-0.512 0-0.863 0.162-1.072 0.496-0.216 0.341-0.325 0.7-0.325 1.067v0.092h-2.211l0.004-0.096c0.057-1.353 0.541-2.328 1.435-2.897 0.563-0.361 1.264-0.544 2.081-0.544 1.068 0 1.972 0.26 2.682 0.772 0.721 0.519 1.086 1.297 1.086 2.311-0.001 0.567-0.18 1.1-0.534 1.585z"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                        </Label>
+                        <Slider fx:id="numberOfFoldsSlider" blockIncrement="1.0" majorTickUnit="2.0" max="20.0"
+                                min="2.0" minorTickCount="1" showTickLabels="true" showTickMarks="true"
+                                snapToTicks="true" style="-fx-font-family: Calibri; -fx-font-size: 16;" value="2.0"
+                                HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="numberOfFoldsLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0"
+                               prefWidth="53.0" text="Label" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS"
+                               HBox.hgrow="SOMETIMES">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <GridPane hgap="15.0" vgap="15.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+                                           prefWidth="150.0"/>
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308"
+                                           prefWidth="226.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints vgrow="SOMETIMES"/>
+                        <RowConstraints vgrow="SOMETIMES"/>
+                        <RowConstraints vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <CheckBox fx:id="randomizationSeedCheckBox" mnemonicParsing="false" text="Set Random Seed">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                        </CheckBox>
+                        <CheckBox fx:id="runAlgorithmParallelCheckBox" mnemonicParsing="false"
+                                  text="Run Algorithms in Parallel?" GridPane.rowIndex="1">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                        </CheckBox>
+                        <CheckBox fx:id="runFoldsParallelCheckBox" mnemonicParsing="false" text="Run Folds in Parallel?"
+                                  GridPane.rowIndex="2">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                        </CheckBox>
+                        <TextField fx:id="randomizationSeedTextField" maxWidth="150.0" GridPane.columnIndex="1">
+                            <font>
+                                <Font name="Calibri" size="16.0"/>
+                            </font>
+                            <tooltip>
+                                <Tooltip text="Set Randomization seed if you want reproducable results">
+                                    <font>
+                                        <Font name="Calibri" size="16.0"/>
+                                    </font>
+                                </Tooltip>
+                            </tooltip>
+                        </TextField>
+                        <Label contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" GridPane.columnIndex="2"
+                               GridPane.rowIndex="1">
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.301 0 9.6-4.298 9.6-9.601 0-5.301-4.299-9.599-9.6-9.599zM9.849 15.599h-0.051c-0.782-0.023-1.334-0.6-1.311-1.371 0.022-0.758 0.587-1.309 1.343-1.309l0.046 0.002c0.804 0.023 1.35 0.594 1.327 1.387-0.023 0.76-0.578 1.291-1.354 1.291zM13.14 9.068c-0.184 0.26-0.588 0.586-1.098 0.983l-0.562 0.387c-0.308 0.24-0.494 0.467-0.563 0.688-0.056 0.174-0.082 0.221-0.087 0.576v0.090h-2.145l0.006-0.182c0.027-0.744 0.045-1.184 0.354-1.547 0.485-0.568 1.555-1.258 1.6-1.287 0.154-0.115 0.283-0.246 0.379-0.387 0.225-0.311 0.324-0.555 0.324-0.793 0-0.334-0.098-0.643-0.293-0.916-0.188-0.266-0.545-0.398-1.061-0.398-0.512 0-0.863 0.162-1.072 0.496-0.216 0.341-0.325 0.7-0.325 1.067v0.092h-2.211l0.004-0.096c0.057-1.353 0.541-2.328 1.435-2.897 0.563-0.361 1.264-0.544 2.081-0.544 1.068 0 1.972 0.26 2.682 0.772 0.721 0.519 1.086 1.297 1.086 2.311-0.001 0.567-0.18 1.1-0.534 1.585z"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                            <tooltip>
+                                <Tooltip text="If you leave this element empty,maximum number of cores will be used">
+                                    <font>
+                                        <Font name="Calibri" size="16.0"/>
+                                    </font>
+                                </Tooltip>
+                            </tooltip>
+                        </Label>
+                        <Label contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" GridPane.columnIndex="2"
+                               GridPane.rowIndex="2">
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.301 0 9.6-4.298 9.6-9.601 0-5.301-4.299-9.599-9.6-9.599zM9.849 15.599h-0.051c-0.782-0.023-1.334-0.6-1.311-1.371 0.022-0.758 0.587-1.309 1.343-1.309l0.046 0.002c0.804 0.023 1.35 0.594 1.327 1.387-0.023 0.76-0.578 1.291-1.354 1.291zM13.14 9.068c-0.184 0.26-0.588 0.586-1.098 0.983l-0.562 0.387c-0.308 0.24-0.494 0.467-0.563 0.688-0.056 0.174-0.082 0.221-0.087 0.576v0.090h-2.145l0.006-0.182c0.027-0.744 0.045-1.184 0.354-1.547 0.485-0.568 1.555-1.258 1.6-1.287 0.154-0.115 0.283-0.246 0.379-0.387 0.225-0.311 0.324-0.555 0.324-0.793 0-0.334-0.098-0.643-0.293-0.916-0.188-0.266-0.545-0.398-1.061-0.398-0.512 0-0.863 0.162-1.072 0.496-0.216 0.341-0.325 0.7-0.325 1.067v0.092h-2.211l0.004-0.096c0.057-1.353 0.541-2.328 1.435-2.897 0.563-0.361 1.264-0.544 2.081-0.544 1.068 0 1.972 0.26 2.682 0.772 0.721 0.519 1.086 1.297 1.086 2.311-0.001 0.567-0.18 1.1-0.534 1.585z"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                            <tooltip>
+                                <Tooltip text="If you leave this element empty,maximum number of cores will be used">
+                                    <font>
+                                        <Font name="Calibri" size="16.0"/>
+                                    </font>
+                                </Tooltip>
+                            </tooltip>
+                        </Label>
+                        <Label contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" GridPane.columnIndex="2">
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.301 0 9.6-4.298 9.6-9.601 0-5.301-4.299-9.599-9.6-9.599zM9.849 15.599h-0.051c-0.782-0.023-1.334-0.6-1.311-1.371 0.022-0.758 0.587-1.309 1.343-1.309l0.046 0.002c0.804 0.023 1.35 0.594 1.327 1.387-0.023 0.76-0.578 1.291-1.354 1.291zM13.14 9.068c-0.184 0.26-0.588 0.586-1.098 0.983l-0.562 0.387c-0.308 0.24-0.494 0.467-0.563 0.688-0.056 0.174-0.082 0.221-0.087 0.576v0.090h-2.145l0.006-0.182c0.027-0.744 0.045-1.184 0.354-1.547 0.485-0.568 1.555-1.258 1.6-1.287 0.154-0.115 0.283-0.246 0.379-0.387 0.225-0.311 0.324-0.555 0.324-0.793 0-0.334-0.098-0.643-0.293-0.916-0.188-0.266-0.545-0.398-1.061-0.398-0.512 0-0.863 0.162-1.072 0.496-0.216 0.341-0.325 0.7-0.325 1.067v0.092h-2.211l0.004-0.096c0.057-1.353 0.541-2.328 1.435-2.897 0.563-0.361 1.264-0.544 2.081-0.544 1.068 0 1.972 0.26 2.682 0.772 0.721 0.519 1.086 1.297 1.086 2.311-0.001 0.567-0.18 1.1-0.534 1.585z"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                            <tooltip>
+                                <Tooltip text="Set Randomization seed if you want reproducable results">
+                                    <font>
+                                        <Font name="Calibri" size="16.0"/>
+                                    </font>
+                                </Tooltip>
+                            </tooltip>
+                        </Label>
+                        <Slider fx:id="numberOfThreadsForAlgorithmsSlider" blockIncrement="1.0" majorTickUnit="2.0"
+                                max="20.0" min="1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true"
+                                snapToTicks="true" style="-fx-font-family: Calibri; -fx-font-size: 16;" value="1.0"
+                                GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Slider fx:id="numberOfThreadsForFoldsSlider" blockIncrement="1.0" majorTickUnit="2.0"
+                                max="20.0" min="1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true"
+                                snapToTicks="true" style="-fx-font-family: Calibri; -fx-font-size: 16;" value="1.0"
+                                GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    </children>
+                    <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+                    </padding>
+                </GridPane>
+            </children>
+        </VBox>
+    </children>
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+    </padding>
+</VBox>

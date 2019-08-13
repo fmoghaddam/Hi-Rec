@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+           styleClass="box-style-1" stylesheets="@../styles/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.202"
+           fx:controller="gui.controller.configurator.DataSourceWizardController">
+    <children>
+        <HBox fx:id="infoAreaHBox" alignment="CENTER" maxHeight="1.7976931348623157E308"
+              maxWidth="1.7976931348623157E308" spacing="25.0">
+            <children>
+                <Label fx:id="fileLabel" text="File Path:">
+                    <font>
+                        <Font name="Calibri" size="16.0"/>
+                    </font>
+                </Label>
+                <TextField fx:id="filePathField" editable="false" maxWidth="1.7976931348623157E308"
+                           HBox.hgrow="ALWAYS"/>
+                <Label text="Seperator:">
+                    <font>
+                        <Font name="Calibri" size="16.0"/>
+                    </font>
+                </Label>
+                <ComboBox fx:id="seperatorComboSelector" promptText="Seperator" visibleRowCount="5"/>
+                <Button mnemonicParsing="false" onAction="#editSourceOnAction" text="Edit">
+                    <graphic>
+                        <Group>
+                            <children>
+                                <SVGPath
+                                        content="m5.7,78l-.1,19.5c0,1.1 0.4,2.2 1.2,3 0.8,0.8 1.8,1.2 2.9,1.2l19.4-.1c1.1,0 2.1-0.4 2.9-1.2l67-67c1.6-1.6 1.6-4.2 0-5.9l-19.2-19.4c-1.6-1.6-4.2-1.6-5.9-1.77636e-15l-13.4,13.5-53.6,53.5c-0.7,0.8-1.2,1.8-1.2,2.9zm71.2-61.1l13.5,13.5-7.6,7.6-13.5-13.5 7.6-7.6zm-62.9,62.9l49.4-49.4 13.5,13.5-49.4,49.3-13.6,.1 .1-13.5z"
+                                        scaleX="0.25" scaleY="0.25"/>
+                            </children>
+                        </Group>
+                    </graphic>
+                </Button>
+            </children>
+        </HBox>
+        <VBox fx:id="dropAreaVBox" alignment="CENTER" maxHeight="1.7976931348623157E308"
+              maxWidth="1.7976931348623157E308" onDragDropped="#fileDragDropped" onDragOver="#fileDragOver"
+              spacing="15.0" styleClass="dashed-border" stylesheets="@../styles/stylesheet.css" visible="false">
+            <children>
+                <Group onMouseClicked="#onFileUploadMouseClicked" onMouseEntered="#onFileUploadMouseEntered"
+                       onMouseExited="#onFileUploadMouseExited">
+                    <children>
+                        <SVGPath fx:id="dropIconSVG"
+                                 content="M26 2h-20l-6 6v21c0 0.552 0.448 1 1 1h30c0.552 0 1-0.448 1-1v-21l-6-6zM16 26l-10-8h6v-6h8v6h6l-10 8zM4.828 6l2-2h18.343l2 2h-22.343z"
+                                 scaleX="2.5" scaleY="2.5">
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </SVGPath>
+                    </children>
+                </Group>
+                <Label fx:id="dropFileLabel" text="Label">
+                    <font>
+                        <Font name="Calibri Bold" size="18.0"/>
+                    </font>
+                </Label>
+            </children>
+            <padding>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+            </padding>
+        </VBox>
+    </children>
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+    </padding>
+</StackPane>
