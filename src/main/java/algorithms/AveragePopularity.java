@@ -99,8 +99,4 @@ public final class AveragePopularity extends AbstractRecommender {
 		return "AveragePopularity";
 	}
 
-    @Override
-    public boolean isSimilairtyNeeded() {
-        return false;
-    }
 }
