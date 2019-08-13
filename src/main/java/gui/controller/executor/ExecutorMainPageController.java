@@ -126,10 +126,6 @@ public class ExecutorMainPageController implements Initializable {
         this.homePage = homePage;
     }
 
-    @FXML
-    void runConfigMenuOnAction(ActionEvent event) {
-        execute();
-    }
 
     private void CleanLogFile() {
         try {
@@ -154,8 +150,8 @@ public class ExecutorMainPageController implements Initializable {
             try {
                 CleanLogFile();
                 Globals.readData();
-                final DataLoader loader = new DataLoader();
-                final DataModel dataModel = loader.readData();
+                DataLoader loader = new DataLoader();
+                DataModel dataModel = loader.readData();
                 String[][] dataModelStatisticTable = getDataModelStatisticTable(dataModel);
                 TableView<String[]> tableView = convertString2DArrayToFXTable(dataModelStatisticTable);
 
@@ -167,7 +163,7 @@ public class ExecutorMainPageController implements Initializable {
                 });
 
                 if (!Thread.interrupted()) {
-                    final ParallelEvaluator evaluator = new ParallelEvaluator(dataModel);
+                    ParallelEvaluator evaluator = new ParallelEvaluator(dataModel);
                     List<Future<ConfigRunResult>> evaluate = evaluator.evaluate();
                     for (Future<ConfigRunResult> configRunResultFuture : evaluate) {
                         ConfigRunResult configRunResult = configRunResultFuture.get();
@@ -175,7 +171,7 @@ public class ExecutorMainPageController implements Initializable {
                                 configRunResult.getConfiguration().getId()).getSecond().showResult(configRunResult);
                     }
                 }
-            } catch (final Exception exception) {
+            } catch (Exception exception) {
 
             }
         });

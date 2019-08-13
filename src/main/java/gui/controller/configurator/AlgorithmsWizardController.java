@@ -67,6 +67,7 @@ public class AlgorithmsWizardController implements Initializable, WizardControll
             e.printStackTrace();
         }
         AlgorithmConfigurationWizardController controller = fxmlLoader.getController();
+        controller.setAlgorithm(algorithm);
         algorithmsHolderBox.getPanes().add(new TitledPane(id + " - " + algorithm.getClass().getSimpleName(), root));
         Pair<Parent, AlgorithmConfigurationWizardController> pair = new Pair<>(root, controller);
         algorithms.add(pair);

@@ -51,6 +51,7 @@ public class AlgorithmConfigurationWizardController implements Initializable, Wi
     @FXML
     private GridPane parametersGridPane;
 
+    private Recommender algorithm;
     private Map<String, TextField> parametersMap;
     private int id;
 
@@ -72,7 +73,7 @@ public class AlgorithmConfigurationWizardController implements Initializable, Wi
     }
 
     private void addParametersToDataModel(Recommender algorithm) {
-        String alogirhtmName = algorithm.getClass().getSimpleName();
+        String alogirhtmName = algorithm.getClass().getName();
         final String removeKey = "ALGORITHM_" + id;
         cleanMap(removeKey);
 
@@ -99,7 +100,13 @@ public class AlgorithmConfigurationWizardController implements Initializable, Wi
         ConfigData.instance.ALGORITHM_PARAMETERS.get(key5)
                 .bind(useRatingsRadioButton.selectedProperty().asString());
 
-
+        if (algorithm.isSimilairtyNeeded() == false) {
+            similarityConfigurationSectionVBox.setDisable(true);
+            useTagRadioButton.setSelected(false);
+            useRatingsRadioButton.setSelected(false);
+            useGenreRadioButton.setSelected(false);
+            useVisualFeaturesRadioButton.setSelected(false);
+        }
         final Map<String, Map<String, String>> configurabaleParameters = algorithm.getConfigurabaleParameters();
 
         setParameters(configurabaleParameters);
@@ -115,10 +122,13 @@ public class AlgorithmConfigurationWizardController implements Initializable, Wi
                 isValid = false;
             }
         }
-        if (similarityToggleGroup.getSelectedToggle() == null) {
-            isValid = false;
-            totalError.append("Please specify the similarity type").append("\n");
+        if (algorithm != null && algorithm.isSimilairtyNeeded() == true) {
+            if (similarityToggleGroup.getSelectedToggle() == null) {
+                isValid = false;
+                totalError.append("Please specify the similarity type").append("\n");
+            }
         }
+
         errorMessage.setText(totalError.toString());
         return isValid;
     }
@@ -231,19 +241,23 @@ public class AlgorithmConfigurationWizardController implements Initializable, Wi
         useRatingsRadioButton.setSelected(Boolean.parseBoolean(properties.getProperty(key5)));
 
 
-        String selectedAlgorithmName = "algorithms." + alogirhtmName;
+        String selectedAlgorithmName = alogirhtmName;
         AbstractRecommender instantiateClass = (AbstractRecommender) ClassInstantiator
                 .instantiateClass(selectedAlgorithmName);
         Map<String, Map<String, String>> configurabaleParameters = instantiateClass.getConfigurabaleParameters();
         int i = 0;
         for (Map<String, String> subMap : configurabaleParameters.values()) {
             for (Map.Entry<String, String> entity : subMap.entrySet()) {
-                String value = entity.getValue();
+
                 TextField textField = (TextField) getNodeFromGridPane(parametersGridPane, 1, i);
                 i++;
                 String key = "ALGORITHM_" + id + "_" + entity.getKey();
                 textField.setText(properties.getProperty(key));
             }
         }
+    }
+
+    public void setAlgorithm(Recommender algorithm) {
+        this.algorithm = algorithm;
     }
 }

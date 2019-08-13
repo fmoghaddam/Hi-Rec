@@ -47,13 +47,13 @@ public class DatasetWizardController implements Initializable, WizardControllerI
     public void initialize(URL url, ResourceBundle rb) {
         errorMessage = new ErrorMessage();
         dataSources = new ArrayList<>();
-        final String home = System.getProperty("user.dir");
+        final String home = System.getProperty("user.dir").replace("\\", "/");
         CheckBox[] checkBoxes = {ratingsDatasetCheckBox, visualFeaturesDatasetCheckBox,
                 genresDatasetCheckBox, tagDatasetCheckBox};
         String[] mandatoryFiles = {"Rating", "Visual Features", "Genre", "Tag"};
-        String[] defaultPaths = {home + "\\data\\5%RatingsSampledByRating.csv",
-                home + "\\data\\LLVisualFeatures13K_QuantileLog.csv",
-                home + "\\data\\Genre.csv", home + "\\data\\Tag.csv"};
+        String[] defaultPaths = {home + "/data/5%RatingsSampledByRating.csv",
+                home + "/data/LLVisualFeatures13K_QuantileLog.csv",
+                home + "/data/Genre.csv", home + "/data/Tag.csv"};
         StringProperty[] correspondFilePathConfigProperty = {
                 ConfigData.instance.RATING_FILE_PATH, ConfigData.instance.LOW_LEVEL_FILE_PATH,
                 ConfigData.instance.GENRE_FILE_PATH, ConfigData.instance.TAG_FILE_PATH};
