@@ -64,7 +64,7 @@ public class HiRecGUI extends Application {
             });
             root.getChildren().add(a);
         }
-        Image image = new Image("/images/logo.png");
+        Image image = new Image(this.getClass().getResourceAsStream("/images/logo.png"));
         ImageView imageView = new ImageView(image);
         root.getChildren().add(imageView);
         Scene scene = new Scene(root, 700, 700);
@@ -75,7 +75,7 @@ public class HiRecGUI extends Application {
         stage.requestFocus();
         stage.setAlwaysOnTop(true);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/icon.png")));
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/logo.png")));
         stage.showAndWait();
     }
 
@@ -111,7 +111,7 @@ public class HiRecGUI extends Application {
         stage.setMinHeight(600);
         stage.setMinWidth(600);
         stage.setTitle("Hi-Rec");
-        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/icon.png")));
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/logo.png")));
         stage.setScene(scene);
         stage.show();
     }
