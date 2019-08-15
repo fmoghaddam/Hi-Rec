@@ -1,7 +1,7 @@
 /**
  * 
  */
-package gui.pages;
+package gui.model;
 
 /**
  * @author Farshad Moghaddam
@@ -15,7 +15,7 @@ public enum FoldStatus {
 
 	private String text;
 
-	private FoldStatus(final String text) {
+    FoldStatus(final String text) {
 		this.text = text;
 	}
 

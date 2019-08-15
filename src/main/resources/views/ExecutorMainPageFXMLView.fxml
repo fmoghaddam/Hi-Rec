@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="764.0" prefWidth="831.0"
+            xmlns="http://javafx.com/javafx/8.0.202" fx:controller="gui.controller.executor.ExecutorMainPageController">
+    <children>
+        <VBox layoutY="25.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <SplitPane dividerPositions="0.75" orientation="VERTICAL" prefHeight="715.0" prefWidth="831.0">
+                    <items>
+                        <VBox prefHeight="661.0" prefWidth="778.0" spacing="25.0">
+                            <children>
+                                <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="717.0"
+                                         tabClosingPolicy="UNAVAILABLE" VBox.vgrow="SOMETIMES">
+                                    <tabs>
+                                        <Tab fx:id="dataModelTab" closable="false" text="Data Model Summary">
+                                            <content>
+                                                <VBox fx:id="dataModelSummaryVBox" alignment="TOP_CENTER"
+                                                      prefHeight="200.0" prefWidth="100.0" spacing="15.0">
+                                                    <children>
+                                                        <Label text="Dataset Statistic">
+                                                            <font>
+                                                                <Font name="Calibri" size="18.0"/>
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+                                                    </padding>
+                                                </VBox>
+                                            </content>
+                                        </Tab>
+                                    </tabs>
+                                </TabPane>
+                            </children>
+                        </VBox>
+                        <TextArea fx:id="logTextArea" editable="false" prefHeight="282.0" prefWidth="778.0"
+                                  promptText="Application Log" wrapText="true"/>
+                    </items>
+                </SplitPane>
+                <HBox alignment="CENTER" spacing="15.0">
+                    <children>
+                        <Button fx:id="stopButton" mnemonicParsing="false" onAction="#onStopButtonAction" text="Stop">
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath content="M4 4h24v24h-24z" scaleX="0.75" scaleY="0.75"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#homePageButtonOnAction"
+                                text="Home Page">
+                            <graphic>
+                                <Group>
+                                    <children>
+                                        <SVGPath content="M32 19l-6-6v-9h-4v5l-6-6-16 16v1h4v10h10v-6h4v6h10v-10h4z"
+                                                 scaleX="0.6" scaleY="0.6"/>
+                                    </children>
+                                </Group>
+                            </graphic>
+                            <font>
+                                <Font name="Calibri" size="18.0"/>
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="15.0"/>
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>
