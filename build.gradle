@@ -1,5 +1,4 @@
 plugins {
-  id "org.sonarqube" version "2.2"
   id "java"
   id "eclipse"
   id "application"
@@ -76,14 +75,6 @@ dependencies {
 test {
 	ignoreFailures = false
     systemProperties 'property': 'value'
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
-}
-
-task debug << {
-    println "java.home is " + System.properties['java.home']
 }
 
 
