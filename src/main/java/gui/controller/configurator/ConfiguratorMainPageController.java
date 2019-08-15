@@ -188,7 +188,7 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
 
     @FXML
     void onNextButtonAction(ActionEvent event) {
-        WizardControllerInterface currentPageController1 = (WizardControllerInterface) navigator.getCurrentPageController();
+        Validable currentPageController1 = (Validable) navigator.getCurrentPageController();
         if (currentPageController1.isValid()) {
             borderPane.setCenter(navigator.getNextPage());
             Initializable currentPageController = navigator.getCurrentPageController();

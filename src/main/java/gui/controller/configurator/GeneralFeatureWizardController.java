@@ -1,6 +1,9 @@
 package gui.controller.configurator;
 
-import gui.WizardControllerInterface;
+import gui.Fillable;
+import gui.FillableFromPropertiy;
+import gui.Resetable;
+import gui.Validable;
 import gui.model.ConfigData;
 import gui.model.ErrorMessage;
 import gui.model.Metrics;
@@ -18,7 +21,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class GeneralFeatureWizardController implements Initializable, WizardControllerInterface {
+public class GeneralFeatureWizardController implements Initializable, FillableFromPropertiy, Fillable, Validable, Resetable {
 
     @FXML
     private CheckBox dropMostPopularItemsCheckBox;
