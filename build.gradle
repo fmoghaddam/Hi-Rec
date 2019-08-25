@@ -1,9 +1,26 @@
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.mini2Dx', name: 'parcl', version: '1.6.1'
+        //classpath fileTree(dir: 'libp', include: ['*.jar'])     
+    }
+}
+
+
 plugins {
   id "java"
   id "eclipse"
   id "application"
-  id "distribution"
+  id "distribution"  
 }
+
+
+
+apply plugin: "org.mini2Dx.parcl"
 
 applicationDistribution.from("src/main/resources/config.properties") {
     into "bin"
@@ -24,7 +41,7 @@ applicationDistribution.from("data") {
 applicationDefaultJvmArgs = ["-Xms5g"]
 
 jar {	
-    exclude('config.properties', 'log4j.properties','images')
+    exclude('config.properties', 'images')
 }
 
 startScripts {
@@ -60,6 +77,8 @@ configurations.all {
 }
 
 dependencies {
+	compile fileTree(dir: 'lib', include: ['*.jar'])
+
 	compile group: 'it.unimi.dsi', name: 'fastutil', version: '7.0.13'
     compile 'log4j:log4j:1.2.17'
 	compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
@@ -78,10 +97,50 @@ test {
 }
 
 
+
 uploadArchives {
     repositories {
        flatDir {
            dirs 'repos'
        }
     }
+}
+
+parcl {
+app {
+    vmArgs = ["-Xmx5g"]
+    appName = "HiRec"
+    displayName = 'HiRec'
+    withJre("/usr/lib/jvm/java-8-openjdk-amd64/jre")
+  }
+	exe {
+    	vmArgs = ["-Xmx5g"]    	
+    	exeName = "HiRec"
+	    withJre("/usr/lib/jvm/java-8-openjdk-amd64/jre")
+  	}
+  
+   linux {
+    vmArgs = ["-Xmx5g"]    
+    binName = "HiRec"
+    preferSystemJre = true
+    withJre("/usr/lib/jvm/java-8-openjdk-amd64/jre")
+  }
+}
+
+task copyData1(dependsOn:[build,bundleNative],type: Copy) {     	    
+ 	from("src/main/resources/images") 
+ 	into "build/linux/images"
+}
+
+task copyData(dependsOn:[copyData1],type: Copy) {
+	from("data") 
+ 	into "build/linux/data"
+}
+
+task archiveZip(type: Zip) {
+   from 'build/linux/'
+   include '*'
+   include '*/*'
+   archiveName 'linux.zip'
+   destinationDir(file('build/'))
 }
