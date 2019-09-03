@@ -1,0 +1,10 @@
+.text-area {
+    -fx-font-family: Consolas;
+    -fx-font-size: 13;
+    -fx-text-fill: #ffffff;
+    -fx-display-caret: true;
+}
+
+.text-area .content {
+    -fx-background-color: #101e12;
+}

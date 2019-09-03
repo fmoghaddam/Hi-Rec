@@ -206,14 +206,17 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
     }
 
     private void refreshButtonBar() {
+
         treeView.getSelectionModel().select(navigator.getCurrentPageIndex());
         if (navigator.isFirstPage()) {
             nextPageButton.setDisable(false);
+            nextPageButton.setVisible(true);
             previousPageButton.setDisable(true);
             runButton.setVisible(false);
             runButton.setManaged(false);
         } else if (navigator.isLastPage()) {
             nextPageButton.setDisable(true);
+            nextPageButton.setVisible(false);
             previousPageButton.setDisable(false);
             runButton.setVisible(true);
             runButton.setManaged(true);
@@ -222,6 +225,7 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
             runButton.setManaged(false);
             previousPageButton.setDisable(false);
             nextPageButton.setDisable(false);
+            nextPageButton.setVisible(true);
         }
     }
 

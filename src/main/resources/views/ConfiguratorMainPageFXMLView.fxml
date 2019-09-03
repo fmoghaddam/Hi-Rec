@@ -7,7 +7,8 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane" maxHeight="1.7976931348623157E308"
-            maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.202"
+            maxWidth="1.7976931348623157E308" prefHeight="724.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/8.0.202"
             fx:controller="gui.controller.configurator.ConfiguratorMainPageController">
     <bottom>
         <BorderPane BorderPane.alignment="CENTER">
@@ -31,39 +32,44 @@
                 </Button>
             </left>
             <right>
-                <Button fx:id="nextPageButton" contentDisplay="RIGHT" mnemonicParsing="false"
-                        onAction="#onNextButtonAction" text="Next" BorderPane.alignment="CENTER">
-                    <font>
-                        <Font name="Calibri" size="16.0"/>
-                    </font>
-                    <graphic>
-                        <Group>
-                            <children>
-                                <SVGPath
-                                        content="M11.086 22.086l2.829 2.829 8.914-8.914-8.914-8.914-2.828 2.828 6.086 6.086z"/>
-                            </children>
-                        </Group>
-                    </graphic>
+                <StackPane BorderPane.alignment="CENTER">
                     <BorderPane.margin>
                         <Insets left="15.0"/>
                     </BorderPane.margin>
-                </Button>
-            </right>
-            <center>
-                <HBox alignment="CENTER" spacing="15.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Button fx:id="runButton" mnemonicParsing="false" onAction="#onRunButtonAction" text="Run">
+                        <Button fx:id="runButton" maxWidth="70.0" minWidth="70.0" mnemonicParsing="false"
+                                onAction="#onRunButtonAction" prefWidth="70.0" text="Run">
+                            <font>
+                                <Font name="Calibri" size="16.0"/>
+                            </font>
+                            <graphic>
+                        <Group>
+                            <children>
+                                <SVGPath content="M6 4l20 12-20 12z" scaleX="0.75" scaleY="0.75"/>
+                            </children>
+                        </Group>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="nextPageButton" contentDisplay="RIGHT" maxWidth="70.0" minWidth="70.0"
+                                mnemonicParsing="false" onAction="#onNextButtonAction" prefWidth="70.0" text="Next">
                             <font>
                                 <Font name="Calibri" size="16.0"/>
                             </font>
                             <graphic>
                                 <Group>
                                     <children>
-                                        <SVGPath content="M6 4l20 12-20 12z" scaleX="0.75" scaleY="0.75"/>
+                                        <SVGPath
+                                                content="M11.086 22.086l2.829 2.829 8.914-8.914-8.914-8.914-2.828 2.828 6.086 6.086z"/>
                                     </children>
                                 </Group>
                             </graphic>
                         </Button>
+                    </children>
+                </StackPane>
+            </right>
+            <center>
+                <HBox alignment="CENTER" spacing="15.0" BorderPane.alignment="CENTER">
+                    <children>
                         <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#homePageButtonOnAction"
                                 text="Home Page">
                             <graphic>
@@ -90,8 +96,9 @@
         <Insets/>
     </opaqueInsets>
     <left>
-        <TreeView fx:id="treeView" prefHeight="200.0" prefWidth="194.0" showRoot="false"
-                  stylesheets="@../styles/tree_view.css" BorderPane.alignment="CENTER">
+        <TreeView fx:id="treeView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                  prefHeight="530.0" prefWidth="200.0" showRoot="false" stylesheets="@../styles/tree_view.css"
+                  BorderPane.alignment="CENTER">
             <BorderPane.margin>
                 <Insets bottom="20.0" top="20.0"/>
             </BorderPane.margin>

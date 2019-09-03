@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
-      minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="850.0" spacing="15.0"
+      minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="850.0" spacing="15.0"
       xmlns="http://javafx.com/javafx/8.0.202" fx:controller="gui.controller.AboutUsController">
     <children>
         <Label text="Team Members" textAlignment="CENTER" wrapText="true">
@@ -34,25 +34,28 @@
                                 <Font name="Calibri" size="18.0"/>
                             </font>
                         </Label>
-                        <Hyperlink onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
-                                   text="Dr. Mehdi Elahi">
+                        <Hyperlink accessibleHelp="https://www.linkedin.com/in/mehdielahi" onAction="#clickOnHyperlink"
+                                   style="-fx-border-color: transparent;" text="Dr. Mehdi Elahi">
                             <font>
                                 <Font name="Calibri Bold" size="22.0"/>
                             </font>
                         </Hyperlink>
-                        <Hyperlink onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
+                        <Hyperlink accessibleHelp="https://www.linkedin.com/in/farshadbakhshandegan"
+                                   onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
                                    text="Farshad Bakhshandegan Moghaddam" GridPane.rowIndex="1">
                             <font>
                                 <Font name="Calibri Bold" size="22.0"/>
                             </font>
                         </Hyperlink>
-                        <Hyperlink onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
+                        <Hyperlink accessibleHelp="https://www.linkedin.com/in/mohammad-hossein-rimaz-608b35116"
+                                   onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
                                    text="Mohammad Hossein Rimaz" GridPane.rowIndex="2">
                             <font>
                                 <Font name="Calibri Bold" size="22.0"/>
                             </font>
                         </Hyperlink>
-                        <Hyperlink onAction="#clickOnUserProfileHyperlink" style="-fx-border-color: transparent;"
+                        <Hyperlink accessibleHelp="https://www.linkedin.com/in/reza-hoseini-71a26111/"
+                                   onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
                                    text="Reza Hosseini" GridPane.rowIndex="3">
                             <font>
                                 <Font name="Calibri Bold" size="22.0"/>
@@ -94,18 +97,17 @@
                         <Font name="Calibri Bold" size="22.0"/>
                     </font>
                 </Label>
-                <Label alignment="CENTER"
-                       text="How to Combine Visual Features with Tags to Improve the Movie Recommendation Accuracy"
+                <Label alignment="CENTER" text="Exploring the Power of Visual Features for the Recommendation of Movies"
                        wrapText="true">
                     <font>
                         <Font name="Calibri Italic" size="18.0"/>
                     </font>
                 </Label>
-                <Hyperlink alignment="CENTER" onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
-                           text="https://www.researchgate.net/publication/308780370_How_to_Combine_Visual_Features_with_Tags_to_Improve_Movie_Recommendation_Accuracy"
-                           textAlignment="CENTER" wrapText="true">
+                <Hyperlink accessibleHelp="https://dl.acm.org/citation.cfm?id=3320470" alignment="CENTER"
+                           onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
+                           text="https://dl.acm.org/citation.cfm?id=3320470" textAlignment="CENTER" wrapText="true">
                     <font>
-                        <Font size="14.0"/>
+                        <Font name="Calibri" size="22.0"/>
                     </font>
                 </Hyperlink>
             </children>
@@ -123,7 +125,8 @@
                         <Font name="Calibri Bold" size="22.0"/>
                     </font>
                 </Label>
-                <Hyperlink alignment="CENTER" onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
+                <Hyperlink accessibleHelp="https://fmoghaddam.github.io/Hi-Rec/" alignment="CENTER"
+                           onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
                            text="https://fmoghaddam.github.io/Hi-Rec/" textAlignment="CENTER" wrapText="true">
                     <font>
                         <Font size="22.0"/>

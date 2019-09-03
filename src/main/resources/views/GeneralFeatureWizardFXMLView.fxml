@@ -7,8 +7,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxHeight="1.7976931348623157E308"
-      maxWidth="1.7976931348623157E308" prefHeight="704.0" prefWidth="549.0" spacing="15.0"
-      xmlns="http://javafx.com/javafx/8.0.202"
+      maxWidth="1.7976931348623157E308" spacing="15.0" xmlns="http://javafx.com/javafx/8.0.202"
       fx:controller="gui.controller.configurator.GeneralFeatureWizardController">
     <children>
         <Label text="Global Settings">
@@ -16,13 +15,12 @@
                 <Font name="Calibri Bold" size="24.0"/>
             </font>
         </Label>
-        <VBox alignment="CENTER" styleClass="box-style-1" stylesheets="@../styles/stylesheet.css"
-              VBox.vgrow="SOMETIMES">
+        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              styleClass="box-style-1" stylesheets="@../styles/stylesheet.css" VBox.vgrow="SOMETIMES">
             <children>
                 <GridPane hgap="15.0" vgap="15.0">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
-                                           prefWidth="180.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308"/>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
                                            prefWidth="80.0"/>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
@@ -144,14 +142,13 @@
                     </padding>
                 </GridPane>
                 <GridPane alignment="CENTER" hgap="15.0" maxHeight="1.7976931348623157E308"
-                          maxWidth="1.7976931348623157E308" prefHeight="175.0" prefWidth="820.0" vgap="15.0"
-                          VBox.vgrow="ALWAYS">
+                          maxWidth="1.7976931348623157E308" vgap="15.0" VBox.vgrow="ALWAYS">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
                         <Label text="Metrics:">
@@ -167,7 +164,7 @@
                                 </Group>
                             </graphic>
                         </Label>
-                        <ListView fx:id="metricsList" prefHeight="601.0" prefWidth="390.0"
+                        <ListView fx:id="metricsList" prefHeight="90.0"
                                   style="-fx-font-family: Calibri; -fx-font-size: 16;" GridPane.columnIndex="1"
                                   GridPane.vgrow="ALWAYS"/>
                     </children>
@@ -182,7 +179,8 @@
                 <Font name="Calibri Bold" size="24.0"/>
             </font>
         </Label>
-        <VBox alignment="CENTER" spacing="5.0" styleClass="box-style-1" stylesheets="@../styles/stylesheet.css">
+        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0"
+              styleClass="box-style-1" stylesheets="@../styles/stylesheet.css">
             <children>
                 <HBox alignment="CENTER" spacing="10.0">
                     <children>

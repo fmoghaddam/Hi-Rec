@@ -3,8 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="527.0" prefWidth="673.0"
-      styleClass="box-style-1" stylesheets="@../styles/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.202"
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxHeight="1.7976931348623157E308"
+      maxWidth="1.7976931348623157E308" styleClass="box-style-1" stylesheets="@../styles/stylesheet.css"
+      xmlns="http://javafx.com/javafx/8.0.202"
       fx:controller="gui.controller.configurator.AlgorithmConfigurationWizardController">
     <children>
         <Label fx:id="algorithmName" text="Algorithm Name Configuration">
@@ -12,15 +13,16 @@
                 <Font name="System Bold" size="18.0"/>
             </font>
         </Label>
-        <VBox fx:id="similarityConfigurationSectionVBox" alignment="CENTER" prefHeight="112.0" prefWidth="639.0"
-              spacing="15.0" styleClass="box-style-1" stylesheets="@../styles/stylesheet.css">
+        <VBox fx:id="similarityConfigurationSectionVBox" alignment="CENTER" maxHeight="1.7976931348623157E308"
+              maxWidth="1.7976931348623157E308" spacing="15.0" styleClass="box-style-1"
+              stylesheets="@../styles/stylesheet.css">
             <children>
                 <Label text="Similarity Based On:">
                     <font>
                         <Font size="18.0"/>
                     </font>
                 </Label>
-                <GridPane hgap="10.0" prefHeight="39.0" prefWidth="605.0" vgap="15.0">
+                <GridPane hgap="10.0" vgap="15.0">
                     <columnConstraints>
                         <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                         <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -48,16 +50,17 @@
                 </GridPane>
             </children>
         </VBox>
-        <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="198.0" prefWidth="639.0"
-              spacing="15.0" styleClass="box-style-1" stylesheets="@../styles/stylesheet.css" VBox.vgrow="SOMETIMES">
+        <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="15.0"
+              styleClass="box-style-1" stylesheets="@../styles/stylesheet.css" VBox.vgrow="SOMETIMES">
             <children>
                 <Label text="Parameters:">
                     <font>
                         <Font size="18.0"/>
                     </font>
                 </Label>
-                <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0"
-                            style="-fx-background-color: transparent;" VBox.vgrow="SOMETIMES">
+                <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308"
+                            maxWidth="1.7976931348623157E308" style="-fx-background-color: transparent;"
+                            VBox.vgrow="SOMETIMES">
                     <content>
                         <GridPane fx:id="parametersGridPane" alignment="CENTER" hgap="10.0" vgap="10.0">
                             <columnConstraints>
@@ -65,9 +68,7 @@
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints vgrow="SOMETIMES"/>
                             </rowConstraints>
                         </GridPane>
                     </content>
