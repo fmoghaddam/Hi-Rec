@@ -2,6 +2,7 @@ package gui;
 
 import com.google.common.eventbus.Subscribe;
 import gui.controller.HomePageController;
+import gui.messages.StopAllRequestMessage;
 import gui.messages.WebPageOpeningRequestMessage;
 import javafx.animation.RotateTransition;
 import javafx.application.Application;
@@ -36,8 +37,6 @@ public class HiRecGUI extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-
         launch(args);
     }
 
@@ -85,6 +84,14 @@ public class HiRecGUI extends Application {
     }
 
     @Override
+    public void stop() throws Exception {
+
+        super.stop();
+        MessageBus.getInstance().getBus().post(new StopAllRequestMessage());
+
+    }
+
+    @Override
     public void start(Stage stage) throws Exception {
         MessageBus.getInstance().register(this);
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -101,6 +108,7 @@ public class HiRecGUI extends Application {
         Future<Pair<Parent, HomePageController>> submit = executor.submit(callable);
         showSplashScreen();
         Pair<Parent, HomePageController> parentHomePageControllerPair = submit.get();
+        executor.shutdownNow();
 
 
         parentHomePageControllerPair.getSecond().setStage(stage);
@@ -113,7 +121,9 @@ public class HiRecGUI extends Application {
         stage.setTitle("Hi-Rec");
         stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/logo.png")));
         stage.setScene(scene);
+
         stage.show();
+        stage.requestFocus();
     }
 
 

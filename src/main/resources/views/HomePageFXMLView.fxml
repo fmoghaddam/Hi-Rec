@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootAnchorPane" maxWidth="1.7976931348623157E308"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootAnchorPane" maxHeight="1.7976931348623157E308"
+            maxWidth="1.7976931348623157E308" prefHeight="560.0" prefWidth="720.0"
             xmlns="http://javafx.com/javafx/8.0.202" fx:controller="gui.controller.HomePageController">
     <children>
         <VBox alignment="CENTER" layoutX="40.0" layoutY="72.0" prefHeight="533.0" prefWidth="706.0" spacing="20.0"
