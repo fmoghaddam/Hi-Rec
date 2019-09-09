@@ -7,8 +7,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="603.0" prefWidth="600.0" spacing="15.0" xmlns="http://javafx.com/javafx/8.0.202"
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxHeight="1.7976931348623157E308"
+      maxWidth="1.7976931348623157E308" spacing="15.0" xmlns="http://javafx.com/javafx/8.0.202"
       fx:controller="gui.controller.configurator.ConfigReviewController">
     <padding>
         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
@@ -19,7 +19,7 @@
                 <Font name="System Bold" size="18.0"/>
             </font>
         </Label>
-        <TextArea fx:id="configTextField" editable="false" prefHeight="225.0" prefWidth="570.0" VBox.vgrow="SOMETIMES">
+        <TextArea fx:id="configTextField" editable="false" prefHeight="225.0" prefWidth="570.0" VBox.vgrow="ALWAYS">
             <font>
                 <Font size="14.0"/>
             </font>
