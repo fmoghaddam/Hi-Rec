@@ -138,7 +138,14 @@ public class AlgorithmExecutorController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Result as Table");
             alert.setHeaderText("Table Copied Into Your Clipboard");
-            alert.setContentText(toTabSeperatedTable);
+            TextArea textArea = new TextArea(toTabSeperatedTable);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.selectAll();
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            alert.getDialogPane().setContent(textArea);
+
             alert.showAndWait();
         }
     }
@@ -154,7 +161,13 @@ public class AlgorithmExecutorController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Result as Latex Table");
             alert.setHeaderText("Latex Table Copied Into Your Clipboard");
-            alert.setContentText(toLatexTable);
+            TextArea textArea = new TextArea(toLatexTable);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.selectAll();
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            alert.getDialogPane().setContent(textArea);
             alert.showAndWait();
         }
     }

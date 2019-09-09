@@ -5,79 +5,79 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
-      minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="850.0" spacing="15.0"
+      minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="10.0"
       xmlns="http://javafx.com/javafx/8.0.202" fx:controller="gui.controller.AboutUsController">
     <children>
         <Label text="Team Members" textAlignment="CENTER" wrapText="true">
             <font>
-                <Font name="Calibri Bold" size="26.0"/>
+                <Font name="Calibri Bold" size="22.0"/>
             </font>
         </Label>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="536.0" spacing="15.0" styleClass="box-style-1"
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="536.0" styleClass="box-style-1"
               stylesheets="@../styles/stylesheet.css">
             <children>
                 <GridPane>
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="423.0" minWidth="10.0" prefWidth="376.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="467.0" minWidth="10.0" prefWidth="410.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="423.0" minWidth="10.0" prefWidth="295.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="467.0" minWidth="10.0" prefWidth="441.0"/>
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="55.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="55.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="55.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="55.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="40.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="40.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="40.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="40.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
                         <Label alignment="CENTER" text="Assistant Professor, Libera Università di Bolzano, Italy"
                                wrapText="true" GridPane.columnIndex="1">
                             <font>
-                                <Font name="Calibri" size="18.0"/>
+                                <Font name="Calibri" size="16.0"/>
                             </font>
                         </Label>
                         <Hyperlink accessibleHelp="https://www.linkedin.com/in/mehdielahi" onAction="#clickOnHyperlink"
                                    style="-fx-border-color: transparent;" text="Dr. Mehdi Elahi">
                             <font>
-                                <Font name="Calibri Bold" size="22.0"/>
+                                <Font name="Calibri Bold" size="18.0"/>
                             </font>
                         </Hyperlink>
                         <Hyperlink accessibleHelp="https://www.linkedin.com/in/farshadbakhshandegan"
                                    onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
                                    text="Farshad Bakhshandegan Moghaddam" GridPane.rowIndex="1">
                             <font>
-                                <Font name="Calibri Bold" size="22.0"/>
+                                <Font name="Calibri Bold" size="18.0"/>
                             </font>
                         </Hyperlink>
                         <Hyperlink accessibleHelp="https://www.linkedin.com/in/mohammad-hossein-rimaz-608b35116"
                                    onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
                                    text="Mohammad Hossein Rimaz" GridPane.rowIndex="2">
                             <font>
-                                <Font name="Calibri Bold" size="22.0"/>
+                                <Font name="Calibri Bold" size="18.0"/>
                             </font>
                         </Hyperlink>
                         <Hyperlink accessibleHelp="https://www.linkedin.com/in/reza-hoseini-71a26111/"
                                    onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
                                    text="Reza Hosseini" GridPane.rowIndex="3">
                             <font>
-                                <Font name="Calibri Bold" size="22.0"/>
+                                <Font name="Calibri Bold" size="18.0"/>
                             </font>
                         </Hyperlink>
                         <Label alignment="CENTER" text="PhD Student, Karlsruhe Institute of Technology, Germany"
                                wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <font>
-                                <Font name="Calibri" size="18.0"/>
+                                <Font name="Calibri" size="16.0"/>
                             </font>
                         </Label>
                         <Label alignment="CENTER"
-                               text="Software Engineering Student, K. N. Toosi University of Technology, Iran"
-                               wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                               text="Computer Engineering Student, K.N. Toosi Uni. of Technology, Iran" wrapText="true"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <font>
-                                <Font name="Calibri" size="18.0"/>
+                                <Font name="Calibri" size="16.0"/>
                             </font>
                         </Label>
                         <Label alignment="CENTER" text="Data Scientist, pmOne Analytics GmbH, Germany" wrapText="true"
                                GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <font>
-                                <Font name="Calibri" size="18.0"/>
+                                <Font name="Calibri" size="16.0"/>
                             </font>
                         </Label>
                     </children>
@@ -86,7 +86,7 @@
         </VBox>
         <Label text="Terms and Conditions" textAlignment="CENTER" wrapText="true">
             <font>
-                <Font name="Calibri Bold" size="26.0"/>
+                <Font name="Calibri Bold" size="22.0"/>
             </font>
         </Label>
         <VBox alignment="CENTER" spacing="15.0" styleClass="box-style-1" stylesheets="@../styles/stylesheet.css">
@@ -94,7 +94,7 @@
                 <Label text="To acknowledge the use of this recommendation engine in your work, please cite the following paper:"
                        textAlignment="CENTER" wrapText="true">
                     <font>
-                        <Font name="Calibri Bold" size="22.0"/>
+                        <Font name="Calibri Bold" size="18.0"/>
                     </font>
                 </Label>
                 <Label alignment="CENTER" text="Exploring the Power of Visual Features for the Recommendation of Movies"
@@ -107,29 +107,29 @@
                            onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
                            text="https://dl.acm.org/citation.cfm?id=3320470" textAlignment="CENTER" wrapText="true">
                     <font>
-                        <Font name="Calibri" size="22.0"/>
+                        <Font name="Calibri Bold Italic" size="18.0"/>
                     </font>
                 </Hyperlink>
             </children>
         </VBox>
         <Label text="More Information" textAlignment="CENTER" wrapText="true">
             <font>
-                <Font name="Calibri Bold" size="26.0"/>
+                <Font name="Calibri Bold" size="22.0"/>
             </font>
         </Label>
-        <VBox alignment="CENTER" spacing="15.0" styleClass="box-style-1" stylesheets="@../styles/stylesheet.css">
+        <VBox alignment="CENTER" spacing="5.0" styleClass="box-style-1" stylesheets="@../styles/stylesheet.css">
             <children>
                 <Label text="For more infomration about this software you can visit following GitHub page:"
                        textAlignment="CENTER" wrapText="true">
                     <font>
-                        <Font name="Calibri Bold" size="22.0"/>
+                        <Font name="Calibri Bold" size="18.0"/>
                     </font>
                 </Label>
                 <Hyperlink accessibleHelp="https://fmoghaddam.github.io/Hi-Rec/" alignment="CENTER"
                            onAction="#clickOnHyperlink" style="-fx-border-color: transparent;"
                            text="https://fmoghaddam.github.io/Hi-Rec/" textAlignment="CENTER" wrapText="true">
                     <font>
-                        <Font size="22.0"/>
+                        <Font name="Calibri Bold Italic" size="18.0"/>
                     </font>
                 </Hyperlink>
             </children>

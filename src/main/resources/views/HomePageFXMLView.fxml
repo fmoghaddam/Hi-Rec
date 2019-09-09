@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.Group?>
+<?import javafx.scene.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -11,8 +11,8 @@
             xmlns="http://javafx.com/javafx/8.0.202" fx:controller="gui.controller.HomePageController">
     <children>
         <VBox alignment="CENTER" layoutX="40.0" layoutY="72.0" prefHeight="533.0" prefWidth="706.0" spacing="20.0"
-              AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0"
-              AnchorPane.topAnchor="60.0">
+              AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0"
+              AnchorPane.topAnchor="15.0">
             <children>
                 <Button fx:id="runButton" graphicTextGap="10.0" mnemonicParsing="false"
                         onAction="#runConfigButtonOnAction" prefHeight="55.0" text="Run Recommender">
@@ -103,6 +103,54 @@
                         </Group>
                     </graphic>
                 </Button>
+                <Group>
+                    <children>
+                        <Group>
+                            <children>
+                                <Group>
+                                    <children>
+                                        <SVGPath
+                                                content="M33.643 7.458l5.422 0 .165.183L39.23 14.418l6.5-6.87 8.218 0 0 .093-8.545 9.25L39.23 16.89l0 13.28-.165.183L33.643 30.353l-.165-.183L33.478 7.643Z"/>
+                                        <SVGPath
+                                                content="M75.5 7.458q1.457 0 2.218 2.198V13.87q-8.155 8.815-8.71 9.25H60.798v-.093l8.545-9.157h-8.875v10.075h17.09l.165.183v6.045l-.165.183H56.938q-1.52 0-2.218-2.29V9.93q0-1.695 2.055-2.472Z"/>
+                                        <SVGPath
+                                                content="M99.518 7.458q1.457 0 2.218 2.198V13.685l-.165.182H84.483v10.075h17.09l.165.183v3.75q0 1.695-2.055 2.473H80.95q-1.457 0-2.218-2.198V9.93q0-1.695 2.055-2.472Z"/>
+                                        <SVGPath
+                                                content="M3.428 7.458H6.795q1.52 0 2.217 2.29V15.61h11.5V9.93q0-1.695 2.055-2.472h3.532l.165.183v22.53l-.165.183H22.735q-1.457 0-2.218-2.198V22.02h-11.5v5.863q0 1.695-2.055 2.473H3.428l-.165-.183V7.643Z"/>
+                                        <Group>
+                                            <children>
+                                                <SVGPath
+                                                        content="M27.068 13.293 32.735 7.54 32.735 7.458 27.23 7.458 27.068 7.623 27.068 13.293z"
+                                                        smooth="false"/>
+                                                <SVGPath
+                                                        content="M27.068 19.128 32.735 13.375 32.735 13.293 27.23 13.293 27.068 13.458 27.068 19.128z"
+                                                        smooth="false"/>
+                                                <SVGPath
+                                                        content="M32.735 13.293 27.068 19.045 27.068 19.128 32.572 19.128 32.735 18.965 32.735 13.293z"
+                                                        smooth="false"/>
+                                                <SVGPath
+                                                        content="M27.068 24.77 32.735 19.018 32.735 18.935 27.23 18.935 27.068 19.098 27.068 24.77z"
+                                                        smooth="false"/>
+                                                <SVGPath
+                                                        content="M32.735 18.935 27.068 24.688 27.068 24.77 32.572 24.77 32.735 24.605 32.735 18.935z"
+                                                        smooth="false"/>
+                                                <SVGPath
+                                                        content="M27.068 30.355 32.735 24.603 32.735 24.52 27.23 24.52 27.068 24.683 27.068 30.355z"
+                                                        smooth="false"/>
+                                                <SVGPath
+                                                        content="M32.735 24.52 27.068 30.273 27.068 30.355 32.572 30.355 32.735 30.19 32.735 24.52z"
+                                                        smooth="false"/>
+                                            </children>
+                                        </Group>
+                                    </children>
+                                </Group>
+                            </children>
+                        </Group>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="50.0"/>
+                    </VBox.margin>
+                </Group>
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
