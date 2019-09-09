@@ -1,4 +1,3 @@
-
 buildscript {
     repositories {
         mavenLocal()
@@ -10,15 +9,12 @@ buildscript {
     }
 }
 
-
 plugins {
   id "java"
   id "eclipse"
   id "application"
   id "distribution"  
 }
-
-
 
 apply plugin: "org.mini2Dx.parcl"
 
@@ -116,7 +112,7 @@ app {
 	exe {
     	vmArgs = ["-Xmx5g"]    	
     	exeName = "HiRec"
-	    withJre("/usr/lib/jvm/java-8-openjdk-amd64/jre")
+	    withJre("C:\\Program Files\\Java\\jre1.8.0_221")
   	}
   
    linux {
@@ -127,20 +123,28 @@ app {
   }
 }
 
-task copyData1(dependsOn:[build,bundleNative],type: Copy) {     	    
- 	from("src/main/resources/images") 
- 	into "build/linux/images"
+task copyImageAndDataLinux(type: Copy) {
+ 	from("src/main/resources/images/"){
+ 		into 'images'
+ 	}
+ 	from("data/"){
+ 		into 'data'	
+ 	} 
+ 	into "build/linux/"
 }
 
-task copyData(dependsOn:[copyData1],type: Copy) {
-	from("data") 
- 	into "build/linux/data"
-}
-
-task archiveZip(type: Zip) {
+task archiveLinuxZip(type: Zip) {
    from 'build/linux/'
    include '*'
    include '*/*'
    archiveName 'linux.zip'
-   destinationDir(file('build/'))
+   destinationDir(file('release/'))
+}
+
+task archiveWindowsZip(type: Zip) {
+   from 'build/exe/'
+   include '*'
+   include '*/*'
+   archiveName 'windows.zip'
+   destinationDir(file('release/'))
 }
