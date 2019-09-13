@@ -1,20 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.Font?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane" maxHeight="1.7976931348623157E308"
-            maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx/8.0.202"
-            fx:controller="gui.controller.configurator.ConfiguratorMainPageController">
-    <bottom>
-        <BorderPane BorderPane.alignment="CENTER">
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+      prefHeight="600.0" prefWidth="1000.0" spacing="15.0" xmlns="http://javafx.com/javafx/8.0.202"
+      fx:controller="gui.controller.configurator.ConfiguratorMainPageController">
+    <children>
+        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+            <children>
+                <VBox alignment="TOP_CENTER" prefWidth="200.0" spacing="10.0" HBox.hgrow="NEVER">
+                    <children>
+                        <TreeView fx:id="treeView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                  showRoot="false" stylesheets="@../styles/tree_view.css" VBox.vgrow="ALWAYS"/>
+                        <Group>
+                            <children>
+                                <Group>
+                                    <children>
+                                        <Group>
+                                            <children>
+                                                <SVGPath
+                                                        content="M33.643 7.458l5.422 0 .165.183L39.23 14.418l6.5-6.87 8.218 0 0 .093-8.545 9.25L39.23 16.89l0 13.28-.165.183L33.643 30.353l-.165-.183L33.478 7.643Z"/>
+                                                <SVGPath
+                                                        content="M75.5 7.458q1.457 0 2.218 2.198V13.87q-8.155 8.815-8.71 9.25H60.798v-.093l8.545-9.157h-8.875v10.075h17.09l.165.183v6.045l-.165.183H56.938q-1.52 0-2.218-2.29V9.93q0-1.695 2.055-2.472Z"/>
+                                                <SVGPath
+                                                        content="M99.518 7.458q1.457 0 2.218 2.198V13.685l-.165.182H84.483v10.075h17.09l.165.183v3.75q0 1.695-2.055 2.473H80.95q-1.457 0-2.218-2.198V9.93q0-1.695 2.055-2.472Z"/>
+                                                <SVGPath
+                                                        content="M3.428 7.458H6.795q1.52 0 2.217 2.29V15.61h11.5V9.93q0-1.695 2.055-2.472h3.532l.165.183v22.53l-.165.183H22.735q-1.457 0-2.218-2.198V22.02h-11.5v5.863q0 1.695-2.055 2.473H3.428l-.165-.183V7.643Z"/>
+                                                <Group>
+                                                    <children>
+                                                        <SVGPath
+                                                                content="M27.068 13.293 32.735 7.54 32.735 7.458 27.23 7.458 27.068 7.623 27.068 13.293z"/>
+                                                        <SVGPath
+                                                                content="M27.068 19.128 32.735 13.375 32.735 13.293 27.23 13.293 27.068 13.458 27.068 19.128z"/>
+                                                        <SVGPath
+                                                                content="M32.735 13.293 27.068 19.045 27.068 19.128 32.572 19.128 32.735 18.965 32.735 13.293z"/>
+                                                        <SVGPath
+                                                                content="M27.068 24.77 32.735 19.018 32.735 18.935 27.23 18.935 27.068 19.098 27.068 24.77z"/>
+                                                        <SVGPath
+                                                                content="M32.735 18.935 27.068 24.688 27.068 24.77 32.572 24.77 32.735 24.605 32.735 18.935z"/>
+                                                        <SVGPath
+                                                                content="M27.068 30.355 32.735 24.603 32.735 24.52 27.23 24.52 27.068 24.683 27.068 30.355z"/>
+                                                        <SVGPath
+                                                                content="M32.735 24.52 27.068 30.273 27.068 30.355 32.572 30.355 32.735 30.19 32.735 24.52z"/>
+                                                    </children>
+                                                </Group>
+                                            </children>
+                                        </Group>
+                                    </children>
+                                </Group>
+                            </children>
+                        </Group>
+                    </children>
+                </VBox>
+                <StackPane fx:id="contentHolder" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           HBox.hgrow="ALWAYS"/>
+            </children>
+        </HBox>
+        <BorderPane>
             <left>
-                <Button fx:id="previousPageButton" mnemonicParsing="false" onAction="#onPreviousButtonAction"
-                        text="Previous" BorderPane.alignment="CENTER">
+                <Button fx:id="previousPageButton" maxWidth="1.7976931348623157E308" minWidth="100.0"
+                        mnemonicParsing="false" onAction="#onPreviousButtonAction" prefWidth="100.0" text="Previous"
+                        BorderPane.alignment="CENTER">
                     <font>
                         <Font name="Calibri" size="16.0"/>
                     </font>
@@ -26,19 +76,29 @@
                             </children>
                         </Group>
                     </graphic>
-                    <BorderPane.margin>
-                        <Insets right="15.0"/>
-                    </BorderPane.margin>
                 </Button>
             </left>
+            <center>
+                <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#homePageButtonOnAction"
+                        text="Home Page" BorderPane.alignment="CENTER">
+                    <graphic>
+                        <Group>
+                            <children>
+                                <SVGPath content="M32 19l-6-6v-9h-4v5l-6-6-16 16v1h4v10h10v-6h4v6h10v-10h4z"
+                                         scaleX="0.6" scaleY="0.6"/>
+                            </children>
+                        </Group>
+                    </graphic>
+                    <font>
+                        <Font name="Calibri" size="16.0"/>
+                    </font>
+                </Button>
+            </center>
             <right>
                 <StackPane BorderPane.alignment="CENTER">
-                    <BorderPane.margin>
-                        <Insets left="15.0"/>
-                    </BorderPane.margin>
                     <children>
-                        <Button fx:id="runButton" maxWidth="70.0" minWidth="70.0" mnemonicParsing="false"
-                                onAction="#onRunButtonAction" prefWidth="70.0" text="Run">
+                        <Button fx:id="runButton" maxWidth="1.7976931348623157E308" minWidth="100.0"
+                                mnemonicParsing="false" onAction="#onRunButtonAction" prefWidth="100.0" text="Run">
                             <font>
                                 <Font name="Calibri" size="16.0"/>
                             </font>
@@ -50,8 +110,9 @@
                         </Group>
                             </graphic>
                         </Button>
-                        <Button fx:id="nextPageButton" contentDisplay="RIGHT" maxWidth="70.0" minWidth="70.0"
-                                mnemonicParsing="false" onAction="#onNextButtonAction" prefWidth="70.0" text="Next">
+                        <Button fx:id="nextPageButton" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308"
+                                minWidth="100.0" mnemonicParsing="false" onAction="#onNextButtonAction"
+                                prefWidth="100.0" text="Next">
                             <font>
                                 <Font name="Calibri" size="16.0"/>
                             </font>
@@ -67,91 +128,9 @@
                     </children>
                 </StackPane>
             </right>
-            <center>
-                <HBox alignment="CENTER" spacing="15.0" BorderPane.alignment="CENTER">
-                    <children>
-                        <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#homePageButtonOnAction"
-                                text="Home Page">
-                            <graphic>
-                                <Group>
-                                    <children>
-                                        <SVGPath content="M32 19l-6-6v-9h-4v5l-6-6-16 16v1h4v10h10v-6h4v6h10v-10h4z"
-                                                 scaleX="0.6" scaleY="0.6"/>
-                                    </children>
-                                </Group>
-                            </graphic>
-                            <font>
-                                <Font name="Calibri" size="16.0"/>
-                            </font>
-                        </Button>
-                    </children>
-                </HBox>
-            </center>
-            <padding>
-                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
-            </padding>
         </BorderPane>
-    </bottom>
-    <opaqueInsets>
-        <Insets/>
-    </opaqueInsets>
-    <left>
-        <BorderPane BorderPane.alignment="TOP_LEFT">
-            <bottom>
-                <Group BorderPane.alignment="CENTER">
-                    <children>
-                        <Group>
-                            <children>
-                                <Group>
-                                    <children>
-                                        <SVGPath
-                                                content="M33.643 7.458l5.422 0 .165.183L39.23 14.418l6.5-6.87 8.218 0 0 .093-8.545 9.25L39.23 16.89l0 13.28-.165.183L33.643 30.353l-.165-.183L33.478 7.643Z"/>
-                                        <SVGPath
-                                                content="M75.5 7.458q1.457 0 2.218 2.198V13.87q-8.155 8.815-8.71 9.25H60.798v-.093l8.545-9.157h-8.875v10.075h17.09l.165.183v6.045l-.165.183H56.938q-1.52 0-2.218-2.29V9.93q0-1.695 2.055-2.472Z"/>
-                                        <SVGPath
-                                                content="M99.518 7.458q1.457 0 2.218 2.198V13.685l-.165.182H84.483v10.075h17.09l.165.183v3.75q0 1.695-2.055 2.473H80.95q-1.457 0-2.218-2.198V9.93q0-1.695 2.055-2.472Z"/>
-                                        <SVGPath
-                                                content="M3.428 7.458H6.795q1.52 0 2.217 2.29V15.61h11.5V9.93q0-1.695 2.055-2.472h3.532l.165.183v22.53l-.165.183H22.735q-1.457 0-2.218-2.198V22.02h-11.5v5.863q0 1.695-2.055 2.473H3.428l-.165-.183V7.643Z"/>
-                                        <Group>
-                                            <children>
-                                                <SVGPath
-                                                        content="M27.068 13.293 32.735 7.54 32.735 7.458 27.23 7.458 27.068 7.623 27.068 13.293z"
-                                                        smooth="false"/>
-                                                <SVGPath
-                                                        content="M27.068 19.128 32.735 13.375 32.735 13.293 27.23 13.293 27.068 13.458 27.068 19.128z"
-                                                        smooth="false"/>
-                                                <SVGPath
-                                                        content="M32.735 13.293 27.068 19.045 27.068 19.128 32.572 19.128 32.735 18.965 32.735 13.293z"
-                                                        smooth="false"/>
-                                                <SVGPath
-                                                        content="M27.068 24.77 32.735 19.018 32.735 18.935 27.23 18.935 27.068 19.098 27.068 24.77z"
-                                                        smooth="false"/>
-                                                <SVGPath
-                                                        content="M32.735 18.935 27.068 24.688 27.068 24.77 32.572 24.77 32.735 24.605 32.735 18.935z"
-                                                        smooth="false"/>
-                                                <SVGPath
-                                                        content="M27.068 30.355 32.735 24.603 32.735 24.52 27.23 24.52 27.068 24.683 27.068 30.355z"
-                                                        smooth="false"/>
-                                                <SVGPath
-                                                        content="M32.735 24.52 27.068 30.273 27.068 30.355 32.572 30.355 32.735 30.19 32.735 24.52z"
-                                                        smooth="false"/>
-                                            </children>
-                                        </Group>
-                                    </children>
-                                </Group>
-                            </children>
-                        </Group>
-                    </children>
-                    <BorderPane.margin>
-                        <Insets left="-0.0"/>
-                    </BorderPane.margin>
-                </Group>
-            </bottom>
-            <left>
-                <TreeView fx:id="treeView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                          prefWidth="190.0" showRoot="false" stylesheets="@../styles/tree_view.css"
-                          BorderPane.alignment="TOP_LEFT"/>
-            </left>
-        </BorderPane>
-    </left>
-</BorderPane>
+    </children>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
+</VBox>
