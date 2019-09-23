@@ -97,7 +97,6 @@ public class HiRecGUI extends Application {
         for (String path : animatedParts) {
             SVGPath svgPath = new SVGPath();
             svgPath.setOpacity(0);
-            svgPath.setSmooth(false);
             svgPath.setContent(path);
             animatedGroup.getChildren().add(svgPath);
             FadeTransition fadeTransition = new FadeTransition();

@@ -10,7 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 
 public class ConfiguratorMainPageController implements Initializable, Resetable {
     @FXML
-    private BorderPane borderPane;
+    private StackPane contentHolder;
     private Navigator navigator;
 
     @FXML
@@ -59,7 +59,8 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
             TreeItem<Pair<String, Integer>> selectedItem = treeView.getSelectionModel().getSelectedItem();
             Validable currentPageController1 = (Validable) navigator.getCurrentPageController();
             if (currentPageController1.isValid()) {
-                borderPane.setCenter(navigator.navigateToIndex(selectedItem.getValue().getSecond()));
+                contentHolder.getChildren().removeAll();
+                contentHolder.getChildren().add(navigator.navigateToIndex(selectedItem.getValue().getSecond()));
                 Initializable currentPageController = navigator.getCurrentPageController();
                 if (currentPageController.getClass().equals(ConfigReviewController.class)) {
                     ((ConfigReviewController) currentPageController).refreshConfig();
@@ -98,7 +99,7 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
         treeView.setRoot(pages);
         treeView.setShowRoot(false);
 
-        String[] allPagesNames = {"Dataset Wizard", "Algorithms Wizard", "General Features", "Confirm Page"};
+        String[] allPagesNames = {"Dataset", "Algorithms", "Generals", "Confirm"};
         String[] allPages = {"/views/DatasetWizardFXMLView.fxml",
                 "/views/AlgorithmsWizardFXMLView.fxml",
                 "/views/GeneralFeatureWizardFXMLView.fxml"
@@ -134,7 +135,8 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
                 e.printStackTrace();
             }
         }
-        borderPane.setCenter(navigator.getCurrentPage());
+        contentHolder.getChildren().removeAll();
+        contentHolder.getChildren().add(navigator.getCurrentPage());
         refreshButtonBar();
     }
 
@@ -190,7 +192,8 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
     void onNextButtonAction(ActionEvent event) {
         Validable currentPageController1 = (Validable) navigator.getCurrentPageController();
         if (currentPageController1.isValid()) {
-            borderPane.setCenter(navigator.getNextPage());
+            contentHolder.getChildren().removeAll();
+            contentHolder.getChildren().add(navigator.getNextPage());
             Initializable currentPageController = navigator.getCurrentPageController();
             if (currentPageController.getClass().equals(ConfigReviewController.class)) {
                 ((ConfigReviewController) currentPageController).refreshConfig();
@@ -231,13 +234,15 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
 
     @FXML
     void onPreviousButtonAction(ActionEvent event) {
-        borderPane.setCenter(navigator.getPreviousPage());
+        contentHolder.getChildren().removeAll();
+        contentHolder.getChildren().add(navigator.getPreviousPage());
         refreshButtonBar();
     }
 
     @Override
     public void reset() {
-        borderPane.setCenter(navigator.goToFirstPage());
+        contentHolder.getChildren().removeAll();
+        contentHolder.getChildren().add(navigator.goToFirstPage());
         refreshButtonBar();
     }
 
