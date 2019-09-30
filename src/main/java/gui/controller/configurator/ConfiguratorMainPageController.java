@@ -59,8 +59,7 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
             TreeItem<Pair<String, Integer>> selectedItem = treeView.getSelectionModel().getSelectedItem();
             Validable currentPageController1 = (Validable) navigator.getCurrentPageController();
             if (currentPageController1.isValid()) {
-                contentHolder.getChildren().removeAll();
-                contentHolder.getChildren().add(navigator.navigateToIndex(selectedItem.getValue().getSecond()));
+                setContent(navigator.navigateToIndex(selectedItem.getValue().getSecond()));
                 Initializable currentPageController = navigator.getCurrentPageController();
                 if (currentPageController.getClass().equals(ConfigReviewController.class)) {
                     ((ConfigReviewController) currentPageController).refreshConfig();
@@ -135,31 +134,11 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
                 e.printStackTrace();
             }
         }
-        contentHolder.getChildren().removeAll();
-        contentHolder.getChildren().add(navigator.getCurrentPage());
+        setContent(navigator.getCurrentPage());
         refreshButtonBar();
     }
 
-    @FXML
-    void fillAllPagesMenuOnAction(ActionEvent event) {
 
-    }
-
-    @FXML
-    void fillThisPageMenuOnAction(ActionEvent event) {
-
-    }
-
-
-    @FXML
-    void resetAllPagesMenuOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void resetThisPageMenuOnAction(ActionEvent event) {
-
-    }
 
     private void fillConfigFileWithNewData() {
         try {
@@ -188,12 +167,16 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
         homePage.getSecond().goToHomePage();
     }
 
+    private void setContent(Parent content) {
+        contentHolder.getChildren().clear();
+        contentHolder.getChildren().add(content);
+    }
+
     @FXML
     void onNextButtonAction(ActionEvent event) {
         Validable currentPageController1 = (Validable) navigator.getCurrentPageController();
         if (currentPageController1.isValid()) {
-            contentHolder.getChildren().removeAll();
-            contentHolder.getChildren().add(navigator.getNextPage());
+            setContent(navigator.getNextPage());
             Initializable currentPageController = navigator.getCurrentPageController();
             if (currentPageController.getClass().equals(ConfigReviewController.class)) {
                 ((ConfigReviewController) currentPageController).refreshConfig();
@@ -234,15 +217,13 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
 
     @FXML
     void onPreviousButtonAction(ActionEvent event) {
-        contentHolder.getChildren().removeAll();
-        contentHolder.getChildren().add(navigator.getPreviousPage());
+        setContent(navigator.getPreviousPage());
         refreshButtonBar();
     }
 
     @Override
     public void reset() {
-        contentHolder.getChildren().removeAll();
-        contentHolder.getChildren().add(navigator.goToFirstPage());
+        setContent(navigator.goToFirstPage());
         refreshButtonBar();
     }
 
