@@ -2,8 +2,8 @@ package controller.similarity;
 
 /**
  * All the possible similarity functions
- * @author FBM
  *
+ * @author FBM
  */
 public enum SimilarityFunction {
     COSINE("cosine"),
@@ -13,19 +13,16 @@ public enum SimilarityFunction {
     private String name;
 
     private SimilarityFunction(
-            final String name)
-    {
+            final String name) {
         this.name = name;
     }
 
-    public static
-            SimilarityFunction reolve(
-                    final String name)
-    {
+    public static SimilarityFunction reolve(
+            final String name) {
         if (name == null) {
             throw new IllegalArgumentException("Name is null");
         }
-        for (SimilarityFunction simfun: SimilarityFunction.values()) {
+        for (SimilarityFunction simfun : SimilarityFunction.values()) {
             if (name.equals(simfun.name)) {
                 return simfun;
             }

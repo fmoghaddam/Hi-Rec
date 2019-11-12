@@ -1,24 +1,22 @@
 package metrics;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-
 import interfaces.ListEvaluation;
 import model.DataModel;
 import model.Globals;
 import model.User;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
 /**
  * Recall
- * 
- * @author FBM
  *
+ * @author FBM
  */
 public final class Recall
-        implements ListEvaluation
-{
+        implements ListEvaluation {
 
     float recall = 0;
     long counter = 0;
@@ -28,10 +26,8 @@ public final class Recall
      * java.util.Map)
      */
     @Override
-    public
-            void addRecommendations(
-                    final User user, final Map<Integer, Float> list)
-    {
+    public void addRecommendations(
+            final User user, final Map<Integer, Float> list) {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
         }
@@ -41,21 +37,21 @@ public final class Recall
         final List<Integer> userOriginalList = user.getItemRating().entrySet()
                 .stream().filter(p -> p.getValue() >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
                 .map(p -> p.getKey()).collect(Collectors.toList());
-        
+
         float truePositive = 0;
         int listLengthThreshold = 0;
-        for (final Entry<Integer, Float> entry: list.entrySet()) {
-            if (listLengthThreshold>=Globals.AT_N) {
+        for (final Entry<Integer, Float> entry : list.entrySet()) {
+            if (listLengthThreshold >= Globals.AT_N) {
                 break;
             }
             if (user.getItemRating().containsKey(entry.getKey())) {
-                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
+                if (user.getItemRating().get((int) entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
                     truePositive++;
                 }
             }
             listLengthThreshold++;
         }
-        
+
         recall = (recall + truePositive / userOriginalList.size());
         counter++;
 
@@ -65,18 +61,16 @@ public final class Recall
      * @see interfaces.ListEvaluation#getEvaluationResult()
      */
     @Override
-    public
-            float getEvaluationResult() {
+    public float getEvaluationResult() {
         final float result = recall / counter;
-        if(Float.isNaN(result)){
+        if (Float.isNaN(result)) {
             return 0;
         }
         return result;
     }
 
     @Override
-    public
-            String toString() {
+    public String toString() {
         return "Recall";
     }
 
@@ -84,8 +78,7 @@ public final class Recall
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public
-            int hashCode() {
+    public int hashCode() {
         return 14;
     }
 
@@ -93,10 +86,8 @@ public final class Recall
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public
-            boolean equals(
-                    Object obj)
-    {
+    public boolean equals(
+            Object obj) {
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {
@@ -104,9 +95,9 @@ public final class Recall
         }
     }
 
-	@Override
-	public void setTrainData(DataModel trainData) {
-		// Empty function
-		
-	}
+    @Override
+    public void setTrainData(DataModel trainData) {
+        // Empty function
+
+    }
 }

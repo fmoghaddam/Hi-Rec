@@ -9,8 +9,7 @@ import model.Rating;
  * http://ls13-www.cs.tu-dortmund.de/homepage/recommender101/index.shtml
  */
 public final class PredictionCoverage
-        implements AccuracyEvaluation
-{
+        implements AccuracyEvaluation {
 
     /**
      * A counter for the total number of ratings
@@ -25,10 +24,8 @@ public final class PredictionCoverage
      * @see interfaces.AccuracyEvaluation#addTestPrediction(model.Rating, float)
      */
     @Override
-    public
-            void addTestPrediction(
-                    final Rating rating, final float prediction)
-    {
+    public void addTestPrediction(
+            final Rating rating, final float prediction) {
         if (!Float.isNaN(prediction)) {
             predictedRatings++;
         }
@@ -39,19 +36,17 @@ public final class PredictionCoverage
      * @see interfaces.AccuracyEvaluation#getPredictionAccuracy()
      */
     @Override
-    public
-            float getPredictionAccuracy() {
-        return predictedRatings / (float)totalRatings;
+    public float getPredictionAccuracy() {
+        return predictedRatings / (float) totalRatings;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
-    public
-            String toString() {
+    public String toString() {
         return "Coverage";
     }
 
@@ -59,8 +54,7 @@ public final class PredictionCoverage
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public
-            int hashCode() {
+    public int hashCode() {
         return 12;
     }
 
@@ -68,10 +62,8 @@ public final class PredictionCoverage
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public
-            boolean equals(
-                    Object obj)
-    {
+    public boolean equals(
+            Object obj) {
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {

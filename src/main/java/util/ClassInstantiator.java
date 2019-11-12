@@ -1,13 +1,12 @@
 package util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
-
+import interfaces.AbstractRecommender;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
-import interfaces.AbstractRecommender;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 /**
  * A helper class that accepts a class name + parameters and instantiates the
@@ -21,14 +20,12 @@ final public class ClassInstantiator {
 
     /**
      * The method accepts a string containing a class name
-     * 
+     *
      * @param className
      * @return an instance of the class
      */
-    public static
-            Object instantiateClass(
-                    final String className)
-    {
+    public static Object instantiateClass(
+            final String className) {
         try {
             String classname = className;
             @SuppressWarnings("rawtypes")
@@ -42,15 +39,14 @@ final public class ClassInstantiator {
         }
     }
 
-    public static
-            void setParametersDynamically(
-                    AbstractRecommender algorithm, int configId)
-                    throws IllegalAccessException, InvocationTargetException
-    {
+    public static void setParametersDynamically(
+            AbstractRecommender algorithm, int configId)
+            throws IllegalAccessException, InvocationTargetException {
         final Field[] allFields = algorithm.getClass().getDeclaredFields();
         final Map<String, Map<String, String>> configurabaleParameters = algorithm
                 .getConfigurabaleParameters();
-        for (Field field: allFields) {
+        for (Field field : allFields) {
+
             if (configurabaleParameters.containsKey(field.getName())) {
                 final Map<String, String> map = configurabaleParameters
                         .get(field.getName());

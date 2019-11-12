@@ -42,6 +42,9 @@ import java.util.concurrent.Future;
 import static util.FXUtil.convertString2DArrayToFXTable;
 
 public class ExecutorMainPageController implements Initializable {
+
+    private static final Logger LOG = Logger.getLogger(ExecutorMainPageController.class.getSimpleName());
+
     private Map<String, Pair<Parent, AlgorithmExecutorController>> algorithms;
     private Pair<Parent, HomePageController> homePage;
     @FXML
@@ -251,7 +254,7 @@ public class ExecutorMainPageController implements Initializable {
                 tabPane.getTabs().add(tab);
                 algorithms.put(message.getAlgorithmName() + "#" + message.getId(), new Pair<>(root, controller));
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         });
 

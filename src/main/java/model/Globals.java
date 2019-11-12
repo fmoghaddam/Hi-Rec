@@ -6,9 +6,8 @@ import util.Config;
 /**
  * This class reads all the attributes from config file and makes them
  * accessible everywhere
- * 
- * @author FBM
  *
+ * @author FBM
  */
 public final class Globals {
     public static float MAX_RATING;
@@ -39,7 +38,7 @@ public final class Globals {
     public static boolean CALCULATE_TTEST;
 
     public static Long RANDOMIZATION_SEED;
-    
+
     public static boolean RUN_ALGORITHMS_PARALLEL;
     public static Integer RUN_ALGORITHMS_NUMBER_OF_THREAD;
     public static boolean RUN_FOLDS_PARALLEL;
@@ -49,19 +48,18 @@ public final class Globals {
         readData();
     }
 
-    public static
-            void readData() {
-        RATING_FILE_PATH = Config.getString("RATING_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n","\\n").replace("\r", "\\r");
+    public static void readData() {
+        RATING_FILE_PATH = Config.getString("RATING_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n", "\\n").replace("\r", "\\r");
         RATING_FILE_SEPERATOR = Config.getString("RATING_FILE_SEPARATOR", " ");
 
-        LOW_LEVEL_FILE_PATH = Config.getString("LOW_LEVEL_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n","\\n").replace("\r", "\\r");
+        LOW_LEVEL_FILE_PATH = Config.getString("LOW_LEVEL_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n", "\\n").replace("\r", "\\r");
         LOW_LEVEL_FILE_SEPERATOR = Config.getString("LOW_LEVEL_FILE_SEPARATOR",
                 " ");
 
-        GENRE_FILE_PATH = Config.getString("GENRE_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n","\\n").replace("\r", "\\r");
+        GENRE_FILE_PATH = Config.getString("GENRE_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n", "\\n").replace("\r", "\\r");
         GENRE_FILE_SEPERATOR = Config.getString("GENRE_FILE_SEPARATOR", " ");
 
-        TAG_FILE_PATH = Config.getString("TAG_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n","\\n").replace("\r", "\\r");
+        TAG_FILE_PATH = Config.getString("TAG_FILE_PATH", "").replace("\b", "\\b").replace("\t", "\\t").replace("\n", "\\n").replace("\r", "\\r");
         TAG_FILE_SEPERATOR = Config.getString("TAG_FILE_SEPARATOR", " ");
 
         SIMILAIRTY_FUNCTION = SimilarityFunction
@@ -77,43 +75,35 @@ public final class Globals {
         AT_N = Config.getInt("AT_N");
 
         DROP_POPULAR_ITEM = Config.getBoolean("DROP_POPULAR_ITEM");
-        if(DROP_POPULAR_ITEM){
-        	DROP_POPULAR_ITEM_NUMBER = Config.getInt("DROP_POPULAR_ITEM_NUMBER",0);
+        if (DROP_POPULAR_ITEM) {
+            DROP_POPULAR_ITEM_NUMBER = Config.getInt("DROP_POPULAR_ITEM_NUMBER", 0);
         }
         CALCULATE_TTEST = Config.getBoolean("CALCULATE_TTEST");
         RANDOMIZATION_SEED = Config.getLong("RANDOMIZATION_SEED", null);
-        
-        RUN_ALGORITHMS_PARALLEL= Config.getBoolean("RUN_ALGORITHMS_PARALLEL");
+
+        RUN_ALGORITHMS_PARALLEL = Config.getBoolean("RUN_ALGORITHMS_PARALLEL");
         RUN_ALGORITHMS_NUMBER_OF_THREAD = Config.getInt("RUN_ALGORITHMS_NUMBER_OF_THREAD", -1);
-        RUN_FOLDS_PARALLEL= Config.getBoolean("RUN_FOLDS_PARALLEL");
+        RUN_FOLDS_PARALLEL = Config.getBoolean("RUN_FOLDS_PARALLEL");
         RUN_FOLDS_NUMBER_OF_THREAD = Config.getInt("RUN_FOLDS_NUMBER_OF_THREAD", -1);
     }
 
-    public static
-            void setMaxRating(
-                    float maxRating)
-    {
+    public static void setMaxRating(
+            float maxRating) {
         MAX_RATING = maxRating;
     }
 
-    public static
-            void setMinRating(
-                    float minRating)
-    {
+    public static void setMinRating(
+            float minRating) {
         MIN_RATING = minRating;
     }
 
-    public static
-            void setMaxNumberOfUsers(
-                    long maxNumberOfUser)
-    {
+    public static void setMaxNumberOfUsers(
+            long maxNumberOfUser) {
         MAX_ID_OF_UESRS = maxNumberOfUser;
     }
 
-    public static
-            void setMaxNumberOfItems(
-                    long maxNumberOfItem)
-    {
+    public static void setMaxNumberOfItems(
+            long maxNumberOfItem) {
         MAX_ID_OF_ITEMS = maxNumberOfItem;
     }
 

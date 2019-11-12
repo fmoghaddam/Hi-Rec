@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TitledPane;
+import org.apache.log4j.Logger;
 import org.reflections.Reflections;
 import util.ClassInstantiator;
 import util.Pair;
@@ -26,6 +27,8 @@ import java.net.URL;
 import java.util.*;
 
 public class AlgorithmsWizardController implements Initializable, WizardControllerInterface {
+
+    private static final Logger LOG = Logger.getLogger(AlgorithmsWizardController.class.getSimpleName());
 
     private IntegerProperty numberOfConfigurations = new SimpleIntegerProperty(0);
 
@@ -64,7 +67,7 @@ public class AlgorithmsWizardController implements Initializable, WizardControll
         try {
             root = fxmlLoader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         AlgorithmConfigurationWizardController controller = fxmlLoader.getController();
         controller.setAlgorithm(algorithm);
@@ -126,9 +129,9 @@ public class AlgorithmsWizardController implements Initializable, WizardControll
                     r = recommender.newInstance();
                     availableAlgorithms.add(r);
                 } catch (InstantiationException e) {
-                    e.printStackTrace();
+                    LOG.error(e.getMessage(), e);
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    LOG.error(e.getMessage(), e);
                 }
 
             }

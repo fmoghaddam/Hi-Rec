@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 import util.MessageBus;
 import util.Pair;
 
@@ -22,6 +23,9 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class HomePageController implements Initializable {
+
+    private static final Logger LOG = Logger.getLogger(HomePageController.class.getSimpleName());
+
     private Pair<Parent, ConfiguratorMainPageController> configuratorHomePage;
     private Pair<Parent, ExecutorMainPageController> executorHomePage;
     private Pair<Parent, HomePageController> homePage;
@@ -65,7 +69,7 @@ public class HomePageController implements Initializable {
             controller.setHomePage(homePage);
             executorHomePage = new Pair<>(root, controller);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -104,7 +108,7 @@ public class HomePageController implements Initializable {
             stage.setScene(new Scene(root));
             stage.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -131,7 +135,7 @@ public class HomePageController implements Initializable {
             controller.setHomePage(homePage);
             configuratorHomePage = new Pair<>(root, controller);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
 
         initializeExecutorPage();

@@ -4,21 +4,20 @@ import java.util.Arrays;
 
 /**
  * Contains all the functionality needed for arrays
- * @author FBM
  *
+ * @author FBM
  */
 public class ArrayUtil {
-    
+
     /**
      * Concatenate two arrays into one array
+     *
      * @param first
      * @param rest
      * @return
      */
-    public static
-    double[] concatAll(
-            double[] first, double[] ... rest)
-    {
+    public static double[] concatAll(
+            double[] first, double[]... rest) {
         int totalLength = first.length;
         for (double[] array : rest) {
             totalLength += array.length;

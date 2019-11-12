@@ -206,14 +206,14 @@ public final class DataModel {
             bw = new BufferedWriter(fw);
             bw.write(content.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         } finally {
             try {
                 if (bw != null) {
                     bw.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
     }

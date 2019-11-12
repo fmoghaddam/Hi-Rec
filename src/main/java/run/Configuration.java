@@ -1,33 +1,32 @@
 package run;
 
-import java.io.Serializable;
-
 import interfaces.AbstractRecommender;
 import model.Globals;
 import util.TimeUtil;
 
+import java.io.Serializable;
+
 /**
  * Running Configuration
- * 
- * @author FBM
  *
+ * @author FBM
  */
 public final class Configuration implements Serializable {
 
     /**
-	 * Unique id used for serialization
-	 */
-	private static final long serialVersionUID = -8054655100563267008L;
-	private final int id;
+     * Unique id used for serialization
+     */
+    private static final long serialVersionUID = -8054655100563267008L;
+    private final int id;
     private final AbstractRecommender algorithm;
     private final boolean useLowLevel;
     private final boolean useGenre;
     private final boolean useTag;
     private final boolean useRating;
-    private final TimeUtil timeUtil= new TimeUtil();
+    private final TimeUtil timeUtil = new TimeUtil();
 
     /**
-     * @param algorithm 
+     * @param algorithm
      * @param useLowLevel
      * @param useGenre
      * @param useTag
@@ -36,8 +35,7 @@ public final class Configuration implements Serializable {
     public Configuration(
             int id, AbstractRecommender algorithm, boolean useLowLevel,
             boolean useGenre, boolean useTag,
-            boolean useRating)
-    {
+            boolean useRating) {
         if (algorithm == null) {
             throw new IllegalArgumentException("Algorithm is null");
         }
@@ -56,9 +54,8 @@ public final class Configuration implements Serializable {
     /**
      * Do the basic evaluation which is needed for all the algorithms
      */
-    private
-            void basicEvaluate() {
-        if(!this.useLowLevel && !this.useGenre && !this.useTag && !this.useRating){
+    private void basicEvaluate() {
+        if (!this.useLowLevel && !this.useGenre && !this.useTag && !this.useRating) {
             throw new IllegalArgumentException(
                     "At least one of the lowlevel, genre, tag or rating should be true in config file");
         }
@@ -67,37 +64,31 @@ public final class Configuration implements Serializable {
     /**
      * Evaluate this configuration
      */
-    private
-            void evaluate() {
+    private void evaluate() {
         if (this.useLowLevel && (Globals.LOW_LEVEL_FILE_PATH == null
-                || Globals.LOW_LEVEL_FILE_PATH.isEmpty()))
-        {
+                || Globals.LOW_LEVEL_FILE_PATH.isEmpty())) {
             throw new IllegalArgumentException(
                     "You want to use LowLevel feature but have not set LowLevel file path");
         }
         if (this.useGenre && (Globals.GENRE_FILE_PATH == null
-                || Globals.GENRE_FILE_PATH.isEmpty()))
-        {
+                || Globals.GENRE_FILE_PATH.isEmpty())) {
             throw new IllegalArgumentException(
                     "You want to use genre but have not set genre file path");
         }
         if (this.useTag && (Globals.TAG_FILE_PATH == null
-                || Globals.TAG_FILE_PATH.isEmpty()))
-        {
+                || Globals.TAG_FILE_PATH.isEmpty())) {
             throw new IllegalArgumentException(
                     "You want to use tag but have not set tag file path");
         }
         if ((this.useLowLevel && this.useTag) || (this.useGenre && this.useTag)
                 || (this.useLowLevel && this.useRating)
                 || ((this.useGenre && this.useRating))
-                || (this.useTag && this.useRating))
-        {
+                || (this.useTag && this.useRating)) {
             throw new IllegalArgumentException(
                     "Only one of the lowlevel, genre,tag and rating can be true in config file. The only exception is lowLevel and Genre could be true");
         }
         if (!(this.useLowLevel || this.useGenre || this.useTag
-                || this.useRating))
-        {
+                || this.useRating)) {
             throw new IllegalArgumentException(
                     "At least one of the lowlevel, genre, tag or rating should be true in config file");
         }
@@ -106,48 +97,42 @@ public final class Configuration implements Serializable {
     /**
      * @return the algorithm
      */
-    public final
-    	AbstractRecommender getAlgorithm() {
+    public final AbstractRecommender getAlgorithm() {
         return algorithm;
     }
 
     /**
      * @return the useLowLevel
      */
-    public final
-            boolean isUseLowLevel() {
+    public final boolean isUseLowLevel() {
         return useLowLevel;
     }
 
     /**
      * @return the useGenre
      */
-    public final
-            boolean isUseGenre() {
+    public final boolean isUseGenre() {
         return useGenre;
     }
 
     /**
      * @return the useTag
      */
-    public final
-            boolean isUseTag() {
+    public final boolean isUseTag() {
         return useTag;
     }
 
     /**
      * @return the useRating
      */
-    public final
-            boolean isUseRating() {
+    public final boolean isUseRating() {
         return useRating;
     }
 
     /**
      * @return the id
      */
-    public final
-            int getId() {
+    public final int getId() {
         return id;
     }
 
@@ -155,17 +140,16 @@ public final class Configuration implements Serializable {
      * @return the timeUtil
      */
     public TimeUtil getTimeUtil() {
-		return timeUtil;
-	}
+        return timeUtil;
+    }
 
-	/*
+    /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public
-            int hashCode() {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result
@@ -180,14 +164,12 @@ public final class Configuration implements Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public
-            boolean equals(
-                    Object obj)
-    {
+    public boolean equals(
+            Object obj) {
         if (this == obj) {
             return true;
         }
@@ -197,7 +179,7 @@ public final class Configuration implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Configuration other = (Configuration)obj;
+        Configuration other = (Configuration) obj;
         if (algorithm == null) {
             if (other.algorithm != null) {
                 return false;
@@ -227,8 +209,7 @@ public final class Configuration implements Serializable {
      * @see java.lang.Object#toString()
      */
     @Override
-    public
-            String toString() {
+    public String toString() {
         return "Configuration [id=" + id + ", algorithm=" + algorithm
                 + ", useLowLevel=" + useLowLevel + ", useGenre="
                 + useGenre + ", useTag=" + useTag + ", useRating=" + useRating

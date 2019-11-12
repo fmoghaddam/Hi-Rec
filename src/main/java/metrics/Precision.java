@@ -1,25 +1,24 @@
 /**
- * 
+ *
  */
 package metrics;
-
-import java.util.Map;
-import java.util.Map.Entry;
 
 import interfaces.ListEvaluation;
 import model.DataModel;
 import model.Globals;
 import model.User;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * Precision
- * 
+ *
  * @author FBM
  *
  */
 public final class Precision
-        implements ListEvaluation
-{
+        implements ListEvaluation {
 
     float precision = 0;
     long counter = 0;
@@ -29,10 +28,8 @@ public final class Precision
      * java.util.List)
      */
     @Override
-    public
-            void addRecommendations(
-                    final User user, final Map<Integer, Float> list)
-    {
+    public void addRecommendations(
+            final User user, final Map<Integer, Float> list) {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
         }
@@ -41,12 +38,12 @@ public final class Precision
         }
         float truePositive = 0;
         int listLengthThreshold = 0;
-        for (final Entry<Integer, Float> entry: list.entrySet()) {
-            if (listLengthThreshold>=Globals.AT_N) {
+        for (final Entry<Integer, Float> entry : list.entrySet()) {
+            if (listLengthThreshold >= Globals.AT_N) {
                 break;
             }
             if (user.getItemRating().containsKey(entry.getKey())) {
-                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
+                if (user.getItemRating().get((int) entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
                     truePositive++;
                 }
             }
@@ -60,8 +57,7 @@ public final class Precision
      * @see interfaces.ListEvaluation#getEvaluationResult()
      */
     @Override
-    public
-            float getEvaluationResult() {
+    public float getEvaluationResult() {
         return precision / counter;
     }
 
@@ -69,8 +65,7 @@ public final class Precision
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public
-            int hashCode() {
+    public int hashCode() {
         return 11;
     }
 
@@ -78,10 +73,8 @@ public final class Precision
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public
-            boolean equals(
-                    Object obj)
-    {
+    public boolean equals(
+            Object obj) {
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {
@@ -91,19 +84,18 @@ public final class Precision
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
-    public
-            String toString() {
+    public String toString() {
         return "Precision";
     }
 
-	@Override
-	public void setTrainData(DataModel trainData) {
-		//Empty function
-		
-	}
+    @Override
+    public void setTrainData(DataModel trainData) {
+        //Empty function
+
+    }
 
 }

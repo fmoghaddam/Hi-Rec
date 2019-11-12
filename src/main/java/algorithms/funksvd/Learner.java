@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package algorithms.funksvd;
 
@@ -16,8 +16,8 @@ public interface Learner {
      * @param value
      */
     void
-            train(
-                    int i, int j, int k, double value);
+    train(
+            int i, int j, int k, double value);
 
     /**
      * @param i
@@ -25,9 +25,8 @@ public interface Learner {
      * @return
      */
     double
-            getResult(
-                    int i, int j);
-    
-    
+    getResult(
+            int i, int j);
+
 
 }

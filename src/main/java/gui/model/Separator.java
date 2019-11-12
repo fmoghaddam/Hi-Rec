@@ -5,18 +5,17 @@ import javafx.beans.property.StringProperty;
 
 /**
  * @author FBM
- *
  */
 public enum Separator {
-	Comma(","),
-	SemiColon(";"),
-	Tab("\\t");
-	
-	private StringProperty text;
+    Comma(","),
+    SemiColon(";"),
+    Tab("\\t");
 
-	Separator(String text) {
-		this.text = new SimpleStringProperty(text);
-	}
+    private StringProperty text;
+
+    Separator(String text) {
+        this.text = new SimpleStringProperty(text);
+    }
 
     public static Separator fromString(String separator) {
         if (separator.equals(Comma.getText().getValue())) {
@@ -28,8 +27,8 @@ public enum Separator {
         }
         return null;
     }
-	
-	public StringProperty getText(){
-		return text;
-	}
+
+    public StringProperty getText() {
+        return text;
+    }
 }

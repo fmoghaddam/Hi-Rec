@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
+import org.apache.log4j.Logger;
 import util.Pair;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class DatasetWizardController implements Initializable, WizardControllerInterface {
+    private static final Logger LOG = Logger.getLogger(DatasetWizardController.class.getSimpleName());
     private ErrorMessage errorMessage;
 
     @FXML
@@ -78,7 +80,7 @@ public class DatasetWizardController implements Initializable, WizardControllerI
         try {
             root = fxmlLoader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         DataSourceWizardController controller = fxmlLoader.getController();
         controller.setFileLabel(fileLabel + " File");

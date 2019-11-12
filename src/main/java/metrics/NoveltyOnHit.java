@@ -1,36 +1,34 @@
 package metrics;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import interfaces.ListEvaluation;
 import model.DataModel;
 import model.Globals;
 import model.Item;
 import model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
- * Calculate novelty on hits of the list 
+ * Calculate novelty on hits of the list
+ *
  * @author FBM
  */
 public class NoveltyOnHit
-        implements ListEvaluation
-{
+        implements ListEvaluation {
 
     private float noveltyValue = 0;
     private int n = 0;
     private DataModel trainData;
-    
+
     /* (non-Javadoc)
      * @see interfaces.ListEvaluation#addRecommendations(model.User, java.util.Map)
      */
     @Override
-    public
-            void addRecommendations(
-                    User user, Map<Integer, Float> list)
-    {
+    public void addRecommendations(
+            User user, Map<Integer, Float> list) {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
         }
@@ -39,26 +37,26 @@ public class NoveltyOnHit
         }
         int listLengthThreshold = 0;
         final List<Integer> hitList = new ArrayList<>();
-        for (final Entry<Integer, Float> entry: list.entrySet()) {
-            if (listLengthThreshold>=Globals.AT_N) {
+        for (final Entry<Integer, Float> entry : list.entrySet()) {
+            if (listLengthThreshold >= Globals.AT_N) {
                 break;
             }
             if (user.getItemRating().containsKey(entry.getKey())) {
-                if (user.getItemRating().get((int)entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
+                if (user.getItemRating().get((int) entry.getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
                     hitList.add(entry.getKey());
                 }
             }
             listLengthThreshold++;
         }
-        if(hitList.isEmpty()){
+        if (hitList.isEmpty()) {
             return;
         }
         float sum = 0;
         final double log2 = Math.log(2);
-        for(Integer itemId:hitList){
-            sum += (Math.log(1/populairty(itemId)))/log2;
+        for (Integer itemId : hitList) {
+            sum += (Math.log(1 / populairty(itemId))) / log2;
         }
-        noveltyValue += sum/hitList.size();
+        noveltyValue += sum / hitList.size();
         n++;
     }
 
@@ -66,27 +64,25 @@ public class NoveltyOnHit
      * @param itemId
      * @return
      */
-    
-            float populairty(
-                    Integer itemId)
-    {
+
+    float populairty(
+            Integer itemId) {
         final Item item = trainData.getItem(itemId);
-        if(item==null){
+        if (item == null) {
             throw new IllegalStateException("ITEM COULD NOT BE NULL");
         }
         final float allUsers = trainData.getUsers().size();
         final float users = item.getUserRated().size();
-        return (float)(users/allUsers);
+        return (float) (users / allUsers);
     }
 
     /* (non-Javadoc)
      * @see interfaces.ListEvaluation#getEvaluationResult()
      */
     @Override
-    public
-            float getEvaluationResult() {
-        final float result = (float)(noveltyValue/(n*1.0));
-        if(Float.isNaN(result)){
+    public float getEvaluationResult() {
+        final float result = (float) (noveltyValue / (n * 1.0));
+        if (Float.isNaN(result)) {
             return 0;
         }
         return result;
@@ -97,10 +93,8 @@ public class NoveltyOnHit
      * @see interfaces.ListEvaluation#setTrainData(model.DataModel)
      */
     @Override
-    public
-            void setTrainData(
-                    DataModel trainData)
-    {
+    public void setTrainData(
+            DataModel trainData) {
         this.trainData = trainData;
     }
 
@@ -108,8 +102,7 @@ public class NoveltyOnHit
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public
-            int hashCode() {
+    public int hashCode() {
         return 8;
     }
 
@@ -117,10 +110,8 @@ public class NoveltyOnHit
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public
-            boolean equals(
-                    Object obj)
-    {
+    public boolean equals(
+            Object obj) {
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {
@@ -130,12 +121,11 @@ public class NoveltyOnHit
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
-    public
-            String toString() {
+    public String toString() {
         return "NoveltyOnHit";
     }
 }

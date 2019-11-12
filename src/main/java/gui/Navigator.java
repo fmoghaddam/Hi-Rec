@@ -55,6 +55,7 @@ public class Navigator {
         return pages.get(currentPageIndex).getFirst();
 
     }
+
     public Parent goToFirstPage() {
         currentPageIndex = 0;
         return pages.get(currentPageIndex).getFirst();

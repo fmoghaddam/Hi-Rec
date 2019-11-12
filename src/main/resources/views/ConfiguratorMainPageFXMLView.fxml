@@ -103,11 +103,11 @@
                                 <Font name="Calibri" size="16.0"/>
                             </font>
                             <graphic>
-                        <Group>
-                            <children>
-                                <SVGPath content="M6 4l20 12-20 12z" scaleX="0.75" scaleY="0.75"/>
-                            </children>
-                        </Group>
+                                <Group>
+                                    <children>
+                                        <SVGPath content="M6 4l20 12-20 12z" scaleX="0.75" scaleY="0.75"/>
+                                    </children>
+                                </Group>
                             </graphic>
                         </Button>
                         <Button fx:id="nextPageButton" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308"

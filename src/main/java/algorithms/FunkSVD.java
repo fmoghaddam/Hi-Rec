@@ -1,15 +1,5 @@
 package algorithms;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.apache.log4j.Logger;
-
 import algorithms.fatorizationmachine.LearningMethod;
 import algorithms.funksvd.AlternatingLeastSquareLearner;
 import algorithms.funksvd.GradientDescentSVDLearner;
@@ -19,8 +9,12 @@ import model.DataModel;
 import model.Item;
 import model.Rating;
 import model.User;
+import org.apache.log4j.Logger;
 import util.MapUtil;
 import util.StatisticFunctions;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is FunkSVD algorithm. http://sifter.org/~simon/journal/20061211.html The
@@ -28,8 +22,7 @@ import util.StatisticFunctions;
  * http://ls13-www.cs.tu-dortmund.de/homepage/recommender101/index.shtml
  */
 public final class FunkSVD
-        extends AbstractRecommender
-{
+        extends AbstractRecommender {
 
     /**
      * Unique id used for serialization
@@ -64,7 +57,7 @@ public final class FunkSVD
     private final Map<Integer, Float> perUserAverage = new LinkedHashMap<Integer, Float>();
 
     /**
-     * 
+     *
      */
     public FunkSVD() {
         final HashMap<String, String> h1 = new HashMap<>();
@@ -77,80 +70,65 @@ public final class FunkSVD
 
         final HashMap<String, String> h3 = new HashMap<>();
         h3.put("LEARNING_RATE_FOR_FUNKSVD", "Learning rate");
-        this.configurableParametersMap.put("learningRate", h3);               
+        this.configurableParametersMap.put("learningRate", h3);
     }
 
     /**
      * @return the numberOfFeatures
      */
-    public final
-            int getNumberOfFeatures() {
+    public final int getNumberOfFeatures() {
         return numberOfFeatures;
     }
 
     /**
      * @param numberOfFeatures the numberOfFeatures to set
      */
-    public final
-            void setNumberOfFeatures(
-                    int numberOfFeatures)
-    {
+    public final void setNumberOfFeatures(
+            int numberOfFeatures) {
         this.numberOfFeatures = numberOfFeatures;
     }
-
 
 
     /**
      * @return the numberOfIteration
      */
-    public final
-            int getNumberOfIteration() {
+    public final int getNumberOfIteration() {
         return numberOfIteration;
     }
-
 
 
     /**
      * @param numberOfIteration the numberOfIteration to set
      */
-    public final
-            void setNumberOfIteration(
-                    int numberOfIteration)
-    {
+    public final void setNumberOfIteration(
+            int numberOfIteration) {
         this.numberOfIteration = numberOfIteration;
     }
-
 
 
     /**
      * @return the learningRate
      */
-    public final
-            double getLearningRate() {
+    public final double getLearningRate() {
         return learningRate;
     }
 
     /**
-     * @param learningRate
-     *            the learningRate to set
+     * @param learningRate the learningRate to set
      */
-    public final
-            void setLearningRate(
-                    double learningRate)
-    {
+    public final void setLearningRate(
+            double learningRate) {
         this.learningRate = learningRate;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see interfaces.Recommender#predictRating(model.User, model.Item)
      */
     @Override
-    public synchronized
-            Float predictRating(
-                    final User user, final Item item)
-    {
+    public synchronized Float predictRating(
+            final User user, final Item item) {
         if (item == null) {
             throw new IllegalArgumentException("Item is null");
         }
@@ -160,7 +138,7 @@ public final class FunkSVD
         final Integer userid = userMap.get(user.getId());
         final Integer itemid = itemMap.get(item.getId());
         if (userid != null && itemid != null) {
-            return (float)learner.getResult(userid, itemid);
+            return (float) learner.getResult(userid, itemid);
         } else {
             return Float.NaN;
         }
@@ -168,20 +146,18 @@ public final class FunkSVD
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see interfaces.Recommender#recommendItems(model.User)
      */
     @Override
-    public
-            Map<Integer, Float> recommendItems(
-                    final User user)
-    {
+    public Map<Integer, Float> recommendItems(
+            final User user) {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
         }
         final Map<Integer, Float> predictions = new LinkedHashMap<Integer, Float>();
 
-        for (final Item item: trainDataModel.getItems().values()) {
+        for (final Item item : trainDataModel.getItems().values()) {
             final int itemId = item.getId();
             final float predictRating = predictRating(user, item);
             if (!Float.isNaN(predictRating)) {
@@ -193,48 +169,44 @@ public final class FunkSVD
         return sortByComparator;
     }
 
-    private
-            void runTrain(
-                    final int steps)
-    {
+    private void runTrain(
+            final int steps) {
         for (int i = 0; i < steps; i++) {
-            if(nextTrainStep()){
+            if (nextTrainStep()) {
                 return;
             }
         }
     }
 
-    private
-            boolean nextTrainStep() {
+    private boolean nextTrainStep() {
         Collections.shuffle(cachedPreferences, StatisticFunctions.random);
         int userid;
         int itemid;
         for (int iteration = 0; iteration < numberOfFeatures; iteration++) {
-            for (final Rating rating: cachedPreferences) {
+            for (final Rating rating : cachedPreferences) {
                 if (Thread.interrupted()) {
                     return true;
                 }
                 userid = rating.getUserId();
                 itemid = rating.getItemId();
                 final int useridx = this.userMap.get(userid);
-                final int itemidx = this.itemMap.get(itemid);;
+                final int itemidx = this.itemMap.get(itemid);
+                ;
                 learner.train(useridx, itemidx, iteration, rating.getRating());
             }
         }
         return false;
     }
 
-    private
-            void cachePreferences() {
+    private void cachePreferences() {
         cachedPreferences.clear();
-        for (final User user: trainDataModel.getUsers().values()) {
+        for (final User user : trainDataModel.getUsers().values()) {
             if (userMap.get(user.getId()) == null) {
                 LOG.error("User: " + user.getId());
                 System.exit(1);
             }
-            for (final Entry<Integer, Float> rating: user.getItemRating()
-                    .entrySet())
-            {
+            for (final Entry<Integer, Float> rating : user.getItemRating()
+                    .entrySet()) {
                 if (itemMap.get(rating.getKey()) == null) {
                     LOG.error("Item: " + rating.getKey());
                     System.exit(1);
@@ -247,27 +219,25 @@ public final class FunkSVD
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see interfaces.Recommender#train(model.trainDataModel)
      */
     @Override
-    public
-            void train(
-                    final DataModel trainData)
-    {
+    public void train(
+            final DataModel trainData) {
         if (trainData == null) {
             throw new IllegalArgumentException("Train data is null");
         }
         this.trainDataModel = trainData;
         int numUsers = this.trainDataModel.getUsers().size();
         int index = 0;
-        for (final Integer user: trainDataModel.getUsers().keySet()) {
+        for (final Integer user : trainDataModel.getUsers().keySet()) {
             userMap.put(user, index++);
         }
 
         final int numItems = trainDataModel.getItems().size();
         index = 0;
-        for (final Integer item: trainDataModel.getItems().keySet()) {
+        for (final Integer item : trainDataModel.getItems().keySet()) {
             itemMap.put(item, index++);
         }
 
@@ -276,25 +246,24 @@ public final class FunkSVD
                 .sqrt((average - 1.0) / numberOfFeatures);
 
         switch (learningMethod) {
-        case SGD:
-            learner = new GradientDescentSVDLearner(numUsers, numItems, numberOfFeatures,
-                    defaultValue, learningRate);
-            break;
-        case ALS:
-            learner = new AlternatingLeastSquareLearner();
-        default:
-            break;
+            case SGD:
+                learner = new GradientDescentSVDLearner(numUsers, numItems, numberOfFeatures,
+                        defaultValue, learningRate);
+                break;
+            case ALS:
+                learner = new AlternatingLeastSquareLearner();
+            default:
+                break;
         }
-        
+
         cachedPreferences = new ArrayList<Rating>();
         cachePreferences();
 
         this.runTrain(numberOfIteration);
 
         this.perUserAverage.clear();
-        for (final Entry<Integer, User> user: trainDataModel.getUsers()
-                .entrySet())
-        {
+        for (final Entry<Integer, User> user : trainDataModel.getUsers()
+                .entrySet()) {
             this.perUserAverage.put(user.getValue().getId(),
                     user.getValue().getMeanOfRatings());
         }
@@ -302,12 +271,11 @@ public final class FunkSVD
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
-    public
-            String toString() {
+    public String toString() {
         return "FunkSVD";
     }
 

@@ -1,21 +1,18 @@
 package controller.similarity;
 
-import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
-import org.apache.log4j.Logger;
-
 import interfaces.SimilarityInterface;
 import model.DataModel;
 import model.Globals;
+import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
+import org.apache.log4j.Logger;
 
 /**
  * Calculate low level feature similarity between items on demand
- * 
- * @author FBM
  *
+ * @author FBM
  */
 public final class LowLevelSimilarityRepository
-        implements SimilarityInterface
-{
+        implements SimilarityInterface {
 
     /**
      * Logger for this class
@@ -30,12 +27,11 @@ public final class LowLevelSimilarityRepository
 
     /**
      * Constructor
-     * 
+     *
      * @param dataModel
      */
     public LowLevelSimilarityRepository(
-            final DataModel dataModel)
-    {
+            final DataModel dataModel) {
         this.dataModel = dataModel;
     }
 
@@ -43,41 +39,36 @@ public final class LowLevelSimilarityRepository
      * @see interfaces.SimilarityInterface#getItemSimilairty(int, int)
      */
     @Override
-    public
-            Float getItemSimilairty(
-                    final int itemId1, final int itemId2)
-    {
+    public Float getItemSimilairty(
+            final int itemId1, final int itemId2) {
         switch (Globals.SIMILAIRTY_FUNCTION) {
-        case COSINE:
-            return calculateItemCosineSimilarity(itemId1, itemId2);
-        case PEARSON:
-            return calculateItemPearsonSimilarity(itemId1, itemId2);
-        default:
-            return calculateItemCosineSimilarity(itemId1, itemId2);
+            case COSINE:
+                return calculateItemCosineSimilarity(itemId1, itemId2);
+            case PEARSON:
+                return calculateItemPearsonSimilarity(itemId1, itemId2);
+            default:
+                return calculateItemCosineSimilarity(itemId1, itemId2);
         }
     }
 
     /**
      * Calculate Pearson correlation between two items
-     * 
+     *
      * @param itemId1
      * @param itemId2
      * @return Pearson correlation of two items if they exist in train dataset,
-     *         O.W. NaN
+     * O.W. NaN
      */
-    private
-            Float calculateItemPearsonSimilarity(
-                    int itemId1, int itemId2)
-    {
+    private Float calculateItemPearsonSimilarity(
+            int itemId1, int itemId2) {
         if (this.dataModel.getItem(itemId1) != null
-                && this.dataModel.getItem(itemId2) != null)
-        {
+                && this.dataModel.getItem(itemId2) != null) {
             final double[] item1Array = this.dataModel.getItem(itemId1)
                     .getLowLevelFeatureAsArray();
             final double[] item2Array = this.dataModel.getItem(itemId2)
                     .getLowLevelFeatureAsArray();
 
-            return (float)new PearsonsCorrelation().correlation(item1Array,
+            return (float) new PearsonsCorrelation().correlation(item1Array,
                     item2Array);
 
         } else {
@@ -87,19 +78,16 @@ public final class LowLevelSimilarityRepository
 
     /**
      * Calculate Cosine similarity between two items
-     * 
+     *
      * @param itemId1
      * @param itemId2
      * @return Cosine similarity of two items if they exist in train dataset,
-     *         O.W. NaN
+     * O.W. NaN
      */
-    private
-            Float calculateItemCosineSimilarity(
-                    final int itemId1, final int itemId2)
-    {
+    private Float calculateItemCosineSimilarity(
+            final int itemId1, final int itemId2) {
         if (this.dataModel.getItem(itemId1) != null
-                && this.dataModel.getItem(itemId2) != null)
-        {
+                && this.dataModel.getItem(itemId2) != null) {
             final double[] item1Array = this.dataModel.getItem(itemId1)
                     .getLowLevelFeatureAsArray();
             final double[] item2Array = this.dataModel.getItem(itemId2)
@@ -116,7 +104,7 @@ public final class LowLevelSimilarityRepository
             if (dotProduct == 0) {
                 return Float.NaN;
             }
-            return (float)(dotProduct / (Math.sqrt(normA) * Math.sqrt(normB)));
+            return (float) (dotProduct / (Math.sqrt(normA) * Math.sqrt(normB)));
 
         } else {
             return Float.NaN;

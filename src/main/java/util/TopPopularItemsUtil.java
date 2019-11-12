@@ -1,11 +1,7 @@
 /**
- * 
+ *
  */
 package util;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import controller.DataLoader;
 import controller.DataLoaderException;
@@ -13,10 +9,14 @@ import it.unimi.dsi.fastutil.ints.IntArrayList;
 import model.DataModel;
 import model.Item;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * This class generates Id of top popular items This ids could be used somewhere
  * else (e.g. DataLoader to remove popular items)
- * 
+ *
  * @author FBM
  */
 public class TopPopularItemsUtil {
@@ -28,17 +28,15 @@ public class TopPopularItemsUtil {
 
     /**
      * @param args
-     * @throws DataLoaderException 
+     * @throws DataLoaderException
      */
-    public static
-    void main(
-            String[] args) throws DataLoaderException
-    {
+    public static void main(
+            String[] args) throws DataLoaderException {
         final DataLoader loader = new DataLoader();
         final DataModel dataModel = loader.readData();
         dataModel.printStatistic();
         final Map<Integer, Integer> itemPopularityMap = new LinkedHashMap<>();
-        for (Entry<Integer, Item> entry: dataModel.getItems().entrySet()) {
+        for (Entry<Integer, Item> entry : dataModel.getItems().entrySet()) {
             itemPopularityMap.put(entry.getKey(),
                     entry.getValue().getUserRated().size());
         }
@@ -46,7 +44,7 @@ public class TopPopularItemsUtil {
                 .sortByValueDescending(itemPopularityMap);
 
         int counter = 0;
-        for (Entry<Integer, Integer> entry: sortByValueDescending.entrySet()) {
+        for (Entry<Integer, Integer> entry : sortByValueDescending.entrySet()) {
             if (counter < SIZE) {
                 System.err.print(entry.getKey() + ",");
                 counter++;
@@ -56,9 +54,9 @@ public class TopPopularItemsUtil {
         }
     }
 
-    public static IntArrayList getTopPopularItems(final int numberOfItems,final DataModel dataModel){
+    public static IntArrayList getTopPopularItems(final int numberOfItems, final DataModel dataModel) {
         final Map<Integer, Integer> itemPopularityMap = new LinkedHashMap<>();
-        for (Entry<Integer, Item> entry: dataModel.getItems().entrySet()) {
+        for (Entry<Integer, Item> entry : dataModel.getItems().entrySet()) {
             itemPopularityMap.put(entry.getKey(),
                     entry.getValue().getUserRated().size());
         }
@@ -67,7 +65,7 @@ public class TopPopularItemsUtil {
 
         int counter = 0;
         final IntArrayList result = new IntArrayList();
-        for (Entry<Integer, Integer> entry: sortByValueDescending.entrySet()) {
+        for (Entry<Integer, Integer> entry : sortByValueDescending.entrySet()) {
             if (counter < numberOfItems) {
                 result.add(entry.getKey());
                 counter++;

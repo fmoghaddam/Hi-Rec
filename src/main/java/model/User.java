@@ -1,14 +1,12 @@
 package model;
 
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-
 import it.unimi.dsi.fastutil.ints.Int2FloatLinkedOpenHashMap;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 /**
  * User class
- * 
- * @author FBM
  *
+ * @author FBM
  */
 public final class User {
 
@@ -26,15 +24,13 @@ public final class User {
     private float meanOfRatings;
 
     public User(
-            final int id)
-    {
+            final int id) {
         this.id = id;
         itemRating = new Int2FloatLinkedOpenHashMap();
     }
 
     public User(
-            final User user)
-    {
+            final User user) {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
         }
@@ -43,38 +39,31 @@ public final class User {
         this.meanOfRatings = user.meanOfRatings;
     }
 
-    public
-            float getMeanOfRatings() {
+    public float getMeanOfRatings() {
         calculateMeanOfRatings();
         return meanOfRatings;
     }
 
-    public
-            void calculateMeanOfRatings() {
+    public void calculateMeanOfRatings() {
         final DescriptiveStatistics values = new DescriptiveStatistics();
-        for (Float rating: itemRating.values()) {
+        for (Float rating : itemRating.values()) {
             values.addValue(rating);
         }
-        this.meanOfRatings = (float)values.getMean();
+        this.meanOfRatings = (float) values.getMean();
     }
 
-    public
-            int getId() {
+    public int getId() {
         return id;
     }
 
-    public
-        Int2FloatLinkedOpenHashMap getItemRating() {
+    public Int2FloatLinkedOpenHashMap getItemRating() {
         return itemRating;
     }
 
-    public
-            void addItemRating(
-                    final int itemId, final float rating)
-    {
+    public void addItemRating(
+            final int itemId, final float rating) {
         if (itemId <= 0 || rating > Globals.MAX_RATING
-                || rating < Globals.MIN_RATING)
-        {
+                || rating < Globals.MIN_RATING) {
             throw new IllegalArgumentException(
                     "Itemid is not OK or rating value is not OK");
         }
@@ -82,11 +71,10 @@ public final class User {
         this.itemRating.put(itemId, rating);
     }
 
-    public
-            double[] getRatingsInFullSizeArray() {
-        final double[] ratings = new double[(int)Globals.MAX_ID_OF_ITEMS];
-        for (int i: itemRating.keySet()) {
-            ratings[(int)(i - 1)] = itemRating.get(i);
+    public double[] getRatingsInFullSizeArray() {
+        final double[] ratings = new double[(int) Globals.MAX_ID_OF_ITEMS];
+        for (int i : itemRating.keySet()) {
+            ratings[(int) (i - 1)] = itemRating.get(i);
         }
         return ratings;
     }
@@ -95,8 +83,7 @@ public final class User {
      * @see java.lang.Object#toString()
      */
     @Override
-    public
-            String toString() {
+    public String toString() {
         return "User [id=" + id + ", itemRating=" + itemRating
                 + ", meanOfRatings=" + meanOfRatings + "]";
     }

@@ -9,8 +9,7 @@ import model.Rating;
  * http://ls13-www.cs.tu-dortmund.de/homepage/recommender101/index.shtml
  */
 public final class RMSE
-        implements AccuracyEvaluation
-{
+        implements AccuracyEvaluation {
 
     /**
      * Accumulated error
@@ -25,13 +24,11 @@ public final class RMSE
      * @see interfaces.AccuracyEvaluation#addTestPrediction(model.Rating, float)
      */
     @Override
-    public
-            void addTestPrediction(
-                    final Rating rating, final float prediction)
-    {
+    public void addTestPrediction(
+            final Rating rating, final float prediction) {
         if (!Float.isNaN(prediction)) {
             if (rating != null) {
-                float error = (float)Math
+                float error = (float) Math
                         .abs(Math.pow(rating.getRating() - prediction, 2));
                 errorAccumulator += error;
                 predictionCount++;
@@ -43,17 +40,15 @@ public final class RMSE
      * @see interfaces.AccuracyEvaluation#getPredictionAccuracy()
      */
     @Override
-    public
-            float getPredictionAccuracy() {
-        return (float)Math.sqrt(errorAccumulator / (float)predictionCount);
+    public float getPredictionAccuracy() {
+        return (float) Math.sqrt(errorAccumulator / (float) predictionCount);
     }
 
     /*
      * @see java.lang.Object#toString()
      */
     @Override
-    public
-            String toString() {
+    public String toString() {
         return "RMSE";
     }
 
@@ -61,8 +56,7 @@ public final class RMSE
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public
-            int hashCode() {
+    public int hashCode() {
         return 15;
     }
 
@@ -70,10 +64,8 @@ public final class RMSE
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public
-            boolean equals(
-                    Object obj)
-    {
+    public boolean equals(
+            Object obj) {
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {

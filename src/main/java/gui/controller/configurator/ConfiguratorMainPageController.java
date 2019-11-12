@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
+import org.apache.log4j.Logger;
 import util.Pair;
 
 import java.io.File;
@@ -27,6 +28,9 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class ConfiguratorMainPageController implements Initializable, Resetable {
+
+    private static final Logger LOG = Logger.getLogger(ConfiguratorMainPageController.class.getSimpleName());
+
     @FXML
     private StackPane contentHolder;
     private Navigator navigator;
@@ -131,13 +135,12 @@ public class ConfiguratorMainPageController implements Initializable, Resetable 
                 }
                 navigator.addPage(root, controller);
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         setContent(navigator.getCurrentPage());
         refreshButtonBar();
     }
-
 
 
     private void fillConfigFileWithNewData() {

@@ -5,18 +5,17 @@ import javafx.beans.property.StringProperty;
 
 /**
  * @author FBM
- *
  */
 public enum SimilarityFunctions {
-	Cosine("cosine");
+    Cosine("cosine");
 
-	private StringProperty text;
+    private StringProperty text;
 
-	SimilarityFunctions(String text) {
-		this.text = new SimpleStringProperty(text);
-	}
+    SimilarityFunctions(String text) {
+        this.text = new SimpleStringProperty(text);
+    }
 
-	public StringProperty getText() {
-		return text;
-	}
+    public StringProperty getText() {
+        return text;
+    }
 }

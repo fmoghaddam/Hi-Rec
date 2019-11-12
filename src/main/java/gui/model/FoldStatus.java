@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package gui.model;
 
@@ -8,18 +8,18 @@ package gui.model;
  *
  */
 public enum FoldStatus {
-	STARTED("Started"),
-	FINISHED("Finished"),
-	TRAINING("Training"),
-	TESTING("Testing");
+    STARTED("Started"),
+    FINISHED("Finished"),
+    TRAINING("Training"),
+    TESTING("Testing");
 
-	private String text;
+    private String text;
 
     FoldStatus(final String text) {
-		this.text = text;
-	}
+        this.text = text;
+    }
 
-	public String getText(){
-		return text;
-	}
+    public String getText() {
+        return text;
+    }
 }

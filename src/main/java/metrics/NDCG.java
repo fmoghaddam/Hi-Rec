@@ -1,35 +1,31 @@
 package metrics;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import interfaces.ListEvaluation;
 import model.DataModel;
 import model.Globals;
 import model.User;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * @author FBM
- *
  */
 public class NDCG
-        implements ListEvaluation
-{
+        implements ListEvaluation {
 
     float ndcg = 0;
     long counter = 0;
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see interfaces.ListEvaluation#addRecommendations(model.User,
      * java.util.Map)
      */
     @Override
-    public
-            void addRecommendations(
-                    User user, Map<Integer, Float> list)
-    {
+    public void addRecommendations(
+            User user, Map<Integer, Float> list) {
         if (user == null) {
             throw new IllegalArgumentException("User is null");
         }
@@ -43,15 +39,14 @@ public class NDCG
         int listLengthThreshold = 0;
         float dcg = 0;
         final double log2 = Math.log(2);
-        for (final Entry<Integer, Float> entry: list.entrySet()) {
+        for (final Entry<Integer, Float> entry : list.entrySet()) {
             if (listLengthThreshold >= Globals.AT_N) {
                 break;
             }
             listLengthThreshold++;
             if (user.getItemRating().containsKey(entry.getKey())) {
-                if (user.getItemRating().get((int)entry
-                        .getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING)
-                {
+                if (user.getItemRating().get((int) entry
+                        .getKey()) >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
                     dcg += (1.0 / (Math.log(listLengthThreshold + 1) / log2));
                 }
             }
@@ -73,12 +68,11 @@ public class NDCG
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see interfaces.ListEvaluation#getEvaluationResult()
      */
     @Override
-    public
-            float getEvaluationResult() {
+    public float getEvaluationResult() {
         return ndcg / counter;
     }
 
@@ -86,14 +80,12 @@ public class NDCG
      * @see java.lang.Object#toString()
      */
     @Override
-    public
-            String toString() {
+    public String toString() {
         return "NDCG";
     }
-    
+
     @Override
-    public
-            int hashCode() {
+    public int hashCode() {
         return 6;
     }
 
@@ -101,10 +93,8 @@ public class NDCG
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public
-            boolean equals(
-                    Object obj)
-    {
+    public boolean equals(
+            Object obj) {
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {
@@ -112,12 +102,11 @@ public class NDCG
         }
     }
 
-	@Override
-	public void setTrainData(DataModel trainData) {
-		//Empty function
-		
-	}
-    
-    
+    @Override
+    public void setTrainData(DataModel trainData) {
+        //Empty function
+
+    }
+
 
 }

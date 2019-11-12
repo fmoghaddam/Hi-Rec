@@ -10,8 +10,7 @@ import model.Rating;
  * http://ls13-www.cs.tu-dortmund.de/homepage/recommender101/index.shtml
  */
 public final class PredictionCoverageOnlyPositive
-        implements AccuracyEvaluation
-{
+        implements AccuracyEvaluation {
 
     /**
      * A counter for the total number of ratings
@@ -26,11 +25,9 @@ public final class PredictionCoverageOnlyPositive
      * @see interfaces.AccuracyEvaluation#addTestPrediction(model.Rating, float)
      */
     @Override
-    public
-            void addTestPrediction(
-                    final Rating rating, final float prediction)
-    {
-        if(rating.getRating()>=Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING){
+    public void addTestPrediction(
+            final Rating rating, final float prediction) {
+        if (rating.getRating() >= Globals.MINIMUM_THRESHOLD_FOR_POSITIVE_RATING) {
             if (!Float.isNaN(prediction)) {
                 predictedRatings++;
             }
@@ -42,19 +39,17 @@ public final class PredictionCoverageOnlyPositive
      * @see interfaces.AccuracyEvaluation#getPredictionAccuracy()
      */
     @Override
-    public
-            float getPredictionAccuracy() {
-        return predictedRatings / (float)totalRatings;
+    public float getPredictionAccuracy() {
+        return predictedRatings / (float) totalRatings;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
-    public
-            String toString() {
+    public String toString() {
         return "CoverageOnlyPositive";
     }
 
@@ -62,8 +57,7 @@ public final class PredictionCoverageOnlyPositive
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public
-            int hashCode() {
+    public int hashCode() {
         return 13;
     }
 
@@ -71,10 +65,8 @@ public final class PredictionCoverageOnlyPositive
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public
-            boolean equals(
-                    Object obj)
-    {
+    public boolean equals(
+            Object obj) {
         if (this.toString().equals(obj.toString())) {
             return true;
         } else {

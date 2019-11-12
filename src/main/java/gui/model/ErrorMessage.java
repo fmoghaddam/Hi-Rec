@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package gui.model;
 
@@ -13,8 +13,8 @@ import javafx.scene.text.Font;
  */
 public class ErrorMessage extends Label {
 
-	public ErrorMessage() {		
-		this.setTextFill(Color.web("#FF0000"));
-		this.setFont(new Font("Arial", 16));
-	}
+    public ErrorMessage() {
+        this.setTextFill(Color.web("#FF0000"));
+        this.setFont(new Font("Arial", 16));
+    }
 }
