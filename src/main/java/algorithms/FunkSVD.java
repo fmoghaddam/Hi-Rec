@@ -1,6 +1,5 @@
 package algorithms;
 
-import algorithms.fatorizationmachine.LearningMethod;
 import algorithms.funksvd.AlternatingLeastSquareLearner;
 import algorithms.funksvd.GradientDescentSVDLearner;
 import algorithms.funksvd.Learner;

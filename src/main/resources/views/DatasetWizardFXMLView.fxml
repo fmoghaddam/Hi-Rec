@@ -28,18 +28,18 @@
                         <Font name="Calibri" size="16.0"/>
                     </font>
                 </CheckBox>
-                <CheckBox fx:id="tagDatasetCheckBox" disable="true" mnemonicParsing="false" selected="true" text="Tag">
+                <CheckBox fx:id="tagDatasetCheckBox" disable="true" mnemonicParsing="false" selected="false" text="Tag">
                     <font>
                         <Font name="Calibri" size="16.0"/>
                     </font>
                 </CheckBox>
-                <CheckBox fx:id="genresDatasetCheckBox" disable="true" mnemonicParsing="false" selected="true"
+                <CheckBox fx:id="genresDatasetCheckBox" disable="true" mnemonicParsing="false" selected="false"
                           text="Genres">
                     <font>
                         <Font name="Calibri" size="16.0"/>
                     </font>
                 </CheckBox>
-                <CheckBox fx:id="visualFeaturesDatasetCheckBox" mnemonicParsing="false" selected="true"
+                <CheckBox fx:id="visualFeaturesDatasetCheckBox" mnemonicParsing="false" selected="false"
                           text="Visual Features">
                     <font>
                         <Font name="Calibri" size="16.0"/>
